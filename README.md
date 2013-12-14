@@ -30,12 +30,12 @@ Go to app/app.js and change server config
 
 ## Use
 
-* User interface : `http://babitch-client/`,
+* User interface : `http://127.0.0.1:8080/`,
 
 ## Test
 
 * Unit test : `grunt test`
-* E2E test : `karma start karma-e2e-conf.js
+* E2E test : `karma start karma-e2e-conf.js`
  
 ## Credits
 
