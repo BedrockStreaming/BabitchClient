@@ -15,6 +15,6 @@
     "angular-scenario": "~1.2.0"
   },
   "resolutions": {
-    "angular": "1.2.0-rc.3"
+    "angular": "1.2.6-build.1989+sha.b0474cb"
   }
 }
