@@ -12,8 +12,8 @@ before_script:
 script:
  - grunt serve > out & # Start the server
  - PID=$! # Save the PID
- - grunt test
- - karma start karma-e2e.conf.js
+ - karma start karma.conf.js --no-auto-watch --single-run --reporters=dots --browsers=PhantomJS
+ - karma start karma-e2e.conf.js --no-auto-watch --single-run --reporters=dots --browsers=PhantomJS
  - sleep 10
  - kill $PID
- - sleep 15
+ - sleep 10
