@@ -10,6 +10,12 @@ before_script:
   - 'bower install'
 
 script:
- - grunt serve > /dev/null &
+ - grunt serve > out & # Start the server
+ - PID=$! # Save the PID
  - grunt test
  - karma start karma-e2e.conf.js
+
+after_script:
+ - sleep 30
+ - kill $PID
+ - sleep 15
