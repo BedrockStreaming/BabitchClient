@@ -49,7 +49,8 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
         var playerAlreadySelect = [];
 
         $scope.game.player.forEach(function (player) {
-            if (player.player_id === null || playerAlreadySelect.indexOf(player.player_id) > -1) {
+            console.log(playerAlreadySelect);
+            if (player.player_id == null || playerAlreadySelect.indexOf(player.player_id) > -1) {
                 valid = false;
             }
             
@@ -118,7 +119,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
             $scope.initGame();
         }).
         error(function (data, status) {
-            if (status === 0) {
+            if (status == 0) {
                 setTimeout(function () {$scope.saveGame();}, 1000);
             }
         });
