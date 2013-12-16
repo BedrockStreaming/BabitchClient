@@ -49,7 +49,6 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
         var playerAlreadySelect = [];
 
         $scope.game.player.forEach(function (player) {
-            console.log(playerAlreadySelect);
             if (player.player_id == null || playerAlreadySelect.indexOf(player.player_id) > -1) {
                 valid = false;
             }
