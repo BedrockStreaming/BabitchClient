@@ -5,7 +5,7 @@
 describe('Babitch : Choose player', function() {
 
 	beforeEach(function() {
-		browser().navigateTo('/');
+		browser().navigateTo('/?nobackend');
 	});
 
 
@@ -58,7 +58,7 @@ describe('Babitch : Choose player', function() {
 describe('Babitch : Game', function() {
 
 	beforeEach(function() {
-		browser().navigateTo('/');
+		browser().navigateTo('/?nobackend');
 		
 		//Choose 4 players
 		using('li.blue.attack').select('player.player_id').option('0');
