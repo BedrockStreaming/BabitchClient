@@ -26,7 +26,7 @@ See Here https://github.com/M6Web/Babitch
 
 #### Configure Api URL
 
-Go to app/app.js and change server config
+Go to app/scripts/config.js and change server config
 
 ## Use
 
