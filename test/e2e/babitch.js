@@ -130,7 +130,7 @@ describe('Babitch : Game', function() {
 	it('should cancel last goal',function() {
 		var player = {team: "blue", position: "attack", player_id: 0};
 		using('li.blue.attack').element(':button:eq(0)').click(player);
-  		expect(element('.score ul li:eq(0)').text()).toBe('0');
+		expect(element('.score ul li:eq(0)').text()).toBe('0');
 		expect(element('.score ul li:eq(1)').text()).toBe('1');
 		
 		//The "cancel last goal" button must be visible after a goal
