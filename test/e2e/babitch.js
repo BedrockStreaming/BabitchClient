@@ -126,4 +126,23 @@ describe('Babitch : Game', function() {
 		expect(element('.score ul li:eq(1)').text()).toBe('1');
 	});
 
+	//Cancel a Goal
+	it('should cancel last goal',function() {
+		var player = {team: "blue", position: "attack", player_id: 0};
+		using('li.blue.attack').element(':button:eq(0)').click(player);
+		expect(element('.score ul li:eq(0)').text()).toBe('0');
+		expect(element('.score ul li:eq(1)').text()).toBe('1');
+		
+		//The "cancel last goal" button must be visible after a goal
+		var cancelButton = using('.actionCancel').element(':button:eq(1)');
+		expect(cancelButton.css('display')).toBe('inline-block');
+		
+		//Cancel the goal
+		cancelButton.click();
+		expect(element('.score ul li:eq(0)').text()).toBe('0');
+		expect(element('.score ul li:eq(1)').text()).toBe('0');
+
+		expect(cancelButton.css('display')).toBe('none');
+	});
+
 });
