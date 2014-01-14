@@ -32,10 +32,9 @@ Go to app/scripts/config.js and change server config
 
 * User interface : `http://127.0.0.1:8080/`,
 
-## Test
+## Test (Unit & E2E)
 
-* Unit test : `grunt test`
-* E2E test : `karma start karma-e2e-conf.js`
+* `grunt test`
  
 ## Credits
 
