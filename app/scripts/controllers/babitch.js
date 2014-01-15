@@ -18,6 +18,11 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         goals: []
     };
 
+    var notify = function(eventName) {
+        console.log($scope.game);
+        fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {type: eventName, game: $scope.game, players: $scope.game.player[0]});
+    }
+
     $scope.initGame = function () {
         $scope.gameStarted = false;
         $scope.game        = angular.copy(game);
@@ -58,7 +63,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
 
         if (valid) {
             $scope.gameStarted = true;
-            fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {type: 'start', game: $scope.game});
+            notify('start');
         }
     };
 
@@ -69,6 +74,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         var tmpId = attack.player_id;
         attack.player_id = defense.player_id;
         defense.player_id = tmpId;
+        notify('coach');
     };
 
     $scope.goal = function (player) {
@@ -84,6 +90,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
             } else {
                 $scope.game.blue_score ++;
             }
+            notify('goal');
         }
     };
 
@@ -100,6 +107,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
             } else {
                 $scope.game.red_score ++;
             }
+            notify('autogoal');
         }
     };
 
@@ -125,6 +133,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
             data: $scope.game
         }).
         success(function(data, status) {
+            notify('end');
             $scope.initGame();
         }).
         error(function (data, status) {
@@ -135,14 +144,12 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     };
 
     $scope.$watch('game.red_score', function() {
-        fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {type: 'goal', game: $scope.game});
         if ($scope.game.red_score == 10) {
             $scope.saveGame();
         }
      });
 
     $scope.$watch('game.blue_score', function() {
-        fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {type: 'goal', game: $scope.game});
         if ($scope.game.blue_score == 10) {
             $scope.saveGame();
         }

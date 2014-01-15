@@ -140,3 +140,38 @@ html, body {
 .actionCoach button.blue {
     background-color: #95a5a6;
 }
+
+#live { padding-top: 50px; }
+#live h2 { text-align: center;}
+#live .score { 
+    margin-top: 20px;
+}
+#live .player { 
+    margin: 20px 0; position: relative;
+}
+#live .player:after{
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+#live #blueTeam .player:after{
+    background-color: rgba(97, 158, 232, 0.3);
+}
+#live #redTeam .player:after{
+    background-color: rgba(229, 96, 96, 0.3);
+}
+#live .player h2 {
+    width: 100%;
+    position: absolute; 
+    bottom: 0; 
+    padding: 10px;
+    color: white;
+    z-index: 1;
+}
+#live #redTeam .player h2 { background-color: rgb(229, 96, 96); }
+#live #blueTeam .player h2 { background-color: rgb(97, 158, 232); }
+
+

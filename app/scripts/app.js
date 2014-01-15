@@ -6,9 +6,15 @@ var babitchFrontendApp = angular.module('babitchFrontendApp',[
     'ngSanitize',
     'ngRoute',
     'babitchServer',
-    'faye'
+    'faye',
+    'ui.gravatar'
     ])
-    .config(function ($routeProvider, $httpProvider) {
+    .config(function ($routeProvider, $httpProvider, gravatarServiceProvider) {
+        gravatarServiceProvider.defaults = {
+            size     : 400,
+            "default": 'mm'  // Mystery man as default for missing avatars
+        };
+
         $routeProvider
             .when('/', {
                 templateUrl: 'views/main.html',
