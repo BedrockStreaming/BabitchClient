@@ -1,6 +1,6 @@
 'use strict';
 
-babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {       
+babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fayeClient) {
 
     $scope.gameStarted = false;
     $scope.playersList = [];
@@ -52,14 +52,14 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
             if (player.player_id == null || playerAlreadySelect.indexOf(player.player_id) > -1) {
                 valid = false;
             }
-            
+
             playerAlreadySelect.push(player.player_id);
         });
 
         if (valid) {
             $scope.gameStarted = true;
+            fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {type: 'start', game: $scope.game});
         }
-
     };
 
     $scope.coach = function (team) {
@@ -135,18 +135,20 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
     };
 
     $scope.$watch('game.red_score', function() {
+        fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {type: 'goal', game: $scope.game});
         if ($scope.game.red_score == 10) {
             $scope.saveGame();
         }
      });
 
-     $scope.$watch('game.blue_score', function() {
+    $scope.$watch('game.blue_score', function() {
+        fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {type: 'goal', game: $scope.game});
         if ($scope.game.blue_score == 10) {
             $scope.saveGame();
         }
-     });
+    });
 
      // Init Game
-     $scope.initGame();
+    $scope.initGame();
     })
   ;
