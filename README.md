@@ -35,7 +35,13 @@ Go to app/scripts/config.js and change server config
 ## Test (Unit & E2E)
 
 * `grunt test`
- 
+
+## Live (experimental)
+
+You need to configure `BABITCH_LIVE_FAYE_URL` and `BABITCH_LIVE_FAYE_CHANNEL` in `app/scripts/config.js`
+
+* User interface : `http://127.0.0.1:8080/#live`
+
 ## Credits
 
 Developped by [M6 Web](http://tech.m6web.fr/).  
