@@ -5,6 +5,12 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     $scope.gameStarted = false;
     $scope.playersList = [];
 
+        fayeClient.subscribe(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, function(data) {
+        if (data.type == 'requestCurrentGame') {
+            notify('currentGame');
+        }
+    });
+
     // Model Game object ready to be sent to the API
     var game = {
         red_score: 0,
@@ -19,7 +25,6 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     };
 
     var notify = function(eventName) {
-        console.log($scope.game);
         fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {type: eventName, game: $scope.game, players: $scope.game.player[0]});
     }
 
@@ -154,6 +159,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
             $scope.saveGame();
         }
     });
+
 
      // Init Game
     $scope.initGame();
