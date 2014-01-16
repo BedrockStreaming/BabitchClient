@@ -39,7 +39,7 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, $
             $scope.currentGamesIds = _.without($scope.currentGamesIds, data.gameId);
             $scope.clearGame();
             $scope.refreshAvailableGames();
-        }      
+        }
 
         if (!$scope.currentGameId) {
             $scope.currentGameId = data.gameId;
@@ -49,7 +49,7 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, $
             return;
         }
 
-         $scope.game = data.game;
+        $scope.game = data.game;
 
         data.game.player.forEach(function(position) {
             var player = Player.get({playerId: position.player_id}, function() {
