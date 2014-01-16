@@ -25,7 +25,9 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     };
 
     var notify = function(eventName) {
-        fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {type: eventName, game: $scope.game, players: $scope.game.player[0]});
+        if ($scope.gameStarted) {
+            fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {type: eventName, gameId: $scope.gameId, game: $scope.game, players: $scope.game.player[0]});    
+        }
     }
 
     $scope.initGame = function () {
@@ -67,6 +69,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         });
 
         if (valid) {
+            $scope.gameId = Date.now();
             $scope.gameStarted = true;
             notify('start');
         }
@@ -131,6 +134,8 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     };
 
     $scope.saveGame = function () {
+        notify('end');
+        $scope.gameStarted = false;
         $http({
             url: CONFIG.BABITCH_WS_URL + '/games',
             method: 'POST',
@@ -138,7 +143,6 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
             data: $scope.game
         }).
         success(function(data, status) {
-            notify('end');
             $scope.initGame();
         }).
         error(function (data, status) {
