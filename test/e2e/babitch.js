@@ -145,4 +145,20 @@ describe('Babitch : Game', function() {
 		expect(cancelButton.css('display')).toBe('none');
 	});
 
+	//Reverse Table
+	it('should reverse the table and keep score on the right team',function() {
+		var player = {team: "blue", position: "attack", player_id: 0};
+		using('li.blue.attack').element(':button:eq(0)').click(player);
+		expect(element('.score ul li:eq(0)').text()).toBe('0');
+		expect(element('.score ul li:eq(1)').text()).toBe('1');
+
+		var reverseTableButton = using('.actionReverseTable').element(':button:eq(0)');
+		reverseTableButton.click();
+		expect(element('.score ul li:eq(0)').text()).toBe('1');
+		expect(element('.score ul li:eq(1)').text()).toBe('0');
+		reverseTableButton.click();
+		expect(element('.score ul li:eq(0)').text()).toBe('0');
+		expect(element('.score ul li:eq(1)').text()).toBe('1');
+	});
+
 });

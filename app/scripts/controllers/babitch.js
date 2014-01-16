@@ -7,8 +7,10 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
 
     // Model Game object ready to be sent to the API
     var game = {
-        red_score: 0,
-        blue_score: 0,
+        team: [
+            { color: 'red', score: 0},
+            { color: 'blue', score: 0}
+        ],
         player: [
             { team: 'red', position: 'defense' },
             { team: 'blue', position: 'attack' },
@@ -79,13 +81,27 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
                 conceder_id: $scope.getPlayerBySeat(player.team === 'red' ? 'blue' : 'red', 'defense').player_id,
                 autogoal: false
             });
-            if (player.team == 'red') {
-                $scope.game.red_score ++;
-            } else {
-                $scope.game.blue_score ++;
-            }
+            $scope.addGoalForTeam(player.team);
         }
     };
+
+    $scope.addGoalForTeam = function (teamColor) {
+        $scope.game.team.forEach(function (team) {
+            if (team.color === teamColor) {
+                team.score ++;
+                return;
+            }
+        });
+    };
+
+    $scope.removeGoalForTeam = function (teamColor) {
+        $scope.game.team.forEach(function (team) {
+            if (team.color === teamColor) {
+                team.score --;
+                return;
+            }
+        });
+    };    
 
     $scope.autogoal = function (player) {
         if ($scope.gameStarted) {
@@ -95,10 +111,10 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
                 conceder_id: $scope.getPlayerBySeat(player.team, 'defense').player_id,
                 autogoal: true
             });
-            if (player.team == 'red') {
-                $scope.game.blue_score ++;
+            if ($scope.getPlayerBySeat(player.team, 'defense').team == 'red') {
+                $scope.addGoalForTeam('blue');
             } else {
-                $scope.game.red_score ++;
+                $scope.addGoalForTeam('red');
             }
         }
     };
@@ -107,9 +123,9 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
         var lastGoal = $scope.game.goals.pop();
         var conceder = $scope.game.player.filter(function (p) {return p.player_id == lastGoal.conceder_id})[0];
         if (conceder.team == 'red') {
-            $scope.game.blue_score--;
+            $scope.removeGoalForTeam('blue');
         } else {
-            $scope.game.red_score--;
+            $scope.removeGoalForTeam('red');
         }
     };
 
@@ -134,14 +150,19 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
         });
     };
 
-    $scope.$watch('game.red_score', function() {
-        if ($scope.game.red_score == 10) {
+    $scope.reverseTable = function() {
+        $scope.game.player.reverse();
+        $scope.game.team.reverse();
+    };
+
+    $scope.$watch('game.team[0].score', function() {
+        if ($scope.game.team[0].score == 10) {
             $scope.saveGame();
         }
      });
 
-     $scope.$watch('game.blue_score', function() {
-        if ($scope.game.blue_score == 10) {
+     $scope.$watch('game.team[1].score', function() {
+        if ($scope.game.team[1].score == 10) {
             $scope.saveGame();
         }
      });

@@ -96,7 +96,7 @@ describe('Controller: BabitchCtrl', function() {
     });
 
     it('should begin with 0-0 score', function() {
-        expect(scope.game.red_score).toBe(0);
-        expect(scope.game.blue_score).toBe(0);
+        expect(scope.game.team[0].score).toBe(0);
+        expect(scope.game.team[1].score).toBe(0);
     });
 });

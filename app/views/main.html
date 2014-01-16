@@ -1,37 +1,38 @@
-  <div id="game" ng-controller="babitchCtrl">
-      <div class="score">
-          <ul ng-show="gameStarted">
-              <li>{{ game.red_score }}</li>
-              <li>{{ game.blue_score }}</li>
-          </ul>
-          <div ng-hide="gameStarted">Composition des équipes</div>
-      </div>
+<div id="game" ng-controller="babitchCtrl">
+    <div class="score">
+        <ul ng-show="gameStarted">
+            <li ng-repeat="team in game.team">{{ team.score}}</li>
+        </ul>
+        <div ng-hide="gameStarted">Composition des équipes</div>
+    </div>
 
-      <div class="players">
-          <ul>
-              <li ng-repeat="player in game.player" ng-class="[player.team, player.position]">
-                  <label>{{ player.position }}</label>
-                  <select ng-model="player.player_id" ng-disabled="gameStarted" ng-options="player.id as player.name for player in playersList"></select>
-                  <div class="spacer"></div>
-                  <button ng-show="gameStarted" ng-click="goal(player)">GOAL</button>
-                  <div class="spacer"></div>
-                  <button ng-show="gameStarted" ng-click="autogoal(player)">CSC</button>
-              </li>
-          </ul>
-      </div>
+    <div class="actionReverseTable"> 
+        <button ng-click="reverseTable()">Reverse Table</button>
+    </div>
 
-      <div class="actionStart" ng-show="!gameStarted">
-          <button ng-click="startGame()">Start</button>
-      </div>
+    <div class="players">
+        <ul>
+            <li ng-repeat="player in game.player" ng-class="[player.team, player.position]">
+                <label>{{ player.position }}</label>
+                <select ng-model="player.player_id" ng-disabled="gameStarted" ng-options="player.id as player.name for player in playersList"></select>
+                <div class="spacer"></div>
+                <button ng-show="gameStarted" ng-click="goal(player)">GOAL</button>
+                <div class="spacer"></div>
+                <button ng-show="gameStarted" ng-click="autogoal(player)">CSC</button>
+            </li>
+        </ul>
+    </div>
 
-      <div class="actionCoach" ng-show="gameStarted">
-          <button ng-click="coach('red')" class="red">Coach</button>
-          <button ng-click="coach('blue')" class="blue">Coach</button>
-      </div>
+    <div class="actionStart" ng-show="!gameStarted">
+        <button ng-click="startGame()">Start</button>
+    </div>
 
-      <div class="actionCancel" ng-show="gameStarted">
-          <button ng-hide="game.goals.length" ng-click="initGame()">Cancel</button>
-          <button ng-show="game.goals.length" ng-click="cancelGoal()">Cancel last goal</button>
-      </div>
-  </div>
+    <div class="actionCoach" ng-show="gameStarted">
+        <button ng-repeat="team in game.team" ng-click="coach(team.color)" ng-class="team.color">Coach</button>
+    </div>
 
+    <div class="actionCancel" ng-show="gameStarted">
+        <button ng-hide="game.goals.length" ng-click="initGame()">Cancel</button>
+        <button ng-show="game.goals.length" ng-click="cancelGoal()">Cancel last goal</button>
+    </div>
+</div>
