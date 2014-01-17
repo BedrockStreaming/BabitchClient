@@ -18,8 +18,8 @@ BabitchClient provides a simple responsive user interface.
 ### Clone the project
 
 ```
-$ git clone https://github.com/M6Web/Babitch-client.git
-$ cd Babitch-client
+$ git clone https://github.com/M6Web/BabitchClient.git
+$ cd BabitchClient
 ```
 
 ### For production purposes
