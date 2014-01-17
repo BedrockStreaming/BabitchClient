@@ -23,14 +23,18 @@ $ cd BabitchClient
 ```
 
 ### For production purposes
-```
-$ bower install
-```
-Then,
-
 * Install the Babitch Server API => [M6Web/Babitch](https://github.com/M6Web/Babitch)
 * Go to app/scripts/config.js and change server config
-* And launch the index.html on any Web Server (Apache/Nginx/...)
+
+```
+$ bower install
+$ grunt build
+```
+
+Then,
+
+* Configure a Web Server (Apache/Nginx/...) with the `dist` folder as the doc root
+* Launch `<yourwebserver.com>/` in a browser
 
 ### For dev purposes 
 ```
@@ -42,7 +46,7 @@ Then go to `http://127.0.0.1:8080/`,
 
 You have two options for the server side :
 
-* Install the Babitch Server API => [M6Web/Babitch](https://github.com/M6Web/Babitch) and change app/scripts/config.js
+* Install the Babitch Server API => [M6Web/Babitch](https://github.com/M6Web/Babitch) and change `app/scripts/config.js`
 * Use the faked backend by adding `?nobackend` to the BabitchClient url
 
 #### Test (Unit & E2E)
