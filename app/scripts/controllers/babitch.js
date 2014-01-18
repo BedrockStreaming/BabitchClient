@@ -134,11 +134,20 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
     };
 
     $scope.saveGame = function () {
+        
+        //BC support
+        var dataToSend = {
+            red_score: $scope.game.team[0].score,
+            blue_score: $scope.game.team[1].score,
+            player: $scope.game.player,
+            goals: $scope.game.goals
+        };
+
         $http({
             url: CONFIG.BABITCH_WS_URL + '/games',
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            data: $scope.game
+            data: dataToSend
         }).
         success(function(data, status) {
             $scope.initGame();
