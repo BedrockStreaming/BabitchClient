@@ -2,13 +2,22 @@ describe('Controller: BabitchCtrl', function() {
 
     // load the controller's module
     beforeEach(module('babitchFrontendApp'));
-
-
-
     var theBabitchCtrl,
         scope,
         httpMock,
-        JsonPlayer;
+        JsonPlayer,
+        defaultPlayer = [
+            { team: 'red', position: 'defense', player_id: 6 },
+            { team: 'blue', position: 'attack', player_id: 5 },
+            { team: 'red', position: 'attack', player_id: 4 },
+            { team: 'blue', position: 'defense', player_id: 3 }
+        ],
+        incompletePlayer = [
+            { team: 'red', position: 'defense', player_id: 6 },
+            { team: 'blue', position: 'attack', player_id: 5 },
+            { team: 'red', position: 'attack', player_id: 4 },
+            { team: 'blue', position: 'defense', player_id: null }
+        ];
 
     // Initialize the controller and a mock scope
     beforeEach(inject(function($controller, $rootScope, $httpBackend) {
@@ -95,8 +104,142 @@ describe('Controller: BabitchCtrl', function() {
         expect(scope.playersList.length).toBe(6);
     });
 
-    it('should begin with 0-0 score', function() {
-        expect(scope.game.team[0].score).toBe(0);
-        expect(scope.game.team[1].score).toBe(0);
+    it('should not begin a game with a incomplete team', function() {
+        //Init player
+        scope.game.player = incompletePlayer;
+        scope.startGame();
+        expect(scope.gameStarted).toBe(false);
+    });
+
+    it('should begin a game with a valid team', function() {
+        scope.game.player = defaultPlayer;
+        scope.startGame();
+
+        expect(scope.gameStarted).toBe(true);
+        // And score to be 0-0
+        expect(scope.game.red_score).toBe(0);
+        expect(scope.game.blue_score).toBe(0);
+    });
+
+    it('should add normal goal for the right team', function() {
+        scope.game.player = defaultPlayer;
+        scope.startGame();
+
+        //normal goal
+        var player = defaultPlayer[0]; //red
+        scope.goal(player);
+        expect(scope.game.red_score).toBe(1);
+        expect(scope.game.blue_score).toBe(0);
+
+        player = defaultPlayer[1]; //blue
+        scope.goal(player);
+        expect(scope.game.red_score).toBe(1);
+        expect(scope.game.blue_score).toBe(1);
+
+        player = defaultPlayer[2]; //red
+        scope.goal(player);
+        expect(scope.game.red_score).toBe(2);
+        expect(scope.game.blue_score).toBe(1);
+
+        player = defaultPlayer[3]; //blue
+        scope.goal(player);
+        expect(scope.game.red_score).toBe(2);
+        expect(scope.game.blue_score).toBe(2);
+    });
+
+    it('should cancel last goal', function() {
+        scope.game.player = defaultPlayer;
+        scope.startGame();
+
+        //normal goal
+        var player = defaultPlayer[0]; //red
+        scope.goal(player);
+        expect(scope.game.red_score).toBe(1);
+        expect(scope.game.blue_score).toBe(0);
+
+        scope.cancelGoal();
+        expect(scope.game.red_score).toBe(0);
+        expect(scope.game.blue_score).toBe(0);
+    });
+
+    it('should coach the team', function() {
+        scope.game.player = defaultPlayer;
+        scope.startGame();
+
+        scope.coach('blue');
+        expect(scope.getPlayerBySeat('blue','attack'),3);
+        expect(scope.getPlayerBySeat('blue','defense'),5);
+
+        scope.coach('red');
+        expect(scope.getPlayerBySeat('blue','attack'),6);
+        expect(scope.getPlayerBySeat('blue','defense'),4);  
+
+        //Reorder player
+        scope.coach('blue');
+        scope.coach('red');
+    });
+
+    it('should add autogoal for the right team', function() {
+        scope.game.player = defaultPlayer;
+        scope.startGame();
+
+        //normal goal
+        var player = defaultPlayer[0]; //red
+        scope.autogoal(player);
+        expect(scope.game.red_score).toBe(0);
+        expect(scope.game.blue_score).toBe(1);
+
+        player = defaultPlayer[1]; //blue
+        scope.autogoal(player);
+        expect(scope.game.red_score).toBe(1);
+        expect(scope.game.blue_score).toBe(1);
+
+        player = defaultPlayer[2]; //red
+        scope.autogoal(player);
+        expect(scope.game.red_score).toBe(1);
+        expect(scope.game.blue_score).toBe(2);
+
+        player = defaultPlayer[3]; //blue
+        scope.autogoal(player);
+        expect(scope.game.red_score).toBe(2);
+        expect(scope.game.blue_score).toBe(2);
+    });
+
+
+    it('should save game after 10 goal', function() {
+        scope.game.player = defaultPlayer;
+        scope.startGame();
+
+        //normal goal
+        var player = defaultPlayer[0]; //red
+        scope.goal(player);
+        expect(scope.game.red_score).toBe(1);
+        for(var i=0;i<8;i++) {
+            scope.goal(player);
+        }
+        expect(scope.game.red_score).toBe(9);        
+        expect(scope.game.blue_score).toBe(0);
+        scope.goal(player);
+        expect(scope.game.red_score).toBe(10);
+        httpMock.expectPOST('http://127.0.0.1:8081/app_dev.php/v1/games',
+            {
+                "red_score":10,
+                "blue_score":0,
+                "player":defaultPlayer,
+                "goals":[
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false}
+                ]
+            }).respond(200, '');
+        
+        httpMock.flush();
     });
 });

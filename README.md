@@ -1,41 +1,65 @@
 # Babitch Client
 
-Many companies all over the world uses babyfoot to build team spirit. Babitch Client is a project based on the Babitch Api to record all your babyfoot games.
+Many companies all over the world uses babyfoot to build team spirit. BabitchClient is a project based on the [Babitch Api](https://github.com/M6Web/Babitch) to record all your babyfoot games.
 
-Babitch provides a simple responsive user interface.
+BabitchClient provides a simple responsive user interface.
+
+![Babitch Screenshot](screenshot.png)
+
+## Features 
+
+* 2VS2 
+* Attacker/Defender Goal 
+* Own goal support
+* Cancel last goal
 
 ## Installation
 
-#### Clone the project
+### Clone the project
 
 ```
-$ git clone https://github.com/M6Web/Babitch-client.git
-$ cd Babitch
+$ git clone https://github.com/M6Web/BabitchClient.git
+$ cd BabitchClient
 ```
 
-#### Install dependencies
+### For production purposes
+* Install the Babitch Server API => [M6Web/Babitch](https://github.com/M6Web/Babitch)
+* Go to app/scripts/config.js and change server config
 
+```
+$ bower install
+$ grunt build
+```
+
+Then,
+
+* Configure a Web Server (Apache/Nginx/...) with the `dist` folder as the doc root
+* Launch `<yourwebserver.com>/` in a browser
+
+### For dev purposes 
 ```
 $ npm install
 $ bower install
+$ grunt serve
 ```
+Then go to `http://127.0.0.1:8080/`,
 
-#### Install Babitch Server
+You have two options for the server side :
 
-See Here https://github.com/M6Web/Babitch
+* Install the Babitch Server API => [M6Web/Babitch](https://github.com/M6Web/Babitch) and change `app/scripts/config.js`
+* Use the faked backend by adding `?nobackend` to the BabitchClient url
 
-#### Configure Api URL
-
-Go to app/scripts/config.js and change server config
-
-## Use
-
-* User interface : `http://127.0.0.1:8080/`,
-
-## Test (Unit & E2E)
+#### Test (Unit & E2E)
 
 * `grunt test`
  
+## Technical Stack
+
+* Yeoman, to boostrap the application
+* Angular.Js
+* Grunt, for development server and automation
+* Karma and PhantomJs, for testing
+
 ## Credits
 
 Developped by [M6 Web](http://tech.m6web.fr/).  
