@@ -67,6 +67,7 @@ describe('Controller: BabitchLiveCtrl', function() {
                 game: { player: players },
                 red_score: 0,
                 blue_score: 1,
+                goals: []
             },
             goal2: {
                 type: 'goal',
@@ -74,6 +75,7 @@ describe('Controller: BabitchLiveCtrl', function() {
                 game: { player: players },
                 red_score: 0,
                 blue_score: 2,
+                goals: []
             },
             goalOtherGame: {
                 type: 'goal',
@@ -81,6 +83,7 @@ describe('Controller: BabitchLiveCtrl', function() {
                 game: { player: players },
                 red_score: 1,
                 blue_score: 0,
+                goals: []
             }
         };
 

@@ -60,6 +60,8 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, $
             });
         }
 
+        $scope.game = data.game;
+
         data.game.player.forEach(function(position) {
             var player = Player.get({playerId: position.player_id}, function() {
                 if (position.position == 'attack' && position.team == 'red') {
