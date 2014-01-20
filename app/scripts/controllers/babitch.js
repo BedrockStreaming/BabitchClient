@@ -136,9 +136,19 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
     $scope.saveGame = function () {
         
         //BC support
+        var red_score =  0, 
+            blue_score = 0;
+
+        $scope.game.team.forEach(function (team) {
+            if(team.color == 'red') {
+                red_score = team.score;
+            }
+            else blue_score = team.score;
+        });
+
         var dataToSend = {
-            red_score: $scope.game.team[0].score,
-            blue_score: $scope.game.team[1].score,
+            red_score: red_score,
+            blue_score: blue_score,
             player: $scope.game.player,
             goals: $scope.game.goals
         };

@@ -117,8 +117,8 @@ describe('Controller: BabitchCtrl', function() {
 
         expect(scope.gameStarted).toBe(true);
         // And score to be 0-0
-        expect(scope.game.red_score).toBe(0);
-        expect(scope.game.blue_score).toBe(0);
+        expect(scope.game.team[0].score).toBe(0);
+        expect(scope.game.team[1].score).toBe(0);
     });
 
     it('should add normal goal for the right team', function() {
@@ -128,23 +128,23 @@ describe('Controller: BabitchCtrl', function() {
         //normal goal
         var player = defaultPlayer[0]; //red
         scope.goal(player);
-        expect(scope.game.red_score).toBe(1);
-        expect(scope.game.blue_score).toBe(0);
+        expect(scope.game.team[0].score).toBe(1);
+        expect(scope.game.team[1].score).toBe(0);
 
         player = defaultPlayer[1]; //blue
         scope.goal(player);
-        expect(scope.game.red_score).toBe(1);
-        expect(scope.game.blue_score).toBe(1);
+        expect(scope.game.team[0].score).toBe(1);
+        expect(scope.game.team[1].score).toBe(1);
 
         player = defaultPlayer[2]; //red
         scope.goal(player);
-        expect(scope.game.red_score).toBe(2);
-        expect(scope.game.blue_score).toBe(1);
+        expect(scope.game.team[0].score).toBe(2);
+        expect(scope.game.team[1].score).toBe(1);
 
         player = defaultPlayer[3]; //blue
         scope.goal(player);
-        expect(scope.game.red_score).toBe(2);
-        expect(scope.game.blue_score).toBe(2);
+        expect(scope.game.team[0].score).toBe(2);
+        expect(scope.game.team[1].score).toBe(2);
     });
 
     it('should cancel last goal', function() {
@@ -154,12 +154,12 @@ describe('Controller: BabitchCtrl', function() {
         //normal goal
         var player = defaultPlayer[0]; //red
         scope.goal(player);
-        expect(scope.game.red_score).toBe(1);
-        expect(scope.game.blue_score).toBe(0);
+        expect(scope.game.team[0].score).toBe(1);
+        expect(scope.game.team[1].score).toBe(0);
 
         scope.cancelGoal();
-        expect(scope.game.red_score).toBe(0);
-        expect(scope.game.blue_score).toBe(0);
+        expect(scope.game.team[0].score).toBe(0);
+        expect(scope.game.team[1].score).toBe(0);
     });
 
     it('should coach the team', function() {
@@ -186,23 +186,23 @@ describe('Controller: BabitchCtrl', function() {
         //normal goal
         var player = defaultPlayer[0]; //red
         scope.autogoal(player);
-        expect(scope.game.red_score).toBe(0);
-        expect(scope.game.blue_score).toBe(1);
+        expect(scope.game.team[0].score).toBe(0);
+        expect(scope.game.team[1].score).toBe(1);
 
         player = defaultPlayer[1]; //blue
         scope.autogoal(player);
-        expect(scope.game.red_score).toBe(1);
-        expect(scope.game.blue_score).toBe(1);
+        expect(scope.game.team[0].score).toBe(1);
+        expect(scope.game.team[1].score).toBe(1);
 
         player = defaultPlayer[2]; //red
         scope.autogoal(player);
-        expect(scope.game.red_score).toBe(1);
-        expect(scope.game.blue_score).toBe(2);
+        expect(scope.game.team[0].score).toBe(1);
+        expect(scope.game.team[1].score).toBe(2);
 
         player = defaultPlayer[3]; //blue
         scope.autogoal(player);
-        expect(scope.game.red_score).toBe(2);
-        expect(scope.game.blue_score).toBe(2);
+        expect(scope.game.team[0].score).toBe(2);
+        expect(scope.game.team[1].score).toBe(2);
     });
 
 
@@ -213,14 +213,53 @@ describe('Controller: BabitchCtrl', function() {
         //normal goal
         var player = defaultPlayer[0]; //red
         scope.goal(player);
-        expect(scope.game.red_score).toBe(1);
+        expect(scope.game.team[0].score).toBe(1);
         for(var i=0;i<8;i++) {
             scope.goal(player);
         }
-        expect(scope.game.red_score).toBe(9);        
-        expect(scope.game.blue_score).toBe(0);
+        expect(scope.game.team[0].score).toBe(9);        
+        expect(scope.game.team[1].score).toBe(0);
         scope.goal(player);
-        expect(scope.game.red_score).toBe(10);
+        expect(scope.game.team[0].score).toBe(10);
+        httpMock.expectPOST('http://127.0.0.1:8081/app_dev.php/v1/games',
+            {
+                "red_score":10,
+                "blue_score":0,
+                "player":defaultPlayer,
+                "goals":[
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false}
+                ]
+            }).respond(200, '');
+        
+        httpMock.flush();
+    });
+
+    it('should save game correctly after reversing table', function() {
+        scope.game.player = defaultPlayer;
+        scope.startGame();
+
+        //normal goal
+        var player = defaultPlayer[0]; //red
+        for(var i=0;i<10;i++) {
+            scope.goal(player);
+        }
+        expect(scope.game.team[0].score).toBe(10);
+        expect(scope.game.team[1].score).toBe(0);
+
+        scope.reverseTable();
+        //should reverse score order
+        expect(scope.game.team[1].score).toBe(10);
+        expect(scope.game.team[0].score).toBe(0);
+
         httpMock.expectPOST('http://127.0.0.1:8081/app_dev.php/v1/games',
             {
                 "red_score":10,
