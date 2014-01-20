@@ -1,9 +1,15 @@
 'use strict';
 
-babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {       
+babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fayeClient) {
 
     $scope.gameStarted = false;
     $scope.playersList = [];
+
+        fayeClient.subscribe(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, function(data) {
+        if (data.type == 'requestCurrentGame') {
+            notify('currentGame');
+        }
+    });
 
     // Model Game object ready to be sent to the API
     var game = {
@@ -17,6 +23,12 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
         ],
         goals: []
     };
+
+    var notify = function(eventName) {
+        if ($scope.gameStarted) {
+            fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {type: eventName, gameId: $scope.gameId, game: $scope.game, players: $scope.game.player[0]});
+        }
+    }
 
     $scope.initGame = function () {
         $scope.gameStarted = false;
@@ -52,14 +64,15 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
             if (player.player_id == null || playerAlreadySelect.indexOf(player.player_id) > -1) {
                 valid = false;
             }
-            
+
             playerAlreadySelect.push(player.player_id);
         });
 
         if (valid) {
+            $scope.gameId = Date.now();
             $scope.gameStarted = true;
+            notify('start');
         }
-
     };
 
     $scope.coach = function (team) {
@@ -69,6 +82,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
         var tmpId = attack.player_id;
         attack.player_id = defense.player_id;
         defense.player_id = tmpId;
+        notify('coach');
     };
 
     $scope.goal = function (player) {
@@ -84,6 +98,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
             } else {
                 $scope.game.blue_score ++;
             }
+            notify('goal');
         }
     };
 
@@ -100,6 +115,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
             } else {
                 $scope.game.red_score ++;
             }
+            notify('autogoal');
         }
     };
 
@@ -111,6 +127,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
         } else {
             $scope.game.red_score--;
         }
+        notify('cancel');
     };
 
     $scope.cancelGame = function () {
@@ -118,6 +135,8 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
     };
 
     $scope.saveGame = function () {
+        notify('end');
+        $scope.gameStarted = false;
         $http({
             url: CONFIG.BABITCH_WS_URL + '/games',
             method: 'POST',
@@ -140,13 +159,14 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG) {
         }
      });
 
-     $scope.$watch('game.blue_score', function() {
+    $scope.$watch('game.blue_score', function() {
         if ($scope.game.blue_score == 10) {
             $scope.saveGame();
         }
-     });
+    });
+
 
      // Init Game
-     $scope.initGame();
+    $scope.initGame();
     })
   ;
