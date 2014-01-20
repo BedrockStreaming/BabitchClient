@@ -72,6 +72,8 @@
 				}];
 
 				$httpBackend.whenGET("http://127.0.0.1:8081/app_dev.php/v1/players").respond(JsonPlayer);
+
+				$httpBackend.whenPOST("http://127.0.0.1:8081/app_dev.php/v1/games").respond({});
 			});
 	}
 })(angular);
