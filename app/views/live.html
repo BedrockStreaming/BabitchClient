@@ -8,16 +8,6 @@
             <div class="score">
                 {{ game.red_score }} : {{ game.blue_score }}
             </div>
-            <div class="text-center"ng-show="lastGoal" class="lastAction">
-                <hr/>
-                <h3>
-                    <ng-switch on="lastGoal.autogoal">
-                        <ng-switch ng-switch-when="true">Autogoal</ng-switch>
-                        <ng-switch ng-switch-when="false">Goal</ng-switch>
-                    </ng-switch>
-                    !!! {{ lastGoal.player.name }}
-                </h3>
-            </div>
         </div>
         <div class="col-sm-4 hidden-xs" id="blueTeam">
             <div class="player" ng-repeat="player in [blueAttacker]" ng-include="'/views/partial/player.html'"></div>
