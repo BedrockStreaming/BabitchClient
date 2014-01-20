@@ -17,10 +17,11 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, $
         $scope.blueDefender = null;
     };
 
-
-    $scope.$watch('currentGameId', function() {
-        $scope.clearGame();
-        $scope.refreshAvailableGames();
+    $scope.$watch('currentGameId', function(newValue, oldValue) {
+        if (oldValue && !_.isUndefined(oldValue) && oldValue != newValue) {
+            $scope.clearGame();
+            $scope.refreshAvailableGames();
+        }
     });
 
     $scope.refreshAvailableGames();
