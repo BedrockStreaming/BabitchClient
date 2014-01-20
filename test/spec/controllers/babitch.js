@@ -2,9 +2,6 @@ describe('Controller: BabitchCtrl', function() {
 
     // load the controller's module
     beforeEach(module('babitchFrontendApp'));
-
-
-
     var theBabitchCtrl,
         scope,
         httpMock,
@@ -92,7 +89,6 @@ describe('Controller: BabitchCtrl', function() {
         //Flush the .query
         httpMock.flush();
 
-
     }));
 
     afterEach(function() {
@@ -126,7 +122,6 @@ describe('Controller: BabitchCtrl', function() {
     });
 
     it('should add normal goal for the right team', function() {
-
         scope.game.player = defaultPlayer;
         scope.startGame();
 
@@ -153,7 +148,6 @@ describe('Controller: BabitchCtrl', function() {
     });
 
     it('should cancel last goal', function() {
-
         scope.game.player = defaultPlayer;
         scope.startGame();
 
@@ -169,7 +163,6 @@ describe('Controller: BabitchCtrl', function() {
     });
 
     it('should coach the team', function() {
-
         scope.game.player = defaultPlayer;
         scope.startGame();
 
@@ -187,7 +180,6 @@ describe('Controller: BabitchCtrl', function() {
     });
 
     it('should add autogoal for the right team', function() {
-
         scope.game.player = defaultPlayer;
         scope.startGame();
 
@@ -215,7 +207,6 @@ describe('Controller: BabitchCtrl', function() {
 
 
     it('should save game after 10 goal', function() {
-
         scope.game.player = defaultPlayer;
         scope.startGame();
 
@@ -248,7 +239,7 @@ describe('Controller: BabitchCtrl', function() {
                     {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false}
                 ]
             }).respond(200, '');
-//Bizarre
+        
         httpMock.flush();
     });
 });
