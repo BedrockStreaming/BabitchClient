@@ -10,12 +10,13 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, $
     };
 
     $scope.clearGame = function() {
-        $scope.game = null;
+        $scope.game          = null;
         $scope.currentGameId = null;
-        $scope.redAttacker = null;
-        $scope.redDefender = null;
-        $scope.blueAttacker = null;
-        $scope.blueDefender = null;
+        $scope.redAttacker   = null;
+        $scope.redDefender   = null;
+        $scope.blueAttacker  = null;
+        $scope.blueDefender  = null;
+        $scope.lastGoal      = null;
     };
 
     $scope.$watch('currentGameId', function(newValue, oldValue) {
