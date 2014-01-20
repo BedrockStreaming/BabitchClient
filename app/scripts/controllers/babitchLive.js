@@ -11,6 +11,7 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, $
 
     $scope.clearGame = function() {
         $scope.game = null;
+        $scope.currentGameId = null;
         $scope.redAttacker = null;
         $scope.redDefender = null;
         $scope.blueAttacker = null;
@@ -22,6 +23,8 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, $
             $scope.clearGame();
             $scope.refreshAvailableGames();
         }
+
+        return newValue;
     });
 
     $scope.refreshAvailableGames();
@@ -38,11 +41,10 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, $
 
         if (data.type == 'end') {
             $scope.currentGamesIds = _.without($scope.currentGamesIds, data.gameId);
-            $scope.clearGame();
             $scope.refreshAvailableGames();
         }
 
-        if (!$scope.currentGameId) {
+        if (!$scope.currentGameId || !_.contains($scope.currentGamesIds, $scope.currentGameId)) {
             $scope.currentGameId = data.gameId;
         }
 
