@@ -52,7 +52,13 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, $
             return;
         }
 
-        $scope.game = data.game;
+        var lastGoal = _.last(data.game.goals);
+
+        if (lastGoal) {
+            var lastGoalPlayer = Player.get({playerId: lastGoal.player_id}, function(player) {
+                $scope.lastGoal = _.extend({player: player}, lastGoal);
+            });
+        }
 
         data.game.player.forEach(function(position) {
             var player = Player.get({playerId: position.player_id}, function() {
