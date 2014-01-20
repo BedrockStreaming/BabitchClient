@@ -1,22 +1,22 @@
 <div id="live">
-	<div class="row">
-	  <div class="col-sm-4 hidden-xs" id="redTeam">
-	  		<div class="player" ng-repeat="player in [redDefender]" ng-include="'/views/partial/player.html'"></div>
-	  		<div class="player" ng-repeat="player in [redAttacker]" ng-include="'/views/partial/player.html'"></div>
-	  	</div>
-	  	<div class="col-sm-4">
-	  		<div class="score">
-	  			{{ game.red_score }} : {{ game.blue_score }}
-	  		</div>
-	 	</div>
-	 	<div class="col-sm-4 hidden-xs" id="blueTeam">
-	 		<div class="player" ng-repeat="player in [blueDefender]" ng-include="'/views/partial/player.html'"></div>
-	 		<div class="player" ng-repeat="player in [blueAttacker]" ng-include="'/views/partial/player.html'"></div>
-	 	</div>
-	</div>
-	<div class="text-center">
-		Available games :
-		<select ng-model="currentGameId" ng-options="c for c in currentGamesIds">
-		</select> <a ng-click="refreshAvailableGames()">(refresh)</a>
-	</div>
+    <div class="row">
+      <div class="col-sm-4 hidden-xs" id="redTeam">
+            <div class="player" ng-repeat="player in [redDefender]" ng-include="'/views/partial/player.html'"></div>
+            <div class="player" ng-repeat="player in [redAttacker]" ng-include="'/views/partial/player.html'"></div>
+        </div>
+        <div class="col-sm-4">
+            <div class="score">
+                {{ game.red_score }} : {{ game.blue_score }}
+            </div>
+        </div>
+        <div class="col-sm-4 hidden-xs" id="blueTeam">
+            <div class="player" ng-repeat="player in [blueAttacker]" ng-include="'/views/partial/player.html'"></div>
+            <div class="player" ng-repeat="player in [blueDefender]" ng-include="'/views/partial/player.html'"></div>
+        </div>
+    </div>
+    <div class="text-center">
+        Available games :
+        <select ng-model="currentGameId" ng-options="c for c in currentGamesIds">
+        </select> <a ng-click="refreshAvailableGames()">(refresh)</a>
+    </div>
 </div>
