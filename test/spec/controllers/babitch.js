@@ -255,7 +255,7 @@ describe('Controller: BabitchCtrl', function() {
             scope.goal(player);
         }
         expect(scope.game.red_score).toBe(10);
-        httpMock.expectPOST('http://127.0.0.1:8081/app_dev.php/v1/games',
+        httpMock.expectPOST(config.BABITCH_WS_URL + '/games',
             {
                 "red_score":10,
                 "blue_score":0,
