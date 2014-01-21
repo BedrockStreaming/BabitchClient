@@ -11,7 +11,7 @@
             .config(function($provide) {
                 $provide.decorator('$httpBackend', angular.mock.e2e.$httpBackendDecorator);
             })
-            .run(function($httpBackend) {
+            .run(function($httpBackend, CONFIG) {
                 //Define responses for requests here as usual
                 $httpBackend.whenGET(/views\/.*/).passThrough();
 
@@ -21,7 +21,7 @@
                     "email": "",
                     "_links": {
                         "self": {
-                            "href": "http:\/\/127.0.0.1:8081\/app_dev.php\/v1\/players\/6"
+                            "href": CONFIG.BABITCH_WS_URL + "\/players\/6"
                         }
                     }
                 }, {
@@ -30,7 +30,7 @@
                     "email": "",
                     "_links": {
                         "self": {
-                            "href": "http:\/\/127.0.0.1:8081\/app_dev.php\/v1\/players\/5"
+                            "href": CONFIG.BABITCH_WS_URL + "\/players\/5"
                         }
                     }
                 }, {
@@ -39,7 +39,7 @@
                     "email": "",
                     "_links": {
                         "self": {
-                            "href": "http:\/\/127.0.0.1:8081\/app_dev.php\/v1\/players\/4"
+                            "href": CONFIG.BABITCH_WS_URL + "\/players\/4"
                         }
                     }
                 }, {
@@ -48,7 +48,7 @@
                     "email": "",
                     "_links": {
                         "self": {
-                            "href": "http:\/\/127.0.0.1:8081\/app_dev.php\/v1\/players\/3"
+                            "href": CONFIG.BABITCH_WS_URL + "\/players\/3"
                         }
                     }
                 }, {
@@ -57,7 +57,7 @@
                     "email": "",
                     "_links": {
                         "self": {
-                            "href": "http:\/\/127.0.0.1:8081\/app_dev.php\/v1\/players\/2"
+                            "href": CONFIG.BABITCH_WS_URL + "\/players\/2"
                         }
                     }
                 }, {
@@ -66,12 +66,12 @@
                     "email": "",
                     "_links": {
                         "self": {
-                            "href": "http:\/\/127.0.0.1:8081\/app_dev.php\/v1\/players\/1"
+                            "href": CONFIG.BABITCH_WS_URL + "\/players\/1"
                         }
                     }
                 }];
 
-                $httpBackend.whenGET("http://127.0.0.1:8081/app_dev.php/v1/players").respond(JsonPlayer);
+                $httpBackend.whenGET(CONFIG.BABITCH_WS_URL + "/players").respond(JsonPlayer);
                 $httpBackend.whenGET(/v1\/players\/[0-9]/).respond(function(method, url) {
                     var regEx = /v1\/players\/([0-9])/;
                     var id = regEx.exec(url)[1];
