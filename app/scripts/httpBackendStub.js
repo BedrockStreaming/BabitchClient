@@ -71,7 +71,7 @@
                     }
                 }];
 
-                $httpBackend.whenPOST("http://127.0.0.1:8081/app_dev.php/v1/games").respond({});
+                $httpBackend.whenPOST(CONFIG.BABITCH_WS_URL + "/games").respond({});
 
                 $httpBackend.whenGET(CONFIG.BABITCH_WS_URL + "/players").respond(JsonPlayer);
 
