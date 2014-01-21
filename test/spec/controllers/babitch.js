@@ -6,6 +6,7 @@ describe('Controller: BabitchCtrl', function() {
         scope,
         httpMock,
         JsonPlayer,
+        config,
         defaultPlayer = [
             { team: 'red', position: 'defense', player_id: 6 },
             { team: 'blue', position: 'attack', player_id: 5 },
@@ -20,9 +21,10 @@ describe('Controller: BabitchCtrl', function() {
         ];
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function($controller, $rootScope, $httpBackend) {
+    beforeEach(inject(function($controller, $rootScope, $httpBackend, CONFIG) {
         scope = $rootScope.$new();
         httpMock = $httpBackend;
+        config = CONFIG;
 
         JsonPlayer = [{
             "id": 6,
@@ -30,7 +32,7 @@ describe('Controller: BabitchCtrl', function() {
             "email": "",
             "_links": {
                 "self": {
-                    "href": "http:\/\/127.0.0.1:8081\/app_dev.php\/v1\/players\/6"
+                    "href": config.BABITCH_WS_URL + "\/players\/6"
                 }
             }
         }, {
@@ -39,7 +41,7 @@ describe('Controller: BabitchCtrl', function() {
             "email": "",
             "_links": {
                 "self": {
-                    "href": "http:\/\/127.0.0.1:8081\/app_dev.php\/v1\/players\/5"
+                    "href": config.BABITCH_WS_URL + "\/players\/5"
                 }
             }
         }, {
@@ -48,7 +50,7 @@ describe('Controller: BabitchCtrl', function() {
             "email": "",
             "_links": {
                 "self": {
-                    "href": "http:\/\/127.0.0.1:8081\/app_dev.php\/v1\/players\/4"
+                    "href": config.BABITCH_WS_URL + "\/players\/4"
                 }
             }
         }, {
@@ -57,7 +59,7 @@ describe('Controller: BabitchCtrl', function() {
             "email": "",
             "_links": {
                 "self": {
-                    "href": "http:\/\/127.0.0.1:8081\/app_dev.php\/v1\/players\/3"
+                    "href": config.BABITCH_WS_URL + "\/players\/3"
                 }
             }
         }, {
@@ -66,7 +68,7 @@ describe('Controller: BabitchCtrl', function() {
             "email": "",
             "_links": {
                 "self": {
-                    "href": "http:\/\/127.0.0.1:8081\/app_dev.php\/v1\/players\/2"
+                    "href": config.BABITCH_WS_URL + "\/players\/2"
                 }
             }
         }, {
@@ -75,12 +77,12 @@ describe('Controller: BabitchCtrl', function() {
             "email": "",
             "_links": {
                 "self": {
-                    "href": "http:\/\/127.0.0.1:8081\/app_dev.php\/v1\/players\/1"
+                    "href": config.BABITCH_WS_URL + "\/players\/1"
                 }
             }
         }];
 
-        httpMock.whenGET("http://127.0.0.1:8081/app_dev.php/v1/players").respond(JsonPlayer);
+        httpMock.whenGET(config.BABITCH_WS_URL + "/players").respond(JsonPlayer);
 
         theBabitchCtrl = $controller('babitchCtrl', {
             $scope: scope
@@ -221,7 +223,7 @@ describe('Controller: BabitchCtrl', function() {
         expect(scope.game.blue_score).toBe(0);
         scope.goal(player);
         expect(scope.game.red_score).toBe(10);
-        httpMock.expectPOST('http://127.0.0.1:8081/app_dev.php/v1/games',
+        httpMock.expectPOST(config.BABITCH_WS_URL + '/games',
             {
                 "red_score":10,
                 "blue_score":0,

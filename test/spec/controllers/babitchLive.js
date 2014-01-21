@@ -10,7 +10,7 @@ describe('Controller: BabitchLiveCtrl', function() {
         JsonPlayer,
         fayeMessage;
     // Initialize the controller and a mock scope
-    beforeEach(inject(function($controller, $rootScope, $httpBackend, fayeClient) {
+    beforeEach(inject(function($controller, $rootScope, $httpBackend, fayeClient, CONFIG) {
         scope = $rootScope.$new();
         httpMock = $httpBackend;
 
@@ -20,7 +20,7 @@ describe('Controller: BabitchLiveCtrl', function() {
             "email": "",
             "_links": {
                 "self": {
-                    "href": "http:\/\/127.0.0.1:8081\/app_dev.php\/v1\/players\/4"
+                    "href": CONFIG.BABITCH_WS_URL + "\/players\/4"
                 }
             }
         }, {
@@ -29,7 +29,7 @@ describe('Controller: BabitchLiveCtrl', function() {
             "email": "",
             "_links": {
                 "self": {
-                    "href": "http:\/\/127.0.0.1:8081\/app_dev.php\/v1\/players\/3"
+                    "href": CONFIG.BABITCH_WS_URL + "\/players\/3"
                 }
             }
         }, {
@@ -38,7 +38,7 @@ describe('Controller: BabitchLiveCtrl', function() {
             "email": "",
             "_links": {
                 "self": {
-                    "href": "http:\/\/127.0.0.1:8081\/app_dev.php\/v1\/players\/2"
+                    "href": CONFIG.BABITCH_WS_URL + "\/players\/2"
                 }
             }
         }, {
@@ -47,7 +47,7 @@ describe('Controller: BabitchLiveCtrl', function() {
             "email": "",
             "_links": {
                 "self": {
-                    "href": "http:\/\/127.0.0.1:8081\/app_dev.php\/v1\/players\/1"
+                    "href": CONFIG.BABITCH_WS_URL + "\/players\/1"
                 }
             }
         }];
@@ -87,7 +87,7 @@ describe('Controller: BabitchLiveCtrl', function() {
             }
         };
 
-        httpMock.whenGET("http://127.0.0.1:8081/app_dev.php/v1/players").respond(JsonPlayer);
+        httpMock.whenGET(CONFIG.BABITCH_WS_URL + "/players").respond(JsonPlayer);
         $httpBackend.whenGET(/v1\/players\/[0-9]/).respond(function(method, url) {
             var regEx = /v1\/players\/([0-9])/;
             var id = regEx.exec(url)[1];
