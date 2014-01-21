@@ -21,7 +21,7 @@ html, body {
 .score {
     background-color: #4a4d50;
     color: #effeff;
-    height: 10%;
+    height: 5%;
     line-height: 2em;
     text-align: center;
 }
@@ -115,11 +115,16 @@ html, body {
     height: 100%;
 }
 
+.actionReverseTable {
+    height: 5%;
+}
+
 .actionCancel,
 .actionCoach {
     height: 10%;
 }
 
+.actionReverseTable button,
 .actionCancel button,
 .actionCoach button {
     color: #effeff;
