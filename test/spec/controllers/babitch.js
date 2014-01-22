@@ -169,12 +169,12 @@ describe('Controller: BabitchCtrl', function() {
         scope.startGame();
 
         scope.coach('blue');
-        expect(scope.getPlayerBySeat('blue','attack'),3);
-        expect(scope.getPlayerBySeat('blue','defense'),5);
+        expect(scope.getPlayerBySeat('blue','attack').player_id).toBe(3);
+        expect(scope.getPlayerBySeat('blue','defense').player_id).toBe(5);
 
         scope.coach('red');
-        expect(scope.getPlayerBySeat('blue','attack'),6);
-        expect(scope.getPlayerBySeat('blue','defense'),4);  
+        expect(scope.getPlayerBySeat('red','attack').player_id).toBe(6);
+        expect(scope.getPlayerBySeat('red','defense').player_id).toBe(4);  
 
         //Reorder player
         scope.coach('blue');
@@ -243,5 +243,41 @@ describe('Controller: BabitchCtrl', function() {
             }).respond(200, '');
         
         httpMock.flush();
+    });
+
+    it('should create new match when game is over', function() {
+        scope.game.player = defaultPlayer;
+        scope.startGame();
+
+        //normal goal
+        var player = defaultPlayer[0]; //red
+        for(var i=0;i<10;i++) {
+            scope.goal(player);
+        }
+        expect(scope.game.red_score).toBe(10);
+        httpMock.expectPOST(config.BABITCH_WS_URL + '/games',
+            {
+                "red_score":10,
+                "blue_score":0,
+                "player":defaultPlayer,
+                "goals":[
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false},
+                    {"position":"defense","player_id":6,"conceder_id":3,"autogoal":false}
+                ]
+            }).respond(200, '');
+        httpMock.flush();
+        //The game must be renew
+        expect(scope.gameStarted).toBe(false);
+        //No one has to be selected
+        expect(scope.getPlayerBySeat('blue','attack').player_id).toBe(undefined);
+
     });
 });
