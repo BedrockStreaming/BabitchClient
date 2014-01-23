@@ -17,6 +17,9 @@ var babitchFrontendApp = angular.module('babitchFrontendApp',[
 
         $routeProvider
             .when('/', {
+                templateUrl: 'views/index.html'
+            })
+            .when('/game', {
                 templateUrl: 'views/main.html',
                 controller: 'babitchCtrl'
             })

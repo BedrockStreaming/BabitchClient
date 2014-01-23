@@ -2,15 +2,33 @@
 
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 
-describe('Babitch : Choose player', function() {
-
+describe('Babitch - Splash Screen', function() {
 	beforeEach(function() {
-		browser().navigateTo('/?nobackend');
+		browser().navigateTo('/');
 	});
 
-
-	it('should automatically redirect to /', function() {
+	it('should not redirect', function() {
 		expect(browser().location().url()).toBe("/");
+	});
+
+	it('should have a link to create a game', function() {
+		expect(element('ul.nav li a:eq(0)').attr('href')).toMatch('#/game');
+	});
+
+	it('should have a link to live section', function() {
+		expect(element('ul.nav li a:eq(1)').attr('href')).toMatch('#/live');
+	});
+
+});
+
+describe('Babitch - Game Init', function() {
+
+	beforeEach(function() {
+		browser().navigateTo('/#/game?nobackend');
+	});
+
+	it('should not redirect', function() {
+		expect(browser().location().url()).toBe("/game?nobackend");
 	});
 
 	it('should have a start button', function() {
@@ -55,10 +73,10 @@ describe('Babitch : Choose player', function() {
 
 });
 
-describe('Babitch : Game', function() {
+describe('Babitch - Game', function() {
 
 	beforeEach(function() {
-		browser().navigateTo('/?nobackend');
+		browser().navigateTo('/#/game?nobackend');
 		
 		//Choose 4 players
 		using('li.blue.attack').select('player.player_id').option('0');
