@@ -1,37 +1,92 @@
-  <div id="game">
-      <div class="score">
-          <ul ng-show="gameStarted">
-              <li>{{ game.red_score }}</li>
-              <li>{{ game.blue_score }}</li>
-          </ul>
-          <div ng-hide="gameStarted">Composition des équipes</div>
-      </div>
+<div id="game">
+    <div id="header">
+        <div class="container">
+            <div ng-show="gameStarted"> 
+                <div class="action pull-left">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            <i class="glyphicon glyphicon-cog"></i>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a ng-click="cancelGoal()" ng-show="table.sides[0].score || table.sides[1].score">
+                                    <i class="glyphicon glyphicon-thumbs-down"></i> &nbsp; Cancel last goal
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a ng-click="switchView()">
+                                    <i class="glyphicon glyphicon-transfer"></i> &nbsp; Switch sides
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a ng-click="cancelGame()">
+                                    <i class="glyphicon glyphicon-minus-sign"></i> &nbsp; Cancel match
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div> 
+                <div class="duration pull-right">
+                    {{ duration | prettyTime }}
+                </div>
+                <div class="score" ng-show="gameStarted">
+                    <strong>{{ table.sides[0].position == 'left' ? table.sides[0].score : table.sides[1].score }}</strong>
+                    <span>-</span>
+                    <strong>{{ table.sides[0].position == 'right' ? table.sides[0].score : table.sides[1].score }}</strong>
+                </div>
+            </div>
+            <div ng-show="!gameStarted && nbPlayers == 4">
+                <button class="btn btn-success" ng-click="startGame()">Start</button>
+            </div>
+            <div ng-show="!gameStarted && nbPlayers < 4">
+                Team composition
+            </div>
+        </div>
+    </div>
+    <div id="match" class="container">
 
-      <div class="players">
-          <ul>
-              <li ng-repeat="player in game.player" ng-class="[player.team, player.position]">
-                  <label>{{ player.position }}</label>
-                  <select ng-model="player.player_id" ng-disabled="gameStarted" ng-options="player.id as player.name for player in playersList|orderBy: 'name'"></select>
-                  <div class="spacer"></div>
-                  <button ng-show="gameStarted" ng-click="goal(player)">GOAL</button>
-                  <div class="spacer"></div>
-                  <button ng-show="gameStarted" ng-click="autogoal(player)">CSC</button>
-              </li>
-          </ul>
-      </div>
+        <div ng-repeat="side in table.sides" ng-class="['side', 'side-'+side.name, 'side-'+side.position]">
+            <div ng-repeat="seat in side.seats" class="seat seat-{{ seat.position }}" ng-class="{ 'seat-free': !seat.player }">
+                <div ng-class="{ focused: seat.focused }" ng-hide="goalTypeShawn && seat.position != focusedSeat.position">
+                    <div class="seat-picture">
+                        <img gravatar-src="''" gravatar-size="200" ng-hide="seat.player" />
+                        <img gravatar-src="seat.player.email" gravatar-default="wavatar" gravatar-size="200" ng-show="seat.player" />
+                    </div>
 
-      <div class="actionStart" ng-show="!gameStarted">
-          <button ng-click="startGame()">Start</button>
-      </div>
+                    <div class="seat-layer {{ side.name }}" ng-click="selectSeat(seat, side)">
+                        <div class="player-name">
+                            <big>{{ seat.player ? seat.player.name : 'Choose a player' }}</big>
+                            <small>{{ seat.position }}</small>
+                        </div>
+                    </div>
 
-      <div class="actionCoach" ng-show="gameStarted">
-          <button ng-click="coach('red')" class="red">Coach</button>
-          <button ng-click="coach('blue')" class="blue">Coach</button>
-      </div>
+                </div>
+                <div class="goal-type focused"
+                    ng-show="goalTypeShawn && seat.position != focusedSeat.position"
+                    ng-click="side.position == 'left' ? goal() : autogoal()">
+                    <span>{{ side.position == 'left' ? 'Goal' : 'Autogoal' }}</span>
+                </div>
+            </div>
 
-      <div class="actionCancel" ng-show="gameStarted">
-          <button ng-hide="game.goals.length" ng-click="initGame()">Cancel</button>
-          <button ng-show="game.goals.length" ng-click="cancelGoal()">Cancel last goal</button>
-      </div>
-  </div>
+            <!-- Coach button. Displayed when there are two player on side -->
+            <div class="side-coach" ng-click="coach(side)" ng-show="side.seats[0].player && side.seats[1].player">
+                <i class="glyphicon glyphicon-sort"></i>
+            </div>
+        </div>
 
+        <div class="player-list focused {{ focusedSide.position == 'left' ? 'right' : 'left' }}" ng-show="playerListShawn">
+            <div class="frame {{ focusedSide.name }}">
+                <h2>
+                    Choose a player
+                </h2>
+                <a ng-repeat="player in playersList|orderBy: 'name'" ng-click="choosePlayer(player)" ng-hide="player.alreadySelected">
+                    <img gravatar-src="player.email || ''" gravatar-default="wavatar" gravatar-size="30" />
+                    {{ player.name }}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="game-overlay" ng-show="focusedSeat" ng-click="resetFocus()"></div>

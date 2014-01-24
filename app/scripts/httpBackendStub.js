@@ -18,7 +18,7 @@
                 JsonPlayer = [{
                     "id": 1,
                     "name": "Benjamin",
-                    "email": "",
+                    "email": "benjamin@babitch.com",
                     "_links": {
                         "self": {
                             "href": CONFIG.BABITCH_WS_URL + "\/players\/6"
@@ -27,7 +27,7 @@
                 }, {
                     "id": 2,
                     "name": "Marc",
-                    "email": "",
+                    "email": "marc@babitch.com",
                     "_links": {
                         "self": {
                             "href": CONFIG.BABITCH_WS_URL + "\/players\/5"
@@ -36,7 +36,7 @@
                 }, {
                     "id": 3,
                     "name": "Remi",
-                    "email": "",
+                    "email": "remi@babitch.com",
                     "_links": {
                         "self": {
                             "href": CONFIG.BABITCH_WS_URL + "\/players\/4"
@@ -45,7 +45,7 @@
                 }, {
                     "id": 4,
                     "name": "Nicolas",
-                    "email": "",
+                    "email": "oltodo@msn.com",
                     "_links": {
                         "self": {
                             "href": CONFIG.BABITCH_WS_URL + "\/players\/3"
@@ -54,7 +54,7 @@
                 }, {
                     "id": 5,
                     "name": "Florent",
-                    "email": "",
+                    "email": "florent@babitch.com",
                     "_links": {
                         "self": {
                             "href": CONFIG.BABITCH_WS_URL + "\/players\/2"
@@ -63,7 +63,7 @@
                 }, {
                     "id": 6,
                     "name": "Kenny",
-                    "email": "",
+                    "email": "denis.roussel@gmail.com",
                     "_links": {
                         "self": {
                             "href": CONFIG.BABITCH_WS_URL + "\/players\/1"
