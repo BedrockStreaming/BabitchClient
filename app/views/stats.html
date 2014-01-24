@@ -1,0 +1,20 @@
+<div id="stats">
+	<h1>Last Game</h1>
+	<ul id="lastMatch">
+		<li ng-repeat="games in gamesList">
+			<a ng-href="#/stats/{{ games.composition[0].player_id }}">
+				{{ playersList[games.composition[0].player_id].name }}
+			</a> - 
+			<a ng-href="#/stats/{{ games.composition[2].player_id }}">
+				{{ playersList[games.composition[2].player_id].name }}
+			</a>
+			<span class="badge">{{ games.red_score }}</span> / <span class="badge">{{ games.blue_score }}</span>
+			<a ng-href="#/stats/{{ games.composition[1].player_id }}">
+				{{ playersList[games.composition[1].player_id].name }}
+			</a> - 
+			<a ng-href="#/stats/{{ games.composition[3].player_id }}">
+				{{ playersList[games.composition[3].player_id].name }}
+			</a> 
+		</li>
+	</ul>
+</div>
