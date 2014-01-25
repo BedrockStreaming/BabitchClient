@@ -4,15 +4,23 @@
 		<h2>{{ playersList[selectPlayerId].name }}</h2>
 	</div>
 	<br />
-	
+
 	<ul id="players">
-		<li>Goals: <span class="badge">{{ statsGoals[selectPlayerId].goal }}</span></li>
-		<li>Autogoals: <span class="badge">{{ statsGoals[selectPlayerId].autogoal }}</span></li>
-		<li>GoalsAttack: <span class="badge">{{ statsGoals[selectPlayerId].goalAttack }}</span></li>
-		<li>GoalsDefense: <span class="badge">{{ statsGoals[selectPlayerId].goalDefense }}</span></li>
-		<li>Victory: <span class="badge">{{ statsGoals[selectPlayerId].victory }}</span></li>
-		<li>Loose: <span class="badge">{{ statsGoals[selectPlayerId].loose }}</span></li>
-		<li>GamePlayed: <span class="badge">{{ statsGoals[selectPlayerId].gamePlayed }}</span></li>
-		<li>TeamGoalaverage: <span class="badge">{{ statsGoals[selectPlayerId].teamGoalaverage }}</span></li>
+		<li ng-repeat="stat in statsType">{{ stat }}: <span class="badge">{{ statsGoals[selectPlayerId][stat] }}</span></li>
 	</ul>
+	<div class="table-responsive">
+		<table class="table table-hover table-condensed">
+			<tbody>
+				<tr>
+					<th><a href="" ng-click="setPredicate('name'); setReverse()">Name</a></th>
+					<th ng-repeat="stat in statsType"><a href="" ng-click="setPredicate(stat); setReverse()">{{ stat }}</a></th>
+				</tr>
+				<tr ng-repeat="player in statsGoals | orderBy:predicate:reverse | minGamePlayed:5">
+					<td>{{ player.name }}</td>
+
+					<td ng-repeat="stat in statsType">{{ player[stat] }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>

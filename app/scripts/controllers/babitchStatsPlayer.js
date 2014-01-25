@@ -1,6 +1,6 @@
 'use strict';
 
-babitchFrontendApp.controller("babitchStatsPlayerCtrl", function ($scope, $http, CONFIG, $routeParams) {
+babitchFrontendApp.controller("babitchStatsPlayerCtrl", function ($scope, $rootScope, $http, CONFIG, $routeParams) {
 
 	$scope.gamesList = [];
 	$scope.playersList = [];
@@ -8,6 +8,28 @@ babitchFrontendApp.controller("babitchStatsPlayerCtrl", function ($scope, $http,
 	$scope.statsGoals = [];
 
 	$scope.selectPlayerId = $routeParams.playerId;
+
+	$scope.statsType = [
+		'goal',
+		'goalAttack',
+		'goalDefense',
+		'autogoal',
+		'autogoalAttack',
+		'autogoalDefense',
+		'victory',
+		'loose',
+		'gamePlayed',
+		'teamGoalaverage',
+		'ballsPlayed'
+		];
+	
+	//To deal with ng-repeat scope in stats-player.html views
+	$rootScope.setPredicate = function(variable) {
+		$rootScope.predicate = variable;
+	};
+	$rootScope.setReverse = function() {
+		$rootScope.reverse =! $rootScope.reverse;
+	};
 	
 	//Fetch players
 	$http({
@@ -21,19 +43,24 @@ babitchFrontendApp.controller("babitchStatsPlayerCtrl", function ($scope, $http,
 			//Init Stats
 			if( ! $scope.statsGoals[player.id] ) {
 				$scope.statsGoals[player.id] = { 
+					name: player.name,
 					goal: 0,
-					autogoal: 0,
 					goalAttack: 0,
 					goalDefense: 0,
+					autogoal: 0,
+					autogoalAttack: 0,
+					autogoalDefense: 0,
 					victory: 0,
 					loose: 0,
 					gamePlayed: 0,
-					teamGoalaverage: 0
+					teamGoalaverage: 0,
+					ballsPlayed: 0
 				};
 			}
 		});
 	});
 
+	//Fetch Games
 	$http({
 		url: CONFIG.BABITCH_WS_URL + '/games?per_page=100',
 		method: 'GET'
@@ -72,21 +99,32 @@ babitchFrontendApp.controller("babitchStatsPlayerCtrl", function ($scope, $http,
 			$scope.statsGoals[games.composition[1].player_id].teamGoalaverage -= games.red_score;
 			$scope.statsGoals[games.composition[3].player_id].teamGoalaverage -= games.red_score;
 
-
 			//Compute Goals
 			games.goals.forEach(function(goal) {
 
-				var stats = $scope.statsGoals[goal.player_id];
+				$scope.statsGoals[games.composition[0].player_id].ballsPlayed ++;
+				$scope.statsGoals[games.composition[2].player_id].ballsPlayed ++;
+				$scope.statsGoals[games.composition[1].player_id].ballsPlayed ++;
+				$scope.statsGoals[games.composition[3].player_id].ballsPlayed ++;
+
+				var statsGoaler = $scope.statsGoals[goal.player_id];
+	
 				if( goal.autogoal ) {
-					stats.autogoal ++;
-				}
-				else {
-					stats.goal ++;
+					statsGoaler.autogoal ++;
 					if (goal.position == "attack") {
-						stats.goalAttack ++;
+						statsGoaler.autogoalAttack ++;
 					}
 					else if (goal.position == "defense") {
-						stats.goalDefense ++;
+						statsGoaler.autogoalDefense ++;
+					}
+				}
+				else {
+					statsGoaler.goal ++;
+					if (goal.position == "attack") {
+						statsGoaler.goalAttack ++;
+					}
+					else if (goal.position == "defense") {
+						statsGoaler.goalDefense ++;
 					}
 				}
 			});
