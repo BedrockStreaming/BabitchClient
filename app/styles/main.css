@@ -53,13 +53,13 @@ a {
 }
 
 #header .action {
-    width: 30%;
+    width: 20%;
     text-align: left;
 }
 
 #header .duration {
     font-size: 0.8em;
-    width: 30%;
+    width: 20%;
     text-align: right;
 }
 
@@ -120,11 +120,8 @@ a {
     height: 100%;
     top: 0;
     left: 0;
-}
-
-#match .side .seat .seat-picture img {
-    min-height: 100%;
-    min-width: 100%;
+    background: 50% 50% no-repeat;
+    background-size: cover;
     -webkit-filter: grayscale(100%);
 }
 
@@ -223,7 +220,8 @@ a {
 #match .player-list > div {
     background: white;
     height: 100%;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 #match .player-list a {
@@ -231,6 +229,7 @@ a {
     padding: 5px 10px;
     text-decoration: none;
     color: #222;
+    white-space: nowrap;
 }
 
 @media (min-width: 768px) {

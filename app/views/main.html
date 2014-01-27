@@ -53,11 +53,8 @@
 
         <div ng-repeat="side in table.sides" ng-class="['side', 'side-'+side.name, 'side-'+side.position]">
             <div ng-repeat="seat in side.seats" class="seat seat-{{ seat.position }}">
-                <div ng-class="{ focused: seat.focused }" ng-hide="goalTypeShawn && seat.place != focusedSeat.place">
-                    <div class="seat-picture">
-                        <img gravatar-src="''" gravatar-size="200" ng-hide="seat.player" />
-                        <img gravatar-src="seat.player.email" gravatar-default="wavatar" gravatar-size="200" ng-show="seat.player" />
-                    </div>
+                <div ng-class="{ focused: seat.focused }" ng-hide="goalTypeShawn && seat.position != focusedSeat.position">
+                    <div class="seat-picture" style="background-image: url({{ seat.player.email | gravatarize:200 }})"></div>
 
                     <div class="seat-layer {{ side.name }}" ng-click="selectSeat(seat, side)">
                         <div class="player-name">
@@ -67,7 +64,7 @@
                     </div>
                 </div>
                 <div class="goal-type focused"
-                    ng-show="goalTypeShawn && seat.place != focusedSeat.place"
+                    ng-show="goalTypeShawn && seat.position != focusedSeat.position"
                     ng-click="side.position == 'left' ? goal() : autogoal()">
                     <span>{{ side.position == 'left' ? 'Goal' : 'Autogoal' }}</span>
                 </div>

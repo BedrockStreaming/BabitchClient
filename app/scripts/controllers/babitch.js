@@ -1,7 +1,6 @@
 'use strict';
 
 babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fayeClient, $timeout) {
-
     $scope.gameId = null;
     $scope.gameStarted = false;
     $scope.gameEnded = false;
@@ -94,6 +93,11 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
 
 
     $scope.selectSeat = function (seat, side) {
+        if($scope.focusedSeat) {
+            $scope.resetFocus();
+            return;
+        }
+
         $scope.focusedSeat = seat;
         $scope.focusedSeat.focused = true;
         $scope.focusedSide = side;
@@ -359,5 +363,20 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         seconds = (seconds < 10 ? '0'+seconds : seconds);
 
         return minutes+' : '+seconds;
+    }
+})
+.filter('gravatarize', function(gravatarService) {
+    return function(email, size) {
+        if(!email) {
+            return gravatarService.url('', {
+                default: 'mm',
+                size: size
+            });
+        }
+
+        return gravatarService.url(email, {
+            default: 'wavatar',
+            size: size
+        });
     }
 });
