@@ -76,7 +76,8 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         $scope.duration = Math.floor(diff/1000);
 
         if($scope.gameStarted && !$scope.gameEnded) {
-            $timeout(incrDuration, 500);
+            // can't use $timeout, because of a bug with e2e testing with $timeout :/
+            setTimeout(incrDuration, 500);
         }
     }
 
@@ -150,6 +151,11 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     }
 
     $scope.startGame = function () {
+        if($scope.nbPlayers != 4) {
+            console.log("Error, not enough player selected : need 4")
+            return;
+        }
+
         startTime = new Date();
 
         $scope.gameId = Date.now();
