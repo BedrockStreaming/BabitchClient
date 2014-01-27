@@ -1,26 +1,23 @@
 'use strict';
 
-babitchFrontendApp.controller("babitchStatsCtrl", function ($scope, $http, CONFIG) {
+babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, babitchService) {
 
 	$scope.gamesList = [];
 	$scope.playersList = [];
+	$scope.statsGoals = [];
 
-	//Fetch players
-	$http({
-		url: CONFIG.BABITCH_WS_URL + '/players?per_page=100',
-		method: 'GET'
-	}).
-	success(function(data) {
-		data.forEach(function(player) {
-			$scope.playersList[player.id] = player;
-		});
-	});
+	//To deal with ng-repeat scope in stats-player.html views
+	$rootScope.setPredicate = function(variable) {
+		$rootScope.predicate = variable;
+	};
+	$rootScope.setReverse = function() {
+		$rootScope.reverse = !$rootScope.reverse;
+	};
 
-	$http({
-		url: CONFIG.BABITCH_WS_URL + '/games?per_page=100',
-		method: 'GET'
-	}).
-	success(function(data) {
-		$scope.gamesList = data;
-	});
+	babitchService.computeStats();
+	$scope.statsGoals = babitchService.getStatsGoals();
+	$scope.gamesList = babitchService.getGamesList();
+	$scope.playersList = babitchService.getPlayersList();
+	$scope.statsType = babitchService.getStatsType();
+
 });
