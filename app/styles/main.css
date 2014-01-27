@@ -32,25 +32,9 @@ a {
     z-index: 15;
 }
 
-/* side frame */
-#game .frame h2 {
-    text-align: center;
-    padding: 5px;
-    color: white;
-    font-weight: bold;
-    font-size: 0.8em;
-    margin: 0;
+#game .focused-plus {
+    z-index: 20;
 }
-
-#game .frame.red h2 {
-    background: rgb(211, 0, 0);
-}
-
-#game .frame.blue h2 {
-    background: rgb(41, 54, 148);
-}
-
-
 
 #header {
     position: fixed;
@@ -62,7 +46,6 @@ a {
     line-height: 50px;
     text-align: center;
     background: black;
-    z-index: 10;
 }
 
 #header .score {
@@ -99,23 +82,29 @@ a {
 }
 
 #match .side .seat {
+    position: absolute;
+    top: 0;
     height: 50%;
-    position: relative;
+    width: 100%;
 }
 
-#match .side.side-left .seat.seat-attack {
+#match .side .seat.seat-bottom {
+    top: 50%;
+}
+
+#match .side.side-left .seat.seat-top {
     padding: 4px 2px 2px 4px;
 }
 
-#match .side.side-left .seat.seat-defense {
+#match .side.side-left .seat.seat-bottom {
     padding: 2px 2px 4px 4px;
 }
 
-#match .side.side-right .seat.seat-attack {
+#match .side.side-right .seat.seat-top {
     padding: 4px 4px 2px 2px;
 }
 
-#match .side.side-right .seat.seat-defense {
+#match .side.side-right .seat.seat-bottom {
     padding: 2px 4px 4px 2px;
 }
 
@@ -165,16 +154,6 @@ a {
 
 #match .side .seat .player-name small {
     display: block;
-}
-
-#match .side .seat.seat-free .player-name big {
-    font-size: 0.8em;
-    font-weight: normal;   
-}
-
-#match .side .seat.seat-free .player-name small {
-    font-size: 1.2em;
-    font-weight: bold;   
 }
 
 #match .side.side-red .seat .seat-layer {
@@ -244,10 +223,7 @@ a {
 #match .player-list > div {
     background: white;
     height: 100%;
-}
-
-#match .player-list h2 {
-    margin-bottom: 5px;
+    overflow: auto;
 }
 
 #match .player-list a {

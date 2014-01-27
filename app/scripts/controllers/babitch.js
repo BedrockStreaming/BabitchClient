@@ -21,11 +21,13 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
             position: 'left',
             score: 0,
             seats: [{
-                position: 'attack',
+                position: 'top',
+                place: 'attack',
                 focused: true,
                 player: null
             }, {
-                position: 'defense',
+                position: 'bottom',
+                place: 'defense',
                 focused: false,
                 player: null
             }]
@@ -34,11 +36,13 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
             position: 'right',
             score: 0,
             seats: [{
-                position: 'attack',
+                position: 'bottom',
+                place: 'attack',
                 focused: false,
                 player: null
             }, {
-                position: 'defense',
+                position: 'top',
+                place: 'defense',
                 focused: false,
                 player: null
             }]
@@ -85,23 +89,6 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         }).
         success(function(data) {
             $scope.playersList = data;
-
-            // $scope.selectSeat($scope.table.sides[0].seats[0], $scope.table.sides[0]);
-            // $scope.choosePlayer($scope.playersList[0]);
-            // $scope.selectSeat($scope.table.sides[0].seats[1], $scope.table.sides[0]);
-            // $scope.choosePlayer($scope.playersList[1]);
-            // $scope.selectSeat($scope.table.sides[1].seats[0], $scope.table.sides[1]);
-            // $scope.choosePlayer($scope.playersList[2]);
-            // $scope.selectSeat($scope.table.sides[1].seats[1], $scope.table.sides[1]);
-            // $scope.choosePlayer($scope.playersList[3]);
-            // $scope.startGame();
-
-
-            // for(var i = 0; i < 9; i++) {
-            //     $scope.selectSeat($scope.table.sides[1].seats[1], $scope.table.sides[1]);
-            //     $scope.goal();
-            // }
-
         });
     };
 
@@ -125,6 +112,10 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     $scope.choosePlayer = function (player) {
         if($scope.focusedSeat.player == null) {
             $scope.nbPlayers++;
+        }
+
+        if($scope.focusedSeat.player) {
+            $scope.focusedSeat.player.alreadySelected = false;
         }
 
         $scope.focusedSeat.player = player;
@@ -169,7 +160,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         if ($scope.gameStarted && $scope.focusedSeat && $scope.focusedSide) {
 
             $scope.goals.push({
-                position:       $scope.focusedSeat.position,
+                position:       $scope.focusedSeat.place,
                 player_id:      $scope.focusedSeat.player.id,
                 conceder_id:    $scope.focusedSide.oppositeSide.seats[1].player.id,
                 autogoal:       false
@@ -191,7 +182,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         if ($scope.gameStarted && $scope.focusedSeat && $scope.focusedSide) {
 
             $scope.goals.push({
-                position:       $scope.focusedSeat.position,
+                position:       $scope.focusedSeat.place,
                 player_id:      $scope.focusedSeat.player.id,
                 conceder_id:    $scope.focusedSide.seats[1].player.id,
                 autogoal:       true
@@ -205,9 +196,9 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     };
 
     /**
-     * Switch two players for a side
+     * Coach two players for a side
      * 
-     * @param  {Object} side Side with players to switch
+     * @param  {Object} side Side with players to coach
      * 
      * @return {void}
      */
@@ -230,7 +221,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         // For each side's table
         $scope.table.sides.forEach(function (side) {
 
-            // For each seat's
+            // For each seat's side
             side.seats.forEach(function (seat) {
 
                 if(seat.player.id != lastGoal.player_id) {
