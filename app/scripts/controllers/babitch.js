@@ -21,12 +21,12 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
             position: 'left',
             score: 0,
             seats: [{
-                position: 'top',
+                position: 'bottom',
                 place: 'attack',
-                focused: true,
+                focused: false,
                 player: null
             }, {
-                position: 'bottom',
+                position: 'top',
                 place: 'defense',
                 focused: false,
                 player: null
@@ -36,12 +36,12 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
             position: 'right',
             score: 0,
             seats: [{
-                position: 'bottom',
+                position: 'top',
                 place: 'attack',
                 focused: false,
                 player: null
             }, {
-                position: 'top',
+                position: 'bottom',
                 place: 'defense',
                 focused: false,
                 player: null
@@ -135,8 +135,14 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     };
 
     $scope.switchView = function () {
-        $scope.table.sides[0].position = ($scope.table.sides[0].position == 'left' ? 'right' : 'left');
-        $scope.table.sides[1].position = ($scope.table.sides[1].position == 'left' ? 'right' : 'left');
+
+        $scope.table.sides.forEach(function (side) {
+
+            side.position = (side.position == 'left' ? 'right' : 'left');
+
+            side.seats[0].position = (side.seats[0].position == 'top' ? 'bottom' : 'top');
+            side.seats[1].position = (side.seats[1].position == 'top' ? 'bottom' : 'top');
+        });
     }
 
     $scope.startGame = function () {
