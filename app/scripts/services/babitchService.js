@@ -44,13 +44,61 @@ angular.module('babitchFrontendApp')
 			getStatsType: function() {
 				return statsType;
 			},
-			computeStats: function() {
-				
-				//Don't compute stats again
-				if (statsGoals.length > 1) {
-					return statsGoals;
+			_setStatsVictoryLoose: function(game) {
+				if (game.red_score == 10) {
+					statsGoals[game.composition[0].player_id].victory++;
+					statsGoals[game.composition[2].player_id].victory++;
+					statsGoals[game.composition[1].player_id].loose++;
+					statsGoals[game.composition[3].player_id].loose++;
+				} else {
+					statsGoals[game.composition[0].player_id].loose++;
+					statsGoals[game.composition[2].player_id].loose++;
+					statsGoals[game.composition[1].player_id].victory++;
+					statsGoals[game.composition[3].player_id].victory++;
 				}
-				
+
+			},
+			_setStatsGamePlayed: function(game) {
+				statsGoals[game.composition[0].player_id].gamePlayed++;
+				statsGoals[game.composition[2].player_id].gamePlayed++;
+				statsGoals[game.composition[1].player_id].gamePlayed++;
+				statsGoals[game.composition[3].player_id].gamePlayed++;
+			},
+			_setStatsTeamGoalaverage: function(game) {
+				statsGoals[game.composition[0].player_id].teamGoalaverage += game.red_score;
+				statsGoals[game.composition[2].player_id].teamGoalaverage += game.red_score;
+				statsGoals[game.composition[1].player_id].teamGoalaverage += game.blue_score;
+				statsGoals[game.composition[3].player_id].teamGoalaverage += game.blue_score;
+
+				statsGoals[game.composition[0].player_id].teamGoalaverage -= game.blue_score;
+				statsGoals[game.composition[2].player_id].teamGoalaverage -= game.blue_score;
+				statsGoals[game.composition[1].player_id].teamGoalaverage -= game.red_score;
+				statsGoals[game.composition[3].player_id].teamGoalaverage -= game.red_score;
+			},
+			_setStatsBallsPlayed: function(game) {
+				statsGoals[game.composition[0].player_id].ballsPlayed++;
+				statsGoals[game.composition[2].player_id].ballsPlayed++;
+				statsGoals[game.composition[1].player_id].ballsPlayed++;
+				statsGoals[game.composition[3].player_id].ballsPlayed++;
+			},
+			_setStatsAutogoal: function(goal) {
+				if (goal.autogoal) {
+					statsGoals[goal.player_id].autogoal++;
+					if (goal.position == "attack") {
+						statsGoals[goal.player_id].autogoalAttack++;
+					} else if (goal.position == "defense") {
+						statsGoals[goal.player_id].autogoalDefense++;
+					}
+				} else {
+					statsGoals[goal.player_id].goal++;
+					if (goal.position == "attack") {
+						statsGoals[goal.player_id].goalAttack++;
+					} else if (goal.position == "defense") {
+						statsGoals[goal.player_id].goalDefense++;
+					}
+				}
+			},
+			_setPlayersList: function() {
 				//Fetch players
 				_playerService.getList()
 					.then(function(data) {
@@ -76,64 +124,36 @@ angular.module('babitchFrontendApp')
 							}
 						});
 					});
+			},
+			_setGamesList: function(games) {
+				angular.copy(games, gamesList);
+			},
+			computeStats: function() {
+
+				//Don't compute stats again
+				if (statsGoals.length > 1) {
+					return statsGoals;
+				}
+
+				var _this = this;
+
+				_this._setPlayersList();
 
 				//Fetch Games
 				_gameService.getList()
 					.then(function(data) {
-						angular.copy(data,gamesList);
-						//Compute data
+						_this._setGamesList(data);
+
+						//For each games
 						data.forEach(function(games) {
+							_this._setStatsVictoryLoose(games);
+							_this._setStatsGamePlayed(games);
+							_this._setStatsTeamGoalaverage(games);
 
-							if (games.red_score == 10) {
-								statsGoals[games.composition[0].player_id].victory++;
-								statsGoals[games.composition[2].player_id].victory++;
-								statsGoals[games.composition[1].player_id].loose++;
-								statsGoals[games.composition[3].player_id].loose++;
-							} else {
-								statsGoals[games.composition[0].player_id].loose++;
-								statsGoals[games.composition[2].player_id].loose++;
-								statsGoals[games.composition[1].player_id].victory++;
-								statsGoals[games.composition[3].player_id].victory++;
-							}
-
-							statsGoals[games.composition[0].player_id].gamePlayed++;
-							statsGoals[games.composition[2].player_id].gamePlayed++;
-							statsGoals[games.composition[1].player_id].gamePlayed++;
-							statsGoals[games.composition[3].player_id].gamePlayed++;
-
-							statsGoals[games.composition[0].player_id].teamGoalaverage += games.red_score;
-							statsGoals[games.composition[2].player_id].teamGoalaverage += games.red_score;
-							statsGoals[games.composition[1].player_id].teamGoalaverage += games.blue_score;
-							statsGoals[games.composition[3].player_id].teamGoalaverage += games.blue_score;
-
-							statsGoals[games.composition[0].player_id].teamGoalaverage -= games.blue_score;
-							statsGoals[games.composition[2].player_id].teamGoalaverage -= games.blue_score;
-							statsGoals[games.composition[1].player_id].teamGoalaverage -= games.red_score;
-							statsGoals[games.composition[3].player_id].teamGoalaverage -= games.red_score;
-
-							//Compute Goals
+							//For each Goals
 							games.goals.forEach(function(goal) {
-
-								statsGoals[games.composition[0].player_id].ballsPlayed++;
-								statsGoals[games.composition[2].player_id].ballsPlayed++;
-								statsGoals[games.composition[1].player_id].ballsPlayed++;
-								statsGoals[games.composition[3].player_id].ballsPlayed++;
-
-								if (goal.autogoal) {
-									statsGoals[goal.player_id].autogoal++;
-									if (goal.position == "attack") {
-										statsGoals[goal.player_id].autogoalAttack++;
-									} else if (goal.position == "defense") {
-										statsGoals[goal.player_id].autogoalDefense++;
-									}
-								} else {
-									statsGoals[goal.player_id].goal++;
-									if (goal.position == "attack") {
-										statsGoals[goal.player_id].goalAttack++;
-									} else if (goal.position == "defense") {
-										statsGoals[goal.player_id].goalDefense++;
-									}
-								}
+								_this._setStatsBallsPlayed(games);
+								_this._setStatsAutogoal(goal);
 							});
 						});
 					});
