@@ -77,7 +77,11 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
 
         if($scope.gameStarted && !$scope.gameEnded) {
             // can't use $timeout, because of a bug with e2e testing with $timeout :/
-            setTimeout(incrDuration, 500);
+            setTimeout(function() {
+                $scope.$apply(function() {
+                    incrDuration();
+                });
+            }, 500);
         }
     }
 
