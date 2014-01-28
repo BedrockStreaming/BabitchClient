@@ -1,6 +1,6 @@
 'use strict';
 
-babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fayeClient, $timeout) {
+babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fayeClient, $interval) {
     $scope.gameId = null;
     $scope.gameStarted = false;
     $scope.gameEnded = false;
@@ -88,21 +88,15 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     // Timer
     var startTime = null;
 
-    var incrDuration = function () {
-        var now = new Date();
-        var diff = now-startTime;
-
-        $scope.duration = Math.floor(diff/1000);
-
-        if($scope.gameStarted && !$scope.gameEnded) {
-            // can't use $timeout, because of a bug with e2e testing with $timeout :/
-            setTimeout(function() {
-                $scope.$apply(function() {
-                    incrDuration();
-                });
-            }, 500);
-        }
-    }
+    var startTimer = function () {
+        $interval(function() {
+            if($scope.gameStarted && !$scope.gameEnded) {
+                var now = new Date();
+                var diff = now-startTime;
+                $scope.duration = Math.floor(diff/1000);
+            }
+        }, 500);
+    };
 
     var loadPlayers = function () {
         $http({
@@ -138,7 +132,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
             $scope.focusedSeat = null;
         }
 
-        $scope.focusedSide = null;   
+        $scope.focusedSide = null;
         $scope.playerListShawn = false;
         $scope.goalTypeShawn = false;
     };
@@ -236,9 +230,9 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
 
     /**
      * Coach two players for a side
-     * 
+     *
      * @param  {Object} side Side with players to coach
-     * 
+     *
      * @return {void}
      */
     $scope.coach = function (side) {
@@ -251,7 +245,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
 
     /**
      * Cancel last goal
-     * 
+     *
      * @return {void}
      */
     $scope.cancelGoal = function () {
@@ -282,7 +276,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
 
     /**
      * Cancel game
-     * 
+     *
      * @return {void}
      */
     $scope.cancelGame = function () {
@@ -291,7 +285,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
 
     /**
      * End the game
-     * 
+     *
      * @return {void}
      */
     var endGame = function () {
@@ -346,9 +340,9 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
 
     /**
      * Send an event notification to faye channel
-     * 
+     *
      * @param  {string} eventName Event's name
-     * 
+     *
      * @return {void}
      */
     var notify = function (eventName) {
@@ -363,13 +357,13 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
 
     $scope.$watch('gameStarted', function(started) {
         if(started) {
-            incrDuration();
+            startTimer();
         }
     });
 
     $scope.$watch('gameEnded', function(ended) {
         if(!ended && $scope.gameStarted) {
-            incrDuration();
+            startTimer();
         }
     });
 
