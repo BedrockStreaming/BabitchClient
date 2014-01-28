@@ -53,7 +53,22 @@
 
         <div ng-repeat="side in table.sides" ng-class="['side', 'side-'+side.name, 'side-'+side.position]">
             <div ng-repeat="seat in side.seats" class="seat seat-{{ seat.position }}">
-                <div ng-class="{ focused: seat.focused }" ng-hide="goalTypeShawn && seat.position != focusedSeat.position">
+
+                <!-- Buttons to add a goal or an autogoal -->
+                <div class="button white focused"
+                    ng-if="goalTypeShawn && side.position != focusedSide.position"
+                    ng-click="seat.position == 'top' ? goal() : autogoal()">
+                    <span>{{ seat.position == 'top' ? 'Goal' : 'Self goal' }}</span>
+                </div>
+
+                <!-- Buttons to exit -->
+                <div class="button focused"
+                    ng-if="focusedSeat && (seat.position != focusedSeat.position) && (side.position == focusedSide.position)"
+                    ng-click="resetFocus()">
+                    <big><i class="glyphicon glyphicon-remove"></i></big>
+                </div>
+
+                <div ng-class="{ focused: seat.focused }">
                     <div class="seat-picture" style="background-image: url({{ seat.player.email | gravatarize:200 }})"></div>
 
                     <div class="seat-layer {{ side.name }}" ng-click="focusSeat(seat, side)">
@@ -62,13 +77,6 @@
                             <big>{{ seat.player ? seat.player.name : 'Choose a player' }}</big>
                         </div>
                     </div>
-                </div>
-
-                <!-- Buttons to add a goal or an autogoal -->
-                <div class="button focused"
-                    ng-show="goalTypeShawn && seat.position != focusedSeat.position"
-                    ng-click="side.position == 'left' ? goal() : autogoal()">
-                    <span>{{ side.position == 'left' ? 'Goal' : 'Autogoal' }}</span>
                 </div>
             </div>
 
