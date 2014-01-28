@@ -17,7 +17,7 @@
 
                 var JsonPlayer = [
                    {
-                      "id":21,
+                      "id":1,
                       "name":"Nicolas B",
                       "email":"nicolas.bazille@m6.fr",
                       "_links":{
@@ -27,7 +27,7 @@
                       }
                    },
                    {
-                      "id":20,
+                      "id":2,
                       "name":"stephanie",
                       "email":"stephanie@shopper.fr",
                       "_links":{
@@ -37,7 +37,7 @@
                       }
                    },
                    {
-                      "id":19,
+                      "id":3,
                       "name":"Damien Jv",
                       "email":"Damien@jeuxvideo.fr",
                       "_links":{
@@ -47,7 +47,7 @@
                       }
                    },
                    {
-                      "id":18,
+                      "id":4,
                       "name":"JulienB",
                       "email":"Jbesnard.externe@m6.fr",
                       "_links":{
@@ -57,7 +57,7 @@
                       }
                    },
                    {
-                      "id":17,
+                      "id":5,
                       "name":"Jean micheng",
                       "email":"jm@jm.de",
                       "_links":{
@@ -67,7 +67,7 @@
                       }
                    },
                    {
-                      "id":16,
+                      "id":6,
                       "name":"Gregory",
                       "email":"mail",
                       "_links":{
@@ -77,7 +77,7 @@
                       }
                    },
                    {
-                      "id":15,
+                      "id":7,
                       "name":"Pierre Thomas",
                       "email":"ptguillot.externe@m6.fr",
                       "_links":{
@@ -87,7 +87,7 @@
                       }
                    },
                    {
-                      "id":14,
+                      "id":8,
                       "name":"Benjamin",
                       "email":"brichard.externe@m6.fr",
                       "_links":{
@@ -97,7 +97,7 @@
                       }
                    },
                    {
-                      "id":13,
+                      "id":9,
                       "name":"Antony",
                       "email":"apichoud@m6.fr",
                       "_links":{
@@ -107,7 +107,7 @@
                       }
                    },
                    {
-                      "id":12,
+                      "id":10,
                       "name":"Aurelian",
                       "email":"abes.externe@m6.fr",
                       "_links":{
@@ -127,7 +127,7 @@
                       }
                    },
                    {
-                      "id":10,
+                      "id":12,
                       "name":"R\u00e9mi",
                       "email":"rlemonnier.externe@m6.fr",
                       "_links":{
@@ -137,7 +137,7 @@
                       }
                    },
                    {
-                      "id":9,
+                      "id":13,
                       "name":"Kenny",
                       "email":"kenny.dits@m6.fr",
                       "_links":{
@@ -147,7 +147,7 @@
                       }
                    },
                    {
-                      "id":8,
+                      "id":14,
                       "name":"Nicolas C",
                       "email":"nchaulet.externe@m6.fr",
                       "_links":{
@@ -157,7 +157,7 @@
                       }
                    },
                    {
-                      "id":7,
+                      "id":15,
                       "name":"Florent L",
                       "email":"flavy.externe@m6.fr",
                       "_links":{
@@ -167,7 +167,7 @@
                       }
                    },
                    {
-                      "id":6,
+                      "id":16,
                       "name":"J\u00e9r\u00e9my",
                       "email":"cytron@m6web.fr",
                       "_links":{
@@ -177,7 +177,7 @@
                       }
                    },
                    {
-                      "id":5,
+                      "id":17,
                       "name":"Francis",
                       "email":"cytron@m6web.fr",
                       "_links":{
@@ -187,7 +187,7 @@
                       }
                    },
                    {
-                      "id":4,
+                      "id":18,
                       "name":"Morgan",
                       "email":"brunot.morgan@gmail.com",
                       "_links":{
@@ -197,7 +197,7 @@
                       }
                    },
                    {
-                      "id":3,
+                      "id":19,
                       "name":"Florent",
                       "email":"cytron@m6web.fr",
                       "_links":{
@@ -207,7 +207,7 @@
                       }
                    },
                    {
-                      "id":2,
+                      "id":20,
                       "name":"Denis",
                       "email":"denis.roussel@gmail.com",
                       "_links":{
@@ -217,7 +217,7 @@
                       }
                    },
                    {
-                      "id":1,
+                      "id":21,
                       "name":"Adrien",
                       "email":"adrien@kyklydse.com",
                       "_links":{
@@ -232,10 +232,9 @@
 
                 $httpBackend.whenGET(CONFIG.BABITCH_WS_URL + "/players").respond(JsonPlayer);
 
-                $httpBackend.whenGET(/v1\/players\/[0-9]/).respond(function(method, url) {
-                    var regEx = /v1\/players\/([0-9])/;
+                $httpBackend.whenGET(/v1\/players\/[0-9]*/).respond(function(method, url) {
+                    var regEx = /v1\/players\/([0-9]*)/;
                     var id = regEx.exec(url)[1];
-
                     return [200, JsonPlayer[id - 1]];
                 });
 
