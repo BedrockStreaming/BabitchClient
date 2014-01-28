@@ -198,7 +198,6 @@ a {
 #match .button > * {
     position: absolute;
     display: block;
-    line-height: 100%;
     width: 100%;
     top: 50%;
     font-size: 20px;
