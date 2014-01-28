@@ -311,7 +311,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     var getGameData = function () {
         var table = $scope.table;
 
-        return {
+        var game = {
             red_score: table.sides[0].score,
             blue_score: table.sides[1].score,
             player: [
@@ -322,26 +322,30 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
             ],
             goals: goals
         };
+
+        return game;
     };
 
     var saveGame = function () {
         notify('end');
 
         $scope.gameStarted = false;
-        // $http({
-        //     url: CONFIG.BABITCH_WS_URL + '/games',
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     data: getGameData()
-        // }).
-        // success(function(data, status) {
-        //     $scope.initGame();
-        // }).
-        // error(function (data, status) {
-        //     if (status == 0) {
-        //         setTimeout(function () {$scope.saveGame();}, 1000);
-        //     }
-        // });
+        $http({
+            url: CONFIG.BABITCH_WS_URL + '/games',
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            data: getGameData()
+        }).
+        success(function(data, status) {
+            $scope.initGame();
+        }).
+        error(function (data, status) {
+            if (status == 0) {
+                setTimeout(function () {
+                    $scope.saveGame();
+                }, 1000);
+            }
+        });
     };
 
     /**
