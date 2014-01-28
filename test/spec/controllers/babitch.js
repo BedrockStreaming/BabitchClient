@@ -2,6 +2,7 @@ describe('Controller: BabitchCtrl', function() {
 
     // load the controller's module
     beforeEach(module('babitchFrontendApp'));
+
     var theBabitchCtrl,
         scope,
         httpMock;
@@ -13,27 +14,27 @@ describe('Controller: BabitchCtrl', function() {
         config = CONFIG;
 
         var JsonPlayer = [{
-            "id": 6,
+            "id": 1,
             "name": "Benjamin",
             "email": ""
         }, {
-            "id": 5,
+            "id": 2,
             "name": "Marc",
             "email": ""
         }, {
-            "id": 4,
+            "id": 3,
             "name": "Remi",
             "email": ""
         }, {
-            "id": 3,
+            "id": 4,
             "name": "Nicolas",
             "email": ""
         }, {
-            "id": 2,
+            "id": 5,
             "name": "Florent",
             "email": ""
         }, {
-            "id": 1,
+            "id": 6,
             "name": "Kenny",
             "email": ""
         }];
@@ -54,6 +55,47 @@ describe('Controller: BabitchCtrl', function() {
         httpMock.verifyNoOutstandingRequest();
     });
 
+
+    var helper = {
+        choosePlayer: function (playerId, team, place) {
+            var playerIndex = playerId-1;
+            var sideIndex = (team == 'red' ? 0 : 1);
+            var seatIndex = (place == 'attack' ? 0 : 1);
+
+            var side = scope.table.sides[sideIndex];
+            var seat = side.seats[seatIndex];
+            var player = scope.playersList[playerIndex];
+
+            scope.focusSeat(seat, side);
+            scope.choosePlayer(player);
+        },
+
+        chooseAllPlayers: function () {
+            helper.choosePlayer(1, 'red', 'attack');
+            helper.choosePlayer(2, 'red', 'defense');
+            helper.choosePlayer(3, 'blue', 'attack');
+            helper.choosePlayer(4, 'blue', 'defense');
+        },
+
+        focusPlayer: function(team, place) {
+            var sideIndex = (team == 'red' ? 0 : 1);
+            var seatIndex = (place == 'attack' ? 0 : 1);
+
+            var side = scope.table.sides[sideIndex];
+            var seat = side.seats[seatIndex];
+
+            scope.focusSeat(seat, side);
+        },
+
+        getRedScore: function () {
+            return scope.table.sides[0].score;
+        },
+
+        getBlueScore: function () {
+            return scope.table.sides[1].score;
+        }
+    }
+
     it('should begin with a game not started yet', function() {
         expect(scope.gameStarted).toBe(false);
     });
@@ -65,19 +107,11 @@ describe('Controller: BabitchCtrl', function() {
     it('should not begin a game with a incomplete team', function() {
         //Init player
         expect(scope.nbPlayers).toBe(0);
-
-        scope.focusSeat(scope.table.sides[0].seats[0], scope.table.sides[0]);
-        scope.choosePlayer(scope.playersList[0]);
-
+        helper.choosePlayer(1, 'red', 'attack');
         expect(scope.nbPlayers).toBe(1);
-
-        scope.focusSeat(scope.table.sides[0].seats[1], scope.table.sides[0]);
-        scope.choosePlayer(scope.playersList[1]);
+        helper.choosePlayer(2, 'red', 'defense');
         expect(scope.nbPlayers).toBe(2);
-
-        scope.focusSeat(scope.table.sides[1].seats[0], scope.table.sides[1]);
-        scope.choosePlayer(scope.playersList[2]);
-
+        helper.choosePlayer(3, 'blue', 'attack');
         expect(scope.nbPlayers).toBe(3);
         expect(scope.gameStarted).toBe(false);
 
@@ -89,14 +123,7 @@ describe('Controller: BabitchCtrl', function() {
     it('should begin a game with a valid team', function() {
         expect(scope.nbPlayers).toBe(0);
 
-        scope.focusSeat(scope.table.sides[0].seats[0], scope.table.sides[0]);
-        scope.choosePlayer(scope.playersList[0]);
-        scope.focusSeat(scope.table.sides[0].seats[1], scope.table.sides[0]);
-        scope.choosePlayer(scope.playersList[1]);
-        scope.focusSeat(scope.table.sides[1].seats[0], scope.table.sides[1]);
-        scope.choosePlayer(scope.playersList[2]);
-        scope.focusSeat(scope.table.sides[1].seats[1], scope.table.sides[1]);
-        scope.choosePlayer(scope.playersList[3]);
+        helper.chooseAllPlayers();
 
         expect(scope.nbPlayers).toBe(4);
         expect(scope.gameStarted).toBe(false);
@@ -105,81 +132,55 @@ describe('Controller: BabitchCtrl', function() {
 
         expect(scope.gameStarted).toBe(true);
         // And score to be 0-0
-        expect(scope.table.sides[0].score).toBe(0);
-        expect(scope.table.sides[1].score).toBe(0);
+        expect(helper.getRedScore()).toBe(0);
+        expect(helper.getBlueScore()).toBe(0);
     });
 
 
     it('should add normal goal for the right team', function() {
-        scope.focusSeat(scope.table.sides[0].seats[0], scope.table.sides[0]);
-        scope.choosePlayer(scope.playersList[0]);
-        scope.focusSeat(scope.table.sides[0].seats[1], scope.table.sides[0]);
-        scope.choosePlayer(scope.playersList[1]);
-        scope.focusSeat(scope.table.sides[1].seats[0], scope.table.sides[1]);
-        scope.choosePlayer(scope.playersList[2]);
-        scope.focusSeat(scope.table.sides[1].seats[1], scope.table.sides[1]);
-        scope.choosePlayer(scope.playersList[3]);
+        helper.chooseAllPlayers();
         scope.startGame();
 
         //normal goal
-        scope.focusedSide = scope.table.sides[0]; //red
-        scope.focusedSeat = scope.table.sides[0].seats[0]; //defense
+        helper.focusPlayer('red', 'defense');
         scope.goal();
-        expect(scope.table.sides[0].score).toBe(1);
-        expect(scope.table.sides[1].score).toBe(0);
+        expect(helper.getRedScore()).toBe(1);
+        expect(helper.getBlueScore()).toBe(0);
 
-        scope.focusedSide = scope.table.sides[1]; //blue
-        scope.focusedSeat = scope.table.sides[1].seats[0]; //defense
+        helper.focusPlayer('blue', 'defense');
         scope.goal();
-        expect(scope.table.sides[0].score).toBe(1);
-        expect(scope.table.sides[1].score).toBe(1);
+        expect(helper.getRedScore()).toBe(1);
+        expect(helper.getBlueScore()).toBe(1);
 
-        scope.focusedSide = scope.table.sides[0]; //red
-        scope.focusedSeat = scope.table.sides[0].seats[1]; //attack
+        helper.focusPlayer('red', 'attack');
         scope.goal();
-        expect(scope.table.sides[0].score).toBe(2);
-        expect(scope.table.sides[1].score).toBe(1);
+        expect(helper.getRedScore()).toBe(2);
+        expect(helper.getBlueScore()).toBe(1);
 
-        scope.focusedSide = scope.table.sides[1]; //blue
-        scope.focusedSeat = scope.table.sides[1].seats[1]; //attack
+        helper.focusPlayer('blue', 'defense');
         scope.goal();
-        expect(scope.table.sides[0].score).toBe(2);
-        expect(scope.table.sides[1].score).toBe(2);
+        expect(helper.getRedScore()).toBe(2);
+        expect(helper.getBlueScore()).toBe(2);
     });
 
     it('should cancel last goal', function() {
-        scope.focusSeat(scope.table.sides[0].seats[0], scope.table.sides[0]);
-        scope.choosePlayer(scope.playersList[0]);
-        scope.focusSeat(scope.table.sides[0].seats[1], scope.table.sides[0]);
-        scope.choosePlayer(scope.playersList[1]);
-        scope.focusSeat(scope.table.sides[1].seats[0], scope.table.sides[1]);
-        scope.choosePlayer(scope.playersList[2]);
-        scope.focusSeat(scope.table.sides[1].seats[1], scope.table.sides[1]);
-        scope.choosePlayer(scope.playersList[3]);
+        helper.chooseAllPlayers();
         scope.startGame();
 
         //normal goal
-        scope.focusedSide = scope.table.sides[0]; //red
-        scope.focusedSeat = scope.table.sides[0].seats[0]; //defense
+        helper.focusPlayer('red', 'defense');
         scope.goal();
-        expect(scope.table.sides[0].score).toBe(1);
-        expect(scope.table.sides[1].score).toBe(0);
+        expect(helper.getRedScore()).toBe(1);
+        expect(helper.getBlueScore()).toBe(0);
 
         scope.cancelGoal();
-        expect(scope.table.sides[0].score).toBe(0);
-        expect(scope.table.sides[1].score).toBe(0);
+        expect(helper.getRedScore()).toBe(0);
+        expect(helper.getBlueScore()).toBe(0);
     });
 
 
     it('should coach the team', function() {
-        scope.focusSeat(scope.table.sides[0].seats[0], scope.table.sides[0]);
-        scope.choosePlayer(scope.playersList[0]);
-        scope.focusSeat(scope.table.sides[0].seats[1], scope.table.sides[0]);
-        scope.choosePlayer(scope.playersList[1]);
-        scope.focusSeat(scope.table.sides[1].seats[0], scope.table.sides[1]);
-        scope.choosePlayer(scope.playersList[2]);
-        scope.focusSeat(scope.table.sides[1].seats[1], scope.table.sides[1]);
-        scope.choosePlayer(scope.playersList[3]);
+        helper.chooseAllPlayers();
         scope.startGame();
 
         //Red coaching
@@ -203,216 +204,111 @@ describe('Controller: BabitchCtrl', function() {
 
 
     it('should add autogoal for the right team', function() {
-        scope.focusSeat(scope.table.sides[0].seats[0], scope.table.sides[0]);
-        scope.choosePlayer(scope.playersList[0]);
-        scope.focusSeat(scope.table.sides[0].seats[1], scope.table.sides[0]);
-        scope.choosePlayer(scope.playersList[1]);
-        scope.focusSeat(scope.table.sides[1].seats[0], scope.table.sides[1]);
-        scope.choosePlayer(scope.playersList[2]);
-        scope.focusSeat(scope.table.sides[1].seats[1], scope.table.sides[1]);
-        scope.choosePlayer(scope.playersList[3]);
+        helper.chooseAllPlayers();
         scope.startGame();
 
         //autogoal
-        scope.focusedSide = scope.table.sides[0]; //red
-        scope.focusedSeat = scope.table.sides[0].seats[0]; //defense
+        helper.focusPlayer('red', 'defense');
         scope.autogoal();
-        expect(scope.table.sides[0].score).toBe(0);
-        expect(scope.table.sides[1].score).toBe(1);
+        expect(helper.getRedScore()).toBe(0);
+        expect(helper.getBlueScore()).toBe(1);
 
-        scope.focusedSide = scope.table.sides[1]; //blue
-        scope.focusedSeat = scope.table.sides[1].seats[0]; //defense
+        helper.focusPlayer('blue', 'defense');
         scope.autogoal();
-        expect(scope.table.sides[0].score).toBe(1);
-        expect(scope.table.sides[1].score).toBe(1);
+        expect(helper.getRedScore()).toBe(1);
+        expect(helper.getBlueScore()).toBe(1);
 
-        scope.focusedSide = scope.table.sides[0]; //red
-        scope.focusedSeat = scope.table.sides[0].seats[1]; //attack
+        helper.focusPlayer('red', 'attack');
         scope.autogoal();
-        expect(scope.table.sides[0].score).toBe(1);
-        expect(scope.table.sides[1].score).toBe(2);
+        expect(helper.getRedScore()).toBe(1);
+        expect(helper.getBlueScore()).toBe(2);
 
-        scope.focusedSide = scope.table.sides[1]; //blue
-        scope.focusedSeat = scope.table.sides[1].seats[1]; //attack
+        helper.focusPlayer('blue', 'defense');
         scope.autogoal();
-        expect(scope.table.sides[0].score).toBe(2);
-        expect(scope.table.sides[1].score).toBe(2);
+        expect(helper.getRedScore()).toBe(2);
+        expect(helper.getBlueScore()).toBe(2);
     });
 
-/*
-    it('should save game after 10 goal', function() {
-        scope.focusSeat(scope.table.sides[0].seats[0], scope.table.sides[0]);
-        scope.choosePlayer(scope.playersList[0]);
-        scope.focusSeat(scope.table.sides[0].seats[1], scope.table.sides[0]);
-        scope.choosePlayer(scope.playersList[1]);
-        scope.focusSeat(scope.table.sides[1].seats[0], scope.table.sides[1]);
-        scope.choosePlayer(scope.playersList[2]);
-        scope.focusSeat(scope.table.sides[1].seats[1], scope.table.sides[1]);
-        scope.choosePlayer(scope.playersList[3]);
+
+    it('should save game after 10 goals', function() {
+        helper.chooseAllPlayers();
         scope.startGame();
-
-        //normal goal
-
         
         for (var i = 0; i < 9; i++) {
-            scope.focusedSide = scope.table.sides[0]; //red
-            scope.focusedSeat = scope.table.sides[0].seats[0]; //defense
+            helper.focusPlayer('red', 'defense');
             scope.goal();
         }
 
-        expect(scope.table.sides[0].score).toBe(9);
-        expect(scope.table.sides[1].score).toBe(0);
+        expect(helper.getRedScore()).toBe(9);
+        expect(helper.getBlueScore()).toBe(0);
         
-        scope.focusedSide = scope.table.sides[0]; //red
-        scope.focusedSeat = scope.table.sides[0].seats[0]; //defense
+        helper.focusPlayer('red', 'defense');
         scope.goal();
 
-        expect(scope.table.sides[0].score).toBe(10);
+        expect(helper.getRedScore()).toBe(10);
         expect(scope.gameEnded).toBe(true);
 
+        var goals = [];
+
+        for (var i = 0; i < 10; i++) {
+            goals.push({
+                position: 'defense',
+                player_id: 2,
+                conceder_id: 4,
+                autogoal: false
+            });
+        }
+
         httpMock.expectPOST(config.BABITCH_WS_URL + '/games', {
-            "red_score": 10,
-            "blue_score": 0,
-            "player": scope.playersList,
-            "goals": [{
-                "position": "defense",
-                "player_id": 6,
-                "conceder_id": 3,
-                "autogoal": false
-            }, {
-                "position": "defense",
-                "player_id": 6,
-                "conceder_id": 3,
-                "autogoal": false
-            }, {
-                "position": "defense",
-                "player_id": 6,
-                "conceder_id": 3,
-                "autogoal": false
-            }, {
-                "position": "defense",
-                "player_id": 6,
-                "conceder_id": 3,
-                "autogoal": false
-            }, {
-                "position": "defense",
-                "player_id": 6,
-                "conceder_id": 3,
-                "autogoal": false
-            }, {
-                "position": "defense",
-                "player_id": 6,
-                "conceder_id": 3,
-                "autogoal": false
-            }, {
-                "position": "defense",
-                "player_id": 6,
-                "conceder_id": 3,
-                "autogoal": false
-            }, {
-                "position": "defense",
-                "player_id": 6,
-                "conceder_id": 3,
-                "autogoal": false
-            }, {
-                "position": "defense",
-                "player_id": 6,
-                "conceder_id": 3,
-                "autogoal": false
-            }, {
-                "position": "defense",
-                "player_id": 6,
-                "conceder_id": 3,
-                "autogoal": false
-            }]
+            red_score: 10,
+            blue_score: 0,
+            player: [
+                { team: 'red',  position: 'attack',  player_id: 1 },
+                { team: 'red',  position: 'defense', player_id: 2 },
+                { team: 'blue', position: 'attack',  player_id: 3 },
+                { team: 'blue', position: 'defense', player_id: 4 },
+            ],
+            goals: goals
         }).respond(200, '');
 
         httpMock.flush();
     });
     
-        it('should create new match when game is over', function() {
-            scope.focusSeat(scope.table.sides[0].seats[0], scope.table.sides[0]);
-        scope.choosePlayer(scope.playersList[0]);
-        scope.focusSeat(scope.table.sides[0].seats[1], scope.table.sides[0]);
-        scope.choosePlayer(scope.playersList[1]);
-        scope.focusSeat(scope.table.sides[1].seats[0], scope.table.sides[1]);
-        scope.choosePlayer(scope.playersList[2]);
-        scope.focusSeat(scope.table.sides[1].seats[1], scope.table.sides[1]);
-        scope.choosePlayer(scope.playersList[3]);
+    it('should create new match when game is over', function() {
+        helper.chooseAllPlayers();
         scope.startGame();
 
-        //normal goal
-        
-        for (var i = 0; i < 9; i++) {
-            scope.focusedSide = scope.table.sides[0]; //red
-            scope.focusedSeat = scope.table.sides[0].seats[0]; //defense
+        for (var i = 0; i < 10; i++) {
+            helper.focusPlayer('red', 'defense');
             scope.goal();
         }
-        
-        scope.focusedSide = scope.table.sides[0]; //red
-        scope.focusedSeat = scope.table.sides[0].seats[0]; //defense
-        scope.goal();
 
-        expect(scope.table.sides[0].score).toBe(10);
+        expect(helper.getRedScore()).toBe(10);
         expect(scope.gameEnded).toBe(true);
-            httpMock.expectPOST(config.BABITCH_WS_URL + '/games', {
-                "red_score": 10,
-                "blue_score": 0,
-                "player": defaultPlayer,
-                "goals": [{
-                    "position": "defense",
-                    "player_id": 6,
-                    "conceder_id": 3,
-                    "autogoal": false
-                }, {
-                    "position": "defense",
-                    "player_id": 6,
-                    "conceder_id": 3,
-                    "autogoal": false
-                }, {
-                    "position": "defense",
-                    "player_id": 6,
-                    "conceder_id": 3,
-                    "autogoal": false
-                }, {
-                    "position": "defense",
-                    "player_id": 6,
-                    "conceder_id": 3,
-                    "autogoal": false
-                }, {
-                    "position": "defense",
-                    "player_id": 6,
-                    "conceder_id": 3,
-                    "autogoal": false
-                }, {
-                    "position": "defense",
-                    "player_id": 6,
-                    "conceder_id": 3,
-                    "autogoal": false
-                }, {
-                    "position": "defense",
-                    "player_id": 6,
-                    "conceder_id": 3,
-                    "autogoal": false
-                }, {
-                    "position": "defense",
-                    "player_id": 6,
-                    "conceder_id": 3,
-                    "autogoal": false
-                }, {
-                    "position": "defense",
-                    "player_id": 6,
-                    "conceder_id": 3,
-                    "autogoal": false
-                }, {
-                    "position": "defense",
-                    "player_id": 6,
-                    "conceder_id": 3,
-                    "autogoal": false
-                }]
-            }).respond(200, '');
-            httpMock.flush();
-            //The game must be renew
-            expect(scope.gameStarted).toBe(false);
-        }); */
+
+        var goals = [];
+
+        for (var i = 0; i < 10; i++) {
+            goals.push({
+                position: 'defense',
+                player_id: 2,
+                conceder_id: 4,
+                autogoal: false
+            });
+        }
+
+        httpMock.expectPOST(config.BABITCH_WS_URL + '/games', {
+            red_score: 10,
+            blue_score: 0,
+            player: [
+                { team: 'red',  position: 'attack',  player_id: 1 },
+                { team: 'red',  position: 'defense', player_id: 2 },
+                { team: 'blue', position: 'attack',  player_id: 3 },
+                { team: 'blue', position: 'defense', player_id: 4 },
+            ],
+            goals: goals
+        }).respond(200, '');
+
+        httpMock.flush();
+    });
 });

@@ -209,6 +209,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
             $scope.resetFocus();
 
             notify('goal');
+            checkScore();
         }
     };
 
@@ -231,8 +232,15 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
             $scope.resetFocus();
 
             notify('autogoal');
+            checkScore();
         }
     };
+
+    var checkScore = function () {
+        if ($scope.table.sides[0].score == 10 || $scope.table.sides[1].score == 10) {
+            endGame();
+        }
+    }
 
     /**
      * Coach two players for a side
@@ -295,6 +303,8 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
      * @return {void}
      */
     var endGame = function () {
+        notify('end');
+
         $scope.gameEnded = true;
         saveGame();
     };
@@ -308,7 +318,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         resetGame();
     };
 
-    var getGameData = function () {
+    $scope.getGameData = function () {
         var table = $scope.table;
 
         var game = {
@@ -327,17 +337,11 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     };
 
     var saveGame = function () {
-        notify('end');
-
-        $scope.gameStarted = false;
         $http({
             url: CONFIG.BABITCH_WS_URL + '/games',
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            data: getGameData()
-        }).
-        success(function(data, status) {
-            $scope.initGame();
+            data: $scope.getGameData()
         }).
         error(function (data, status) {
             if (status == 0) {
@@ -360,7 +364,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
             fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {
                 type:   eventName,
                 gameId: $scope.gameId,
-                game:   getGameData()
+                game:   $scope.getGameData()
             });
         }
     };
@@ -376,18 +380,6 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
             startTimer();
         }
     });
-
-    $scope.$watch('table.sides[0].score', function (score) {
-        if (score == 10) {
-            endGame();
-        }
-     });
-
-    $scope.$watch('table.sides[1].score', function (score) {
-        if (score == 10) {
-            endGame();
-        }
-     });
 
     init();
 });
