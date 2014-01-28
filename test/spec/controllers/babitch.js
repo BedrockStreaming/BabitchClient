@@ -87,6 +87,24 @@ describe('Controller: BabitchCtrl', function() {
             scope.focusSeat(seat, side);
         },
 
+        playerScoreAnyGoals: function(team, place, howMuch) {
+            howMuch = howMuch || 1;
+
+            for(var i = 0; i < howMuch; i++) {
+                helper.focusPlayer(team, place);
+                scope.goal();
+            }
+        },
+
+        playerScoreAnyAutogoals: function(team, place, howMuch) {
+            howMuch = howMuch || 1;
+
+            for(var i = 0; i < howMuch; i++) {
+                helper.focusPlayer(team, place);
+                scope.autogoal();
+            }
+        },
+
         getRedScore: function () {
             return scope.table.sides[0].score;
         },
@@ -142,23 +160,19 @@ describe('Controller: BabitchCtrl', function() {
         scope.startGame();
 
         //normal goal
-        helper.focusPlayer('red', 'defense');
-        scope.goal();
+        helper.playerScoreAnyGoals('red', 'defense');
         expect(helper.getRedScore()).toBe(1);
         expect(helper.getBlueScore()).toBe(0);
 
-        helper.focusPlayer('blue', 'defense');
-        scope.goal();
+        helper.playerScoreAnyGoals('blue', 'defense');
         expect(helper.getRedScore()).toBe(1);
         expect(helper.getBlueScore()).toBe(1);
 
-        helper.focusPlayer('red', 'attack');
-        scope.goal();
+        helper.playerScoreAnyGoals('red', 'attack');
         expect(helper.getRedScore()).toBe(2);
         expect(helper.getBlueScore()).toBe(1);
 
-        helper.focusPlayer('blue', 'defense');
-        scope.goal();
+        helper.playerScoreAnyGoals('blue', 'defense');
         expect(helper.getRedScore()).toBe(2);
         expect(helper.getBlueScore()).toBe(2);
     });
@@ -168,8 +182,7 @@ describe('Controller: BabitchCtrl', function() {
         scope.startGame();
 
         //normal goal
-        helper.focusPlayer('red', 'defense');
-        scope.goal();
+        helper.playerScoreAnyGoals('red', 'defense');
         expect(helper.getRedScore()).toBe(1);
         expect(helper.getBlueScore()).toBe(0);
 
@@ -208,23 +221,19 @@ describe('Controller: BabitchCtrl', function() {
         scope.startGame();
 
         //autogoal
-        helper.focusPlayer('red', 'defense');
-        scope.autogoal();
+        helper.playerScoreAnyAutogoals('red', 'defense');
         expect(helper.getRedScore()).toBe(0);
         expect(helper.getBlueScore()).toBe(1);
 
-        helper.focusPlayer('blue', 'defense');
-        scope.autogoal();
+        helper.playerScoreAnyAutogoals('blue', 'defense');
         expect(helper.getRedScore()).toBe(1);
         expect(helper.getBlueScore()).toBe(1);
 
-        helper.focusPlayer('red', 'attack');
-        scope.autogoal();
+        helper.playerScoreAnyAutogoals('red', 'attack');
         expect(helper.getRedScore()).toBe(1);
         expect(helper.getBlueScore()).toBe(2);
 
-        helper.focusPlayer('blue', 'defense');
-        scope.autogoal();
+        helper.playerScoreAnyAutogoals('blue', 'defense');
         expect(helper.getRedScore()).toBe(2);
         expect(helper.getBlueScore()).toBe(2);
     });
@@ -234,56 +243,14 @@ describe('Controller: BabitchCtrl', function() {
         helper.chooseAllPlayers();
         scope.startGame();
         
-        for (var i = 0; i < 9; i++) {
-            helper.focusPlayer('red', 'defense');
-            scope.goal();
-        }
-
+        helper.playerScoreAnyGoals('red', 'defense', 9);
         expect(helper.getRedScore()).toBe(9);
         expect(helper.getBlueScore()).toBe(0);
         
-        helper.focusPlayer('red', 'defense');
-        scope.goal();
-
+        helper.playerScoreAnyGoals('red', 'defense');
         expect(helper.getRedScore()).toBe(10);
-        expect(scope.gameEnded).toBe(true);
+        expect(helper.getBlueScore()).toBe(0);
 
-        var goals = [];
-
-        for (var i = 0; i < 10; i++) {
-            goals.push({
-                position: 'defense',
-                player_id: 2,
-                conceder_id: 4,
-                autogoal: false
-            });
-        }
-
-        httpMock.expectPOST(config.BABITCH_WS_URL + '/games', {
-            red_score: 10,
-            blue_score: 0,
-            player: [
-                { team: 'red',  position: 'attack',  player_id: 1 },
-                { team: 'red',  position: 'defense', player_id: 2 },
-                { team: 'blue', position: 'attack',  player_id: 3 },
-                { team: 'blue', position: 'defense', player_id: 4 },
-            ],
-            goals: goals
-        }).respond(200, '');
-
-        httpMock.flush();
-    });
-    
-    it('should create new match when game is over', function() {
-        helper.chooseAllPlayers();
-        scope.startGame();
-
-        for (var i = 0; i < 10; i++) {
-            helper.focusPlayer('red', 'defense');
-            scope.goal();
-        }
-
-        expect(helper.getRedScore()).toBe(10);
         expect(scope.gameEnded).toBe(true);
 
         var goals = [];
