@@ -184,20 +184,33 @@ a {
 
 #match .button {
     width: 100%;
-    background: white;
     text-align: center;
     text-transform: uppercase;
-    color: black;
     cursor: pointer;
+    color: white;
 }
 
-#match .button span {
+#match .button.white {
+    background: white;
+    color: black;
+}
+
+#match .button > * {
     position: absolute;
     display: block;
-    font-size: 20px;
     width: 100%;
     top: 50%;
+    font-size: 20px;
     margin-top: -10px;
+}
+
+#match .button big {
+    font-size: 40px;
+    margin-top: -20px;
+}
+
+#match .button + div {
+    display: none;
 }
 
 #match .player-list {
