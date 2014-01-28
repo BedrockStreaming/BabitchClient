@@ -55,7 +55,7 @@
             <div ng-repeat="seat in side.seats" class="seat seat-{{ seat.position }}">
 
                 <!-- Buttons to add a goal or an autogoal -->
-                <div class="button white focused"
+                <div class="button white focused button-{{ seat.position == 'top' ? 'goal' : 'autogoal' }}"
                     ng-if="goalTypeShawn && side.position != focusedSide.position"
                     ng-click="seat.position == 'top' ? goal() : autogoal()">
                     <span>{{ seat.position == 'top' ? 'Goal' : 'Self goal' }}</span>

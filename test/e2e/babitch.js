@@ -92,14 +92,14 @@ describe('Babitch : Game', function() {
 	//Defense goal
 	it('should add a goal for the blue team if the blue defender goal',function() {
 		element('#match .seat-layer:eq(3)').click();
-		element('.button:eq(0)').click();
+        element('.button-goal').click();
   		expect(element('.score strong:eq(0)').text()).toBe('0');
   		expect(element('.score strong:eq(1)').text()).toBe('1');
 	});
 
 	it('should add a goal for the red team if the red defender goal',function() {
 		element('#match .seat-layer:eq(0)').click();
-		element('.button:eq(0)').click();
+        element('.button-goal').click();
   		expect(element('.score strong:eq(0)').text()).toBe('1');
   		expect(element('.score strong:eq(1)').text()).toBe('0');
 	});
@@ -107,14 +107,14 @@ describe('Babitch : Game', function() {
 	//Defense CSC
 	it('should add a goal for red team if the blue defender goal csc',function() {
 		element('#match .seat-layer:eq(3)').click();
-		element('.button:eq(2)').click();
+        element('.button-autogoal').click();
   		expect(element('.score strong:eq(0)').text()).toBe('1');
   		expect(element('.score strong:eq(1)').text()).toBe('0');
 	});
 
 	it('should add a goal for blue team if the red defender goal csc',function() {
 		element('#match .seat-layer:eq(1)').click();
-		element('.button:eq(2)').click();
+		element('.button-autogoal').click();
   		expect(element('.score strong:eq(0)').text()).toBe('0');
   		expect(element('.score strong:eq(1)').text()).toBe('1');
 	});
@@ -122,14 +122,14 @@ describe('Babitch : Game', function() {
 	//Attack Goal
 	it('should add a goal for the blue team if the blue attacker goal',function() {
 		element('#match .seat-layer:eq(2)').click();
-		element('.button:eq(0)').click();
+        element('.button-goal').click();
   		expect(element('.score strong:eq(0)').text()).toBe('0');
   		expect(element('.score strong:eq(1)').text()).toBe('1');
 	});
 
 	it('should add a goal for the red team if the red attacker goal',function() {
 		element('#match .seat-layer:eq(0)').click();
-		element('.button:eq(0)').click();
+        element('.button-goal').click();
   		expect(element('.score strong:eq(0)').text()).toBe('1');
   		expect(element('.score strong:eq(1)').text()).toBe('0');
 	});
@@ -137,14 +137,14 @@ describe('Babitch : Game', function() {
 	//Attack CSC
 	it('should add a goal for red team if the blue attacker goal csc',function() {
 		element('#match .seat-layer:eq(2)').click();
-		element('.button:eq(2)').click();
+        element('.button-autogoal').click();
   		expect(element('.score strong:eq(0)').text()).toBe('1');
   		expect(element('.score strong:eq(1)').text()).toBe('0');
 	});
 
 	it('should add a goal for blue team if the red attacker goal csc',function() {
 		element('#match .seat-layer:eq(1)').click();
-		element('.button:eq(2)').click();
+        element('.button-autogoal').click();
   		expect(element('.score strong:eq(0)').text()).toBe('0');
   		expect(element('.score strong:eq(1)').text()).toBe('1');
 	});
@@ -152,7 +152,7 @@ describe('Babitch : Game', function() {
 	//Cancel a Goal
 	it('should cancel last goal',function() {
 		element('#match .seat-layer:eq(3)').click();
-		element('.button:eq(0)').click();
+        element('.button-goal').click();
   		expect(element('.score strong:eq(0)').text()).toBe('0');
   		expect(element('.score strong:eq(1)').text()).toBe('1');
 		
