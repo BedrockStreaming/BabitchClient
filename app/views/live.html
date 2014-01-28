@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" ng-show="game">
       <div class="col-sm-3 col-sm-offset-1" id="redside">
             <div class="player" ng-repeat="player in [redDefender]" ng-include="'/views/partial/player.html'"></div>
             <div class="player" ng-repeat="player in [redAttacker]" ng-include="'/views/partial/player.html'"></div>
