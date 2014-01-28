@@ -312,10 +312,12 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     $scope.restartGame = function () {
         $scope.gameStarted = false;
         $scope.startGame();
+        notify('restart');
     }
 
     $scope.startNewGame = function() {
         resetGame();
+        notify('new');
     };
 
     $scope.getGameData = function () {

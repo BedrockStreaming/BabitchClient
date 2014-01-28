@@ -243,7 +243,6 @@ module.exports = function (grunt) {
           src: [
             '*.{ico,png,txt}',
             '.htaccess',
-            'bower_components/**/*',
             'images/{,*/}*.{webp}',
             'fonts/*'
           ]
@@ -261,6 +260,16 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      fonts: {
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/',
+          dest: '<%= yeoman.dist %>/fonts',
+          src: [
+              '**/fonts/*',
+          ],
+          flatten: true,
       }
     },
 
@@ -274,6 +283,7 @@ module.exports = function (grunt) {
       ],
       dist: [
         'copy:styles',
+        'copy:fonts',
         'imagemin',
         'svgmin',
         'htmlmin'
