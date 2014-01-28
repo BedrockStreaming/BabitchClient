@@ -12,6 +12,8 @@ BabitchClient provides a simple responsive user interface.
 * Attacker/Defender Goal
 * Own goal support
 * Cancel last goal
+* Switch table side
+* Gravatar support
 
 ## Installation
 
