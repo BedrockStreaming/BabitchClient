@@ -41,7 +41,7 @@
                 <span>-</span>
                 <strong>{{ table.sides[0].position == 'right' ? table.sides[0].score : table.sides[1].score }}</strong>
             </div>
-            <div ng-show="!gameStarted && nbPlayers == 4">
+            <div id="actionStart" ng-show="!gameStarted && nbPlayers == 4">
                 <button class="btn btn-success" ng-click="startGame()">Start</button>
             </div>
             <div ng-show="!gameStarted && nbPlayers < 4">

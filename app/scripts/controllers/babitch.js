@@ -95,7 +95,12 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         $scope.duration = Math.floor(diff/1000);
 
         if($scope.gameStarted && !$scope.gameEnded) {
-            $timeout(incrDuration, 500);
+            // can't use $timeout, because of a bug with e2e testing with $timeout :/
+            setTimeout(function() {
+                $scope.$apply(function() {
+                    incrDuration();
+                });
+            }, 500);
         }
     }
 
@@ -168,7 +173,8 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     }
 
     $scope.startGame = function () {
-        if($scope.gameStarted) {
+        if($scope.nbPlayers != 4) {
+            console.log("Error, not enough player selected : need 4");
             return;
         }
 
@@ -355,8 +361,6 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         }
     };
 
-
-
     $scope.$watch('gameStarted', function(started) {
         if(started) {
             incrDuration();
@@ -382,30 +386,4 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
      });
 
     init();
-})
-.filter('prettyTime', function(gravatarService) {
-    return function(time) {
-        var minutes = Math.floor(time/60);
-        var seconds = time%60;
-
-        minutes = (minutes < 10 ? '0'+minutes : minutes);
-        seconds = (seconds < 10 ? '0'+seconds : seconds);
-
-        return minutes+' : '+seconds;
-    }
-})
-.filter('gravatarize', function(gravatarService) {
-    return function(email, size) {
-        if(!email) {
-            return gravatarService.url('', {
-                default: 'mm',
-                size: size
-            });
-        }
-
-        return gravatarService.url(email, {
-            default: 'wavatar',
-            size: size
-        });
-    }
 });
