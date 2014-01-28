@@ -267,16 +267,12 @@ a {
     }
 }
 
-
-
-
-
-
-
 #live { padding-top: 50px; }
 #live h2 { text-align: center;}
 #live .score {
+    text-align: center;
     margin-top: 20px;
+    font-size: 3em;
 }
 #live .player {
     margin: 20px 0; position: relative;
@@ -299,6 +295,7 @@ a {
     width: 100%;
     position: absolute;
     bottom: 0;
+    margin: 0;
     padding: 10px;
     color: white;
     z-index: 1;
@@ -307,6 +304,7 @@ a {
 #live #blueside .player h2 { background-color: rgb(97, 158, 232); }
 
 #live .player h3 {
+    margin: 0;
     position: absolute;
     top: 0;
     left: 0;

@@ -88,8 +88,14 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     // Timer
     var startTime = null;
 
+
+    var timer = null;
     var startTimer = function () {
-        $interval(function() {
+        if (timer) {
+            return;
+        }
+
+        timer = $interval(function() {
             if($scope.gameStarted && !$scope.gameEnded) {
                 var now = new Date();
                 var diff = now-startTime;
