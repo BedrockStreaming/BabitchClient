@@ -232,10 +232,9 @@
 
                 $httpBackend.whenGET(CONFIG.BABITCH_WS_URL + "/players").respond(JsonPlayer);
 
-                $httpBackend.whenGET(/v1\/players\/[0-9]/).respond(function(method, url) {
-                    var regEx = /v1\/players\/([0-9])/;
+                $httpBackend.whenGET(/v1\/players\/[0-9]*/).respond(function(method, url) {
+                    var regEx = /v1\/players\/([0-9]*)/;
                     var id = regEx.exec(url)[1];
-
                     return [200, JsonPlayer[id - 1]];
                 });
 
