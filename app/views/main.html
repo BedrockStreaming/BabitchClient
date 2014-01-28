@@ -9,15 +9,15 @@
                         <i class="glyphicon glyphicon-cog"></i>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li ng-show="table.sides[0].score || table.sides[1].score">
-                            <a ng-click="cancelGoal()">
-                                <i class="glyphicon glyphicon-thumbs-down"></i> &nbsp; Cancel last goal
+                        <li>
+                            <a ng-click="switchSidesOnView()">
+                                <i class="glyphicon glyphicon-transfer"></i> &nbsp; Switch sides
                             </a>
                         </li>
                         <li class="divider" ng-show="table.sides[0].score || table.sides[1].score"></li>
-                        <li>
-                            <a ng-click="switchView()">
-                                <i class="glyphicon glyphicon-transfer"></i> &nbsp; Switch sides
+                        <li ng-show="table.sides[0].score || table.sides[1].score">
+                            <a ng-click="cancelGoal()">
+                                <i class="glyphicon glyphicon-thumbs-down"></i> &nbsp; Cancel last goal
                             </a>
                         </li>
                         <li class="divider" ng-show="gameStarted"></li>
@@ -56,14 +56,16 @@
                 <div ng-class="{ focused: seat.focused }" ng-hide="goalTypeShawn && seat.position != focusedSeat.position">
                     <div class="seat-picture" style="background-image: url({{ seat.player.email | gravatarize:200 }})"></div>
 
-                    <div class="seat-layer {{ side.name }}" ng-click="selectSeat(seat, side)">
+                    <div class="seat-layer {{ side.name }}" ng-click="focusSeat(seat, side)">
                         <div class="player-name">
                             <small>{{ seat.place }}</small>
                             <big>{{ seat.player ? seat.player.name : 'Choose a player' }}</big>
                         </div>
                     </div>
                 </div>
-                <div class="goal-type focused"
+
+                <!-- Buttons to add a goal or an autogoal -->
+                <div class="button focused"
                     ng-show="goalTypeShawn && seat.position != focusedSeat.position"
                     ng-click="side.position == 'left' ? goal() : autogoal()">
                     <span>{{ side.position == 'left' ? 'Goal' : 'Autogoal' }}</span>
@@ -84,6 +86,15 @@
                 </a>
             </div>
         </div>
+
+        <div class="the-end focused" ng-show="gameEnded">
+            <button class="btn btn-default btn-lg btn-block" ng-click="restartGame()">
+                Restart this game
+            </button>
+            <button class="btn btn-default btn-lg btn-block" ng-click="startNewGame()">
+                Start a new game
+            </button>
+        </div>
     </div>
 </div>
-<div id="game-overlay" ng-show="focusedSeat" ng-click="resetFocus()"></div>
+<div id="game-overlay" ng-show="focusedSeat || gameEnded" ng-click="resetFocus()"></div>

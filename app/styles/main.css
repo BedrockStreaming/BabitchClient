@@ -182,7 +182,7 @@ a {
     line-height: 50px;
 }
 
-#match .goal-type {
+#match .button {
     width: 100%;
     background: white;
     text-align: center;
@@ -191,7 +191,7 @@ a {
     cursor: pointer;
 }
 
-#match .goal-type span {
+#match .button span {
     position: absolute;
     display: block;
     font-size: 20px;
@@ -230,6 +230,21 @@ a {
     text-decoration: none;
     color: #222;
     white-space: nowrap;
+}
+
+
+#match .the-end {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    margin-top: -60px;
+    padding: 10px;
+}
+
+#match .the-end button {
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto 10px;
 }
 
 @media (min-width: 768px) {

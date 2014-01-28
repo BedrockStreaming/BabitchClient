@@ -4,15 +4,15 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     $scope.gameId = null;
     $scope.gameStarted = false;
     $scope.gameEnded = false;
-    $scope.playersList = [];
     $scope.focusedSeat = null;
     $scope.focusedSide = null;
     $scope.playerListShawn = false;
     $scope.goalTypeShawn = false;
+    $scope.playersList = [];
     $scope.nbPlayers = 0;
     $scope.duration = 0; // seconds
 
-    $scope.goals = [];
+    var goals = [];
 
     $scope.table = {
         sides: [{
@@ -59,12 +59,31 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     });
 
 
-    var initGame = function () {
-        $scope.gameStarted = false;
-        $scope.gameEnded   = false;
-        $scope.game        = angular.copy(game);
-        $scope.loadPlayers();
+    var init = function () {
+        loadPlayers();
     };
+
+    var resetGame = function () {
+        $scope.gameStarted = false;
+        $scope.gameEnded = false;
+
+        resetPlayers();
+        resetScore();
+    };
+
+    var resetPlayers = function () {
+        $scope.table.sides[0].seats[0].player = null;
+        $scope.table.sides[0].seats[1].player = null;
+        $scope.table.sides[1].seats[0].player = null;
+        $scope.table.sides[1].seats[1].player = null;
+
+        $scope.nbPlayers = 0;
+    };
+
+    var resetScore = function () {
+        $scope.table.sides[0].score = 0;
+        $scope.table.sides[1].score = 0;
+    }
 
     // Timer
     var startTime = null;
@@ -80,8 +99,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         }
     }
 
-
-    $scope.loadPlayers = function () {
+    var loadPlayers = function () {
         $http({
             url: CONFIG.BABITCH_WS_URL + '/players',
             method: 'GET'
@@ -92,7 +110,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     };
 
 
-    $scope.selectSeat = function (seat, side) {
+    $scope.focusSeat = function (seat, side) {
         if($scope.focusedSeat) {
             $scope.resetFocus();
             return;
@@ -105,13 +123,24 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         if($scope.gameStarted) {
             $scope.goalTypeShawn = true;
         } else {
-            $scope.findPlayer();
+            $scope.showPlayerSelector();
         }
     };
 
-    $scope.findPlayer = function () {
+    $scope.resetFocus = function () {
+        if($scope.focusedSeat) {
+            $scope.focusedSeat.focused = false;
+            $scope.focusedSeat = null;
+        }
+
+        $scope.focusedSide = null;   
+        $scope.playerListShawn = false;
+        $scope.goalTypeShawn = false;
+    };
+
+    $scope.showPlayerSelector = function () {
         $scope.playerListShawn = true;
-    }
+    };
 
     $scope.choosePlayer = function (player) {
         if($scope.focusedSeat.player == null) {
@@ -125,20 +154,9 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         $scope.focusedSeat.player = player;
         $scope.focusedSeat.player.alreadySelected = true;
         $scope.resetFocus();
-    }
-
-    $scope.resetFocus = function () {
-        if($scope.focusedSeat) {
-            $scope.focusedSeat.focused = false;
-            $scope.focusedSeat = null;
-        }
-
-        $scope.focusedSide = null;   
-        $scope.playerListShawn = false;
-        $scope.goalTypeShawn = false;
     };
 
-    $scope.switchView = function () {
+    $scope.switchSidesOnView = function () {
 
         $scope.table.sides.forEach(function (side) {
 
@@ -150,13 +168,18 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     }
 
     $scope.startGame = function () {
+        if($scope.gameStarted) {
+            return;
+        }
+
         startTime = new Date();
+
+        resetScore();
 
         $scope.gameId = Date.now();
         $scope.gameStarted = true;
-        $scope.table.sides[0].score = 0;
-        $scope.table.sides[1].score = 0;
-        $scope.goals = [];
+        $scope.gameEnded = false;
+        goals = [];
 
         notify('start');
     };
@@ -169,7 +192,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     $scope.goal = function () {
         if ($scope.gameStarted && $scope.focusedSeat && $scope.focusedSide) {
 
-            $scope.goals.push({
+            goals.push({
                 position:       $scope.focusedSeat.place,
                 player_id:      $scope.focusedSeat.player.id,
                 conceder_id:    $scope.focusedSide.oppositeSide.seats[1].player.id,
@@ -191,7 +214,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     $scope.autogoal = function () {
         if ($scope.gameStarted && $scope.focusedSeat && $scope.focusedSide) {
 
-            $scope.goals.push({
+            goals.push({
                 position:       $scope.focusedSeat.place,
                 player_id:      $scope.focusedSeat.player.id,
                 conceder_id:    $scope.focusedSide.seats[1].player.id,
@@ -226,7 +249,9 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
      * @return {void}
      */
     $scope.cancelGoal = function () {
-        var lastGoal = $scope.goals.pop();
+        $scope.gameEnded = false;
+
+        var lastGoal = goals.pop();
 
         // For each side's table
         $scope.table.sides.forEach(function (side) {
@@ -259,6 +284,61 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     };
 
     /**
+     * End the game
+     * 
+     * @return {void}
+     */
+    var endGame = function () {
+        $scope.gameEnded = true;
+        saveGame();
+    };
+
+    $scope.restartGame = function () {
+        $scope.gameStarted = false;
+        $scope.startGame();
+    }
+
+    $scope.startNewGame = function() {
+        resetGame();
+    };
+
+    var getGameData = function () {
+        var table = $scope.table;
+
+        return {
+            red_score: table.sides[0].score,
+            blue_score: table.sides[1].score,
+            player: [
+                { team: 'red',  position: 'attack',  player_id: table.sides[0].seats[0].player.id },
+                { team: 'red',  position: 'defense', player_id: table.sides[0].seats[1].player.id },
+                { team: 'blue', position: 'attack',  player_id: table.sides[1].seats[0].player.id },
+                { team: 'blue', position: 'defense', player_id: table.sides[1].seats[1].player.id },
+            ],
+            goals: goals
+        };
+    };
+
+    var saveGame = function () {
+        notify('end');
+
+        $scope.gameStarted = false;
+        // $http({
+        //     url: CONFIG.BABITCH_WS_URL + '/games',
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     data: getGameData()
+        // }).
+        // success(function(data, status) {
+        //     $scope.initGame();
+        // }).
+        // error(function (data, status) {
+        //     if (status == 0) {
+        //         setTimeout(function () {$scope.saveGame();}, 1000);
+        //     }
+        // });
+    };
+
+    /**
      * Send an event notification to faye channel
      * 
      * @param  {string} eventName Event's name
@@ -268,10 +348,9 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     var notify = function (eventName) {
         if ($scope.gameStarted) {
             fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {
-                type:       eventName,
-                gameId:     $scope.gameId,
-                // game:       $scope.game,
-                // players:    $scope.game.player[0]
+                type:   eventName,
+                gameId: $scope.gameId,
+                game:   getGameData()
             });
         }
     };
@@ -292,69 +371,19 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
 
     $scope.$watch('table.sides[0].score', function (score) {
         if (score == 10) {
-            $scope.gameEnded = true;
-            //$scope.saveGame();
-            console.log('end');
+            endGame();
         }
      });
 
     $scope.$watch('table.sides[1].score', function (score) {
         if (score == 10) {
-            $scope.gameEnded = true;
-            //$scope.saveGame();
-            console.log('end');
+            endGame();
         }
      });
 
-
-    initGame();
-
-    window.$scope = $scope;
-    return;
-
-
-
-
-
-
-
-
-
-
-    // Model Game object ready to be sent to the API
-    var game = {
-        red_score: 0,
-        blue_score: 0,
-        player: [
-            { team: 'red', position: 'defense' },
-            { team: 'blue', position: 'attack' },
-            { team: 'red', position: 'attack' },
-            { team: 'blue', position: 'defense' },
-        ],
-        goals: []
-    };
-
-
-    $scope.saveGame = function () {
-        notify('end');
-        $scope.gameStarted = false;
-        $http({
-            url: CONFIG.BABITCH_WS_URL + '/games',
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            data: $scope.game
-        }).
-        success(function(data, status) {
-            $scope.initGame();
-        }).
-        error(function (data, status) {
-            if (status == 0) {
-                setTimeout(function () {$scope.saveGame();}, 1000);
-            }
-        });
-    };
+    init();
 })
-.filter('prettyTime', function() {
+.filter('prettyTime', function(gravatarService) {
     return function(time) {
         var minutes = Math.floor(time/60);
         var seconds = time%60;
