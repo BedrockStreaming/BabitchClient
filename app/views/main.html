@@ -16,7 +16,7 @@
                         </li>
                         <li class="divider" ng-show="table.sides[0].score || table.sides[1].score"></li>
                         <li ng-show="table.sides[0].score || table.sides[1].score">
-                            <a ng-click="cancelGoal()">
+                            <a class="cancel-last-goal" ng-click="cancelGoal()">
                                 <i class="glyphicon glyphicon-thumbs-down"></i> &nbsp; Cancel last goal
                             </a>
                         </li>
@@ -28,7 +28,7 @@
                         </li>
                     </ul>
                 </div>
-            </div> 
+            </div>
 
             <!-- On right -->
             <div class="duration pull-right">
@@ -78,6 +78,14 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Buttons to add a goal or an autogoal -->
+                <div class="button focused {{ side.position == 'left' ? 'goal' : 'autogoal' }}"
+                    ng-show="goalTypeShawn && seat.position != focusedSeat.position"
+                    ng-click="side.position == 'left' ? goal() : autogoal()">
+                    <span>{{ side.position == 'left' ? 'Goal' : 'Autogoal' }}</span>
+                </div>
+
             </div>
 
             <!-- Coach button. Displayed when there are two player on side -->
