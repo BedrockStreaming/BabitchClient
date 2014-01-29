@@ -1,38 +1,93 @@
-<div id="stats">
-	<h1>Last Game</h1>
-	<ul id="lastMatch">
-		<li ng-repeat="games in gamesList">
-			<a ng-href="#/stats/{{ games.composition[0].player_id }}">
-				{{ playersList[games.composition[0].player_id].name }}
-			</a> - 
-			<a ng-href="#/stats/{{ games.composition[2].player_id }}">
-				{{ playersList[games.composition[2].player_id].name }}
-			</a>
-			<span class="badge">{{ games.red_score }}</span> / <span class="badge">{{ games.blue_score }}</span>
-			<a ng-href="#/stats/{{ games.composition[1].player_id }}">
-				{{ playersList[games.composition[1].player_id].name }}
-			</a> - 
-			<a ng-href="#/stats/{{ games.composition[3].player_id }}">
-				{{ playersList[games.composition[3].player_id].name }}
-			</a> 
-		</li>
-	</ul>
+<div id="game">
+	<div id="header">
+		<div class="container">
 
-	<br />
-	
-	<div class="table-responsive">
+			<!-- On left -->
+			<div class="action pull-left">
+				<div class="btn-group">
+					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+						<i class="glyphicon glyphicon-cog"></i>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li>
+							<a ng-click="">
+								<i class="glyphicon glyphicon-transfer"></i> &nbsp; Last games
+							</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a ng-click="">
+								<i class="glyphicon glyphicon-thumbs-down"></i> &nbsp; All Stats
+							</a>
+						</li>
+						<li class="divider"></li>
+						<li>
+							<a ng-click="">
+								<i class="glyphicon glyphicon-minus-sign"></i> &nbsp; By players
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div> 
+
+			<div>
+				Stats
+			</div>
+		</div>
+	</div>
+	<div ng-repeat="startFrom in [0,25]" class="col-md-6" id="table-stats">
+
 		<table class="table table-hover table-condensed">
-			<tbody>
+			<thead>
 				<tr>
-					<th><a href="" ng-click="setPredicate('name'); setReverse()">Name</a></th>
-					<th ng-repeat="stat in statsType"><a href="" ng-click="setPredicate(stat); setReverse()">{{ stat }}</a></th>
+					<th>Red Team</th>
+					<th>Score</th>
+					<th>Blue Team</th>
 				</tr>
-				<tr ng-repeat="player in statsGoals | orderBy:predicate:reverse | minGamePlayed:5">
-					<td>{{ player.name }}</td>
-
-					<td ng-repeat="stat in statsType">{{ player[stat] }}</td>
+			</thead>
+			<tbody>
+				<tr ng-repeat="games in gamesList | startFrom:startFrom | limitTo:25">
+					<td>
+						<a ng-href="#/stats/{{ games.redDefense }}">
+							<img gravatar-src="playersList[games.redDefense].email || ''" gravatar-default="wavatar" gravatar-size="30" /> {{ playersList[games.redDefense].name }}
+						</a> - 
+						<a ng-href="#/stats/{{ games.redAttack }}">
+							<img gravatar-src="playersList[games.redAttack].email || ''" gravatar-default="wavatar" gravatar-size="30" /> {{ playersList[games.redAttack].name }}
+						</a>
+					</td>
+					<td>
+						<span class="badge">{{ games.red_score }}</span> / <span class="badge">{{ games.blue_score }}</span>
+					</td>
+					<td style="text-align:right">
+						<a ng-href="#/stats/{{ games.blueDefense }}">
+							{{ playersList[games.blueDefense].name }} <img gravatar-src="playersList[games.blueDefense].email || ''" gravatar-default="wavatar" gravatar-size="30" />
+						</a> - 
+						<a ng-href="#/stats/{{ games.blueAttack }}">
+							{{ playersList[games.blueAttack].name }} <img gravatar-src="playersList[games.blueAttack].email || ''" gravatar-default="wavatar" gravatar-size="30" />
+						</a>
+					</td>					
 				</tr>
 			</tbody>
 		</table>
+
+		<div class="table-responsive">
+			<table class="table table-hover table-condensed">
+				<thead>
+					<tr>
+						<th><a href="" ng-click="setPredicate('name'); setReverse()">Name</a></th>
+						<th ng-repeat="stat in statsType"><a href="" ng-click="setPredicate(stat); setReverse()">{{ stat }}</a></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="player in statsGoals | orderBy:predicate:reverse | minGamePlayed:5">
+						<td>{{ player.name }}</td>
+
+						<td ng-repeat="stat in statsType">{{ player[stat] }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
 	</div>
 </div>
