@@ -29,35 +29,39 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container" ng-view></div>
+    <div ng-view></div>
 
+    <!-- build:js scripts/modules.js -->
     <script src="bower_components/angular/angular.js"></script>
 
-        <!-- build:js scripts/modules.js -->
-        <script src="bower_components/underscore/underscore-min.js"></script>
-        <script src="bower_components/angular-resource/angular-resource.js"></script>
-        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-        <script src="bower_components/angular-route/angular-route.js"></script>
-        <script src="bower_components/angular-mocks/angular-mocks.js"></script>
-        <script src="bower_components/faye/include.js"></script>
-        <script src="bower_components/angular-gravatar/src/md5.js"></script>
-        <script src="bower_components/angular-gravatar/build/angular-gravatar.js"></script>
-        <script src="bower_components/restangular/src/restangular.js"></script>
-        <!-- endbuild -->
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+    <script src="bower_components/faye/include.js"></script>
+    <script src="bower_components/angular-gravatar/src/md5.js"></script>
+    <script src="bower_components/angular-gravatar/build/angular-gravatar.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/restangular/src/restangular.js"></script>
+    <!-- endbuild -->
 
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/config.js"></script>
-        <script src="scripts/app.js"></script>
-        <script src="scripts/services/faye.js"></script>
-        <script src="scripts/controllers/babitch.js"></script>        
-        <script src="scripts/controllers/babitchStats.js"></script>
-        <script src="scripts/controllers/babitchStatsPlayer.js"></script>
-        <script src="scripts/controllers/babitchLive.js"></script>
-        <script src="scripts/httpBackendStub.js"></script>
-        <script src="scripts/filters/minGamePlayed.js"></script>
-        <script src="scripts/services/babitchService.js"></script>
-        <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/config.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/services/faye.js"></script>
+    <script src="scripts/controllers/babitch.js"></script>
+    <script src="scripts/controllers/babitchLive.js"></script>
+    <script src="scripts/controllers/babitchStats.js"></script>
+    <script src="scripts/controllers/babitchStatsPlayer.js"></script>
+    <script src="scripts/httpBackendStub.js"></script>
+    <script src="scripts/filters/prettyTime.js"></script>
+    <script src="scripts/filters/gravatarize.js"></script>
+    <script src="scripts/filters/minGamePlayed.js"></script>
+    <script src="scripts/services/babitchService.js"></script>
+    <!-- endbuild -->
 </body>
 </html>
