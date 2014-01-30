@@ -67,6 +67,11 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         $scope.gameStarted = false;
         $scope.gameEnded = false;
 
+        //Unselect all players
+        $scope.playersList.forEach(function(player) {
+            player.alreadySelected = false;
+        })
+
         resetPlayers();
         resetScore();
     };
