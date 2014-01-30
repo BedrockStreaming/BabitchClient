@@ -69,18 +69,21 @@ angular.module('babitchFrontendApp')
 
 			},
 			_setStatsVictoryLoose: function(game) {
-				if (game.red_score == 10) {
-					statsGoals[game.composition[0].player_id].victory++;
-					statsGoals[game.composition[2].player_id].victory++;
-					statsGoals[game.composition[1].player_id].loose++;
-					statsGoals[game.composition[3].player_id].loose++;
-				} else {
-					statsGoals[game.composition[0].player_id].loose++;
-					statsGoals[game.composition[2].player_id].loose++;
-					statsGoals[game.composition[1].player_id].victory++;
-					statsGoals[game.composition[3].player_id].victory++;
-				}
-
+				game.composition.forEach(function(compo) {
+					if (compo.team == "red") {
+						if (game.red_score == 10) {
+							statsGoals[compo.player_id].victory++;
+						} else {
+							statsGoals[compo.player_id].loose++;
+						}
+					} else {
+						if (game.blue_score == 10) {
+							statsGoals[compo.player_id].victory++;
+						} else {
+							statsGoals[compo.player_id].loose++;
+						}
+					}
+				});
 			},
 			_setStatsPercentVictoryLoose: function(player) {
 				statsGoals[player.id].percentVictory = Math.round(statsGoals[player.id].victory / statsGoals[player.id].gamePlayed * 100);
