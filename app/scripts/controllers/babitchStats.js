@@ -5,6 +5,8 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, b
 	$scope.gamesList = [];
 	$scope.playersList = [];
 	$scope.statsGoals = [];
+	$scope.selectedPlayer = 0;
+	$scope.menuSelect = '';
 
 	//To deal with ng-repeat scope in stats-player.html views
 	$rootScope.setPredicate = function(variable) {
@@ -19,5 +21,10 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, b
 	$scope.gamesList = babitchService.getGamesList();
 	$scope.playersList = babitchService.getPlayersList();
 	$scope.statsType = babitchService.getStatsType();
+
+	$scope.selectPlayer = function(playerId) {
+		$scope.selectedPlayer = playerId;
+		$scope.menuSelect = 'player';
+	};
 
 });

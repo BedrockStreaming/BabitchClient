@@ -1,94 +1,132 @@
-<div id="game">
-	<div id="header">
-		<div class="container">
+<div class="navbar navbar-inverse" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Babitch Stats</a>
+		</div>
+	</div>
+</div>
 
-			<!-- On left -->
-			<div class="action pull-left">
-				<div class="btn-group">
-					<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-						<i class="glyphicon glyphicon-cog"></i>
-					</button>
-					<ul class="dropdown-menu" role="menu">
-						<li>
-							<a ng-click="">
-								<i class="glyphicon glyphicon-transfer"></i> &nbsp; Last games
-							</a>
-						</li>
-						<li class="divider"></li>
-						<li>
-							<a ng-click="">
-								<i class="glyphicon glyphicon-thumbs-down"></i> &nbsp; All Stats
-							</a>
-						</li>
-						<li class="divider"></li>
-						<li>
-							<a ng-click="">
-								<i class="glyphicon glyphicon-minus-sign"></i> &nbsp; By players
-							</a>
-						</li>
-					</ul>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-3 col-md-2 sidebar">
+			<ul class="nav nav-sidebar">
+				<li class="active"><a ng-click="menuSelect=''">Overview</a></li>
+				<li><a ng-click="menuSelect='lastgames'">Last Games</a></li>
+				<li><a ng-click="menuSelect='allstats'">All Stats</a></li>
+			</ul>
+			<ul class="nav nav-sidebar">
+				<li ng-repeat="player in playersList | orderBy: name">
+					<a ng-click="selectPlayer(player.id)">{{ player.name }}</a>
+				</li>
+			</ul>
+
+		</div>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+			<div class="row placeholders" ng-hide="menuSelect">
+				<h2 class="page-header">Overview</h1>
+				<div class="col-xs-6 col-sm-3 placeholder">
+					<img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
+					<h4>Top Goaler</h4>
+					<span class="text-muted">Something else</span>
 				</div>
-			</div> 
-
-			<div>
-				Stats
+				<div class="col-xs-6 col-sm-3 placeholder">
+					<img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
+					<h4>Top Victory</h4>
+					<span class="text-muted">Something else</span>
+				</div>
+				<div class="col-xs-6 col-sm-3 placeholder">
+					<img data-src="holder.js/200x200/auto/sky" class="img-responsive" alt="Generic placeholder thumbnail">
+					<h4>Top Autogoal</h4>
+					<span class="text-muted">Something else</span>
+				</div>
+				<div class="col-xs-6 col-sm-3 placeholder">
+					<img data-src="holder.js/200x200/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail">
+					<h4>Top Looser</h4>
+					<span class="text-muted">Something else</span>
+				</div>
 			</div>
+
+			
+			<div class="table-responsive" ng-show="menuSelect == 'lastgames'">
+				<h2 class="sub-header">Last Games</h2>	
+				<table class="table table-hover table-condensed">
+					<thead>
+						<tr>
+							<th>Red Team</th>
+							<th>Score</th>
+							<th>Blue Team</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="games in gamesList | limitTo:10">
+							<td>
+								<a ng-click="selectPlayer(games.redDefense)">
+									<img gravatar-src="playersList[games.redDefense].email || ''" gravatar-default="wavatar" gravatar-size="30" /> {{ playersList[games.redDefense].name }}
+								</a>
+								<a ng-click="selectPlayer(games.redAttack)">
+									<img gravatar-src="playersList[games.redAttack].email || ''" gravatar-default="wavatar" gravatar-size="30" /> {{ playersList[games.redAttack].name }}
+								</a>
+							</td>
+							<td>
+								<span class="badge">{{ games.red_score }}</span> / <span class="badge">{{ games.blue_score }}</span>
+							</td>
+							<td style="text-align:right">
+								<a ng-click="selectPlayer(games.blueDefense)">
+									{{ playersList[games.blueDefense].name }} <img gravatar-src="playersList[games.blueDefense].email || ''" gravatar-default="wavatar" gravatar-size="30" />
+								</a>
+								<a ng-click="selectPlayer(games.blueAttack)">
+									{{ playersList[games.blueAttack].name }} <img gravatar-src="playersList[games.blueAttack].email || ''" gravatar-default="wavatar" gravatar-size="30" />
+								</a>
+							</td>					
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+
+			<div ng-show="menuSelect == 'player'">
+				<h2 class="sub-header">Players</h2>	
+				<div class="player">
+					<img gravatar-src="playersList[selectedPlayer].email" gravatar-default="wavatar" class="img-responsive" gravatar-size="60">
+					<h2>{{ playersList[selectedPlayer].name }}</h2>
+				</div>
+
+				<table class="table table-hover table-condensed">
+					<tbody>
+						<tr ng-repeat="stat in statsType">
+							<td>{{ (stat.text ? stat.text : stat.name) }}</td>					
+							<td>{{ statsGoals[selectedPlayer][stat.name] }}{{ stat.addSuffix }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="table-responsive" ng-show="menuSelect == 'allstats'">
+				<h2 class="sub-header">All Stats</h2>	
+				<table class="table table-hover table-condensed">
+					<thead>
+						<tr>
+							<th><a href="" ng-click="setPredicate('name'); setReverse()">Name</a></th>
+							<th ng-repeat="stat in statsType | filter: {show: true}"><a href="" ng-click="setPredicate(stat.name); setReverse()">{{ (stat.text ? stat.text : stat.name) }}</a></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="player in statsGoals | orderBy:predicate:reverse | minGamePlayed:5">
+							<td><a ng-click="selectPlayer(player.id)">{{ player.name }}</a></td>
+
+							<td ng-repeat="stat in statsType | filter: {show: true}">{{ player[stat.name] }}{{ stat.addSuffix }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
 		</div>
-	</div>
-	<div ng-repeat="startFrom in [0,25]" class="col-md-6">
-
-		<table class="table table-hover table-condensed">
-			<thead>
-				<tr>
-					<th>Red Team</th>
-					<th>Score</th>
-					<th>Blue Team</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="games in gamesList | startFrom:startFrom | limitTo:25">
-					<td>
-						<a ng-href="#/stats/{{ games.redDefense }}">
-							<img gravatar-src="playersList[games.redDefense].email || ''" gravatar-default="wavatar" gravatar-size="30" /> {{ playersList[games.redDefense].name }}
-						</a>
-						<a ng-href="#/stats/{{ games.redAttack }}">
-							<img gravatar-src="playersList[games.redAttack].email || ''" gravatar-default="wavatar" gravatar-size="30" /> {{ playersList[games.redAttack].name }}
-						</a>
-					</td>
-					<td>
-						<span class="badge">{{ games.red_score }}</span> / <span class="badge">{{ games.blue_score }}</span>
-					</td>
-					<td style="text-align:right">
-						<a ng-href="#/stats/{{ games.blueDefense }}">
-							{{ playersList[games.blueDefense].name }} <img gravatar-src="playersList[games.blueDefense].email || ''" gravatar-default="wavatar" gravatar-size="30" />
-						</a>
-						<a ng-href="#/stats/{{ games.blueAttack }}">
-							{{ playersList[games.blueAttack].name }} <img gravatar-src="playersList[games.blueAttack].email || ''" gravatar-default="wavatar" gravatar-size="30" />
-						</a>
-					</td>					
-				</tr>
-			</tbody>
-		</table>
-	</div>
-
-	<div class="col-md-6" id="table-stats">
-		<div class="table-responsive">
-			<table class="table table-hover table-condensed">
-				<thead>
-					<tr>
-						<th><a href="" ng-click="setPredicate('name'); setReverse()">Name</a></th>
-						<th ng-repeat="stat in statsType"><a href="" ng-click="setPredicate(stat); setReverse()">{{ stat }}</a></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="player in statsGoals | orderBy:predicate:reverse | minGamePlayed:5">
-						<td>{{ player.name }}</td>
-
-						<td ng-repeat="stat in statsType">{{ player[stat] }}</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
 	</div>
 </div>

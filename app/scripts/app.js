@@ -29,10 +29,6 @@ var babitchFrontendApp = angular.module('babitchFrontendApp',[
                 templateUrl: 'views/stats.html',
                 controller: 'babitchStatsCtrl'
             })
-            .when('/stats/:playerId', {
-                templateUrl: 'views/stats-player.html',
-                controller: 'babitchStatsPlayerCtrl'
-            })
             .otherwise({
                 redirectTo: '/'
             });
