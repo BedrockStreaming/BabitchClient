@@ -330,3 +330,17 @@ a {
     color: white;
 }
 
+#lastgames th {
+    text-align: center;
+}
+
+#lastgames td.redteam {
+    text-align: right;
+}
+#lastgames td.blueteam {
+    text-align: left;
+}
+#lastgames td.score {
+    text-align: center;
+}
+
