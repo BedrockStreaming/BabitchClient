@@ -7,13 +7,13 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#">Babitch Stats</a>
+			<a class="navbar-brand" ng-click="menuSelect=''">Babitch Stats</a>
 		</div>
 		<div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li class="active"><a ng-click="menuSelect=''">Overview</a></li>
-			<li><a ng-click="menuSelect='lastgames'">Last Games</a></li>
-			<li><a ng-click="menuSelect='allstats'">All Stats</a></li>
+            <li ng-class="{active: menuSelect==''}"><a ng-click="menuSelect=''">Overview</a></li>
+			<li ng-class="{active: menuSelect=='lastgames'}"><a ng-click="menuSelect='lastgames'">Last Games</a></li>
+			<li ng-class="{active: menuSelect=='allstats'}"><a ng-click="menuSelect='allstats'">All Stats</a></li>
           </ul>
         </div>
 	</div>
@@ -21,46 +21,32 @@
 
 <div class="container-fluid">
 	<div class="row">
-		<!--<div class="col-sm-3 col-md-2 sidebar">
-			<ul class="nav nav-sidebar">
-				<li class="active"><a ng-click="menuSelect=''">Overview</a></li>
-				<li><a ng-click="menuSelect='lastgames'">Last Games</a></li>
-				<li><a ng-click="menuSelect='allstats'">All Stats</a></li>
-			</ul>
-			<ul class="nav nav-sidebar">
-				<li ng-repeat="player in playersList | orderBy: name">
-					<a ng-click="selectPlayer(player.id)">{{ player.name }}</a>
-				</li>
-			</ul>
 
-		</div>-->
 		<div class="col-sm-10  col-md-10 col-md-offset-1 main">
-
 			<div class="row placeholders" ng-hide="menuSelect">
 				<h2 class="page-header">Overview</h1>
 				<div ng-repeat="player in statsGoals | orderBy:'percentGoalPerBall':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
 					<img gravatar-src="playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="200" />
 					<h4>Top Goaler</h4>
-					<span class="text-muted">{{ player.name }}</span>
+					<span class="text-muted">{{ player.name }} ({{ statsGoals[player.id].percentGoalPerBall }}%)</span>
 				</div>
 				<div ng-repeat="player in statsGoals | orderBy:'percentVictory':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
 					<img gravatar-src="playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="200" />
 					<h4>Top Victory</h4>
-					<span class="text-muted">{{ player.name }}</span>
+					<span class="text-muted">{{ player.name }} ({{ statsGoals[player.id].percentVictory }}%)</span>
 				</div>
-				<div ng-repeat="player in statsGoals | orderBy:'autogoal':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
+				<div ng-repeat="player in statsGoals | orderBy:'owngoal':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
 					<img gravatar-src="playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="200" />
-					<h4>Top Autogoal</h4>
-					<span class="text-muted">{{ player.name }}</span>
+					<h4>Top Own Goal</h4>
+					<span class="text-muted">{{ player.name }} ({{ statsGoals[player.id].owngoal }})</span>
 				</div>
 				<div ng-repeat="player in statsGoals | orderBy:'percentLoose':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
 					<img gravatar-src="playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="200" />
 					<h4>Top Looser</h4>
-					<span class="text-muted">{{ player.name }}</span>
+					<span class="text-muted">{{ player.name }} ({{ statsGoals[player.id].percentLoose }}%)</span>
 				</div>
 			</div>
 
-			
 			<div class="table-responsive" ng-show="menuSelect == 'lastgames'">
 				<h2 class="sub-header">Last Games</h2>	
 				<table class="table table-hover table-condensed">
@@ -72,7 +58,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="games in gamesList | limitTo:10">
+						<tr ng-repeat="games in gamesList | limitTo:25">
 							<td>
 								<a ng-click="selectPlayer(games.redDefense)">
 									<img gravatar-src="playersList[games.redDefense].email || ''" gravatar-default="wavatar" gravatar-size="30" /> {{ playersList[games.redDefense].name }}
@@ -96,7 +82,6 @@
 					</tbody>
 				</table>
 			</div>
-
 
 			<div ng-show="menuSelect == 'player'">
 				<h2 class="sub-header">Players</h2>	
