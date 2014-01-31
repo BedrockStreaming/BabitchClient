@@ -17,9 +17,9 @@ angular.module('babitchFrontendApp')
 			{name: 'avgGoalPerGame', show: true, text: 'Goal/Game'}, // avg of goal the player made by game
 			{name: 'goalAttack', show: false}, // total goal the player made in attack position
 			{name: 'goalDefense', show: false}, // total goal the player made in defense position
-			{name: 'autogoal', show: false}, // total autogoal the player made
-			{name: 'autogoalAttack', show: false}, // total autogoal the player made in attack position
-			{name: 'autogoalDefense', show: false}, // total autogoal the player made in defense position
+			{name: 'owngoal', show: false}, // total owngoal the player made
+			{name: 'owngoalAttack', show: false}, // total owngoal the player made in attack position
+			{name: 'owngoalDefense', show: false}, // total owngoal the player made in defense position
 			{name: 'goalConcede', show: false}, // total goal the player concede being in defense
 			{name: 'victory', show: false}, // total victory
 			{name: 'percentVictory', show: true, text: '%Victory', addSuffix: '%'}, // percentage of victory
@@ -116,13 +116,13 @@ angular.module('babitchFrontendApp')
 				statsGoals[game.composition[1].player_id].ballsPlayed++;
 				statsGoals[game.composition[3].player_id].ballsPlayed++;
 			},
-			_setStatsGoalAutogoal: function(goal) {
+			_setStatsGoalOwnGoal: function(goal) {
 				if (goal.autogoal) {
-					statsGoals[goal.player_id].autogoal++;
+					statsGoals[goal.player_id].owngoal++;
 					if (goal.position == "attack") {
-						statsGoals[goal.player_id].autogoalAttack++;
+						statsGoals[goal.player_id].owngoalAttack++;
 					} else if (goal.position == "defense") {
-						statsGoals[goal.player_id].autogoalDefense++;
+						statsGoals[goal.player_id].owngoalDefense++;
 					}
 				} else {
 					statsGoals[goal.player_id].goal++;
@@ -150,9 +150,9 @@ angular.module('babitchFrontendApp')
 									goal: 0,
 									goalAttack: 0,
 									goalDefense: 0,
-									autogoal: 0,
-									autogoalAttack: 0,
-									autogoalDefense: 0,
+									owngoal: 0,
+									owngoalAttack: 0,
+									owngoalDefense: 0,
 									victory: 0,
 									loose: 0,
 									gamePlayed: 0,
@@ -198,7 +198,7 @@ angular.module('babitchFrontendApp')
 							//For each Goals
 							games.goals.forEach(function(goal) {
 								_this._setStatsBallsPlayed(games);
-								_this._setStatsGoalAutogoal(goal);
+								_this._setStatsGoalOwnGoal(goal);
 							});
 						});
 
