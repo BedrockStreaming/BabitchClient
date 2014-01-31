@@ -146,6 +146,7 @@ angular.module('babitchFrontendApp')
 							if (!statsGoals[player.id]) {
 								statsGoals[player.id] = {
 									name: player.name,
+									id: player.id,
 									goal: 0,
 									goalAttack: 0,
 									goalDefense: 0,
