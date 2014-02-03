@@ -110,14 +110,14 @@
 					<thead>
 						<tr>
 							<th><a href="" ng-click="setPredicate('name'); setReverse()">Name</a></th>
-							<th ng-repeat="stat in statsType | filter: {show: true}"><a href="" ng-click="setPredicate(stat.name); setReverse()">{{ (stat.text ? stat.text : stat.name) }}</a></th>
+							<th ng-repeat="stat in statsType"><a href="" ng-click="setPredicate(stat.name); setReverse()">{{ (stat.text ? stat.text : stat.name) }}</a></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr ng-repeat="player in statsGoals | orderBy:predicate:reverse | minGamePlayed:5">
 							<td><a ng-click="selectPlayer(player.id)">{{ player.name }}</a></td>
 
-							<td ng-repeat="stat in statsType | filter: {show: true}">{{ player[stat.name] }}{{ stat.addSuffix }}</td>
+							<td ng-repeat="stat in statsType">{{ player[stat.name] }}{{ stat.addSuffix }}</td>
 						</tr>
 					</tbody>
 				</table>
