@@ -320,7 +320,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
         notify('new');
     };
 
-    $scope.getGameData = function () {
+    var getGameData = function () {
         var table = $scope.table;
 
         var game = {
@@ -343,7 +343,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
             url: CONFIG.BABITCH_WS_URL + '/games',
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            data: $scope.getGameData()
+            data: getGameData()
         }).
         error(function (data, status) {
             if (status == 0) {
@@ -362,13 +362,11 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
      * @return {void}
      */
     var notify = function (eventName) {
-        if ($scope.gameStarted) {
-            fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {
-                type:   eventName,
-                gameId: $scope.gameId,
-                game:   $scope.getGameData()
-            });
-        }
+        fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {
+            type:   eventName,
+            gameId: $scope.gameId,
+            game: getGameData()
+        });
     };
 
     $scope.$watch('gameStarted', function(started) {

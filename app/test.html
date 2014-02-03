@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Titre de la page</title>
+
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+
+    <style>
+    
+    #live {
+        padding-top: 50px;
+    }
+
+    #live .container {
+        width: 750px !important;
+    }
+
+    #header {
+        position: fixed;
+        height: 50px;
+        width: 100%;
+        top: 0;
+        left: 0;
+        color: white;
+        line-height: 50px;
+        text-align: center;
+        background: black;
+    }
+
+    #header .brand big {
+        font-weight: bold;
+        margin-right: 5px;
+    }
+
+    #header .brand small {
+        font-size: 1em;
+        background: white;
+        color: black;
+        padding: 0 5px;
+        border-radius: 5px;
+    }
+
+
+    .table {
+        padding: 20px;
+        background: #EEE;
+    }
+
+    .table .team {
+        position: relative;
+        float: left;
+        width: 50%;
+        height: 300px;
+    }
+
+    .table .team .player {
+        position: absolute;
+        left: 50%;
+    }
+
+    .table .team .player {
+    }
+
+    .table .team .player.attack {
+        width: 200px;
+        height: 200px;
+        margin-left: 0;
+        z-index: 10;
+    }
+
+    .table .team .player.defense {
+        width: 180px;
+        height: 180px;
+        margin-left: -160px;
+        margin-top: 10px;
+        z-index: 9;
+    }
+
+    .table .team.blue .player.attack {
+        margin-left: -180px;
+    }
+
+    .table .team.blue .player.defense {
+        margin-left: 0;
+    }
+
+    .table .team .player img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    .table .team .player canvas {
+        position: absolute;
+        top: 100%;
+        z-index: 5;
+        margin-top: 1px;
+    }
+
+    .table .team .player h2 {
+        margin: 200px 0 0;
+        padding: 20px 0 0;
+        text-align: center;
+    }
+
+    .table .team .player.defense h2 {
+        margin-top: 190px;
+    }
+
+    </style>
+</head>
+    <body>
+
+        <div id="live">
+            <div id="header">
+                <div class="container">
+                    <div class="brand pull-left">
+                        <big>Babitch</big><small>live</small>
+                    </div>
+                </div>
+            </div>
+            <div class="table clearfix">
+
+
+                <div class="team red">
+                    <div class="player attack">
+                        <img src="http://www.gravatar.com/avatar/0218b161a18a4f52bcfcd9d408d2b986?size=200&default=wavatar" />
+                        <h2>Adrien</h2>
+                    </div>
+                    <div class="player defense">
+                        <img src="http://www.gravatar.com/avatar/e85f52ad715d2723a955aa795c1ac065?size=200&default=wavatar" />
+                        <h2>Kenny</h2>
+                    </div>
+                </div>
+                <div class="team blue">
+                    <div class="player attack">
+                        <img src="http://www.gravatar.com/avatar/fa76b6072ca54ecafa350b07625261ba?size=200&default=wavatar" />
+                        <h2>Nicolas</h2>
+                    </div>
+                    <div class="player defense">
+                        <img src="http://www.gravatar.com/avatar/4e04492a4db345a75ea50772d401b9a7?size=200&default=wavatar" />
+                        <h2>Morgan</h2>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script>
+        (function ($) {
+
+            $('.player').each(function () {
+                var $this = $(this);
+                var $img = $this.find('img');
+
+                var $canvas = $('<canvas></canvas>');
+
+                var canvas = $canvas.get(0);
+                var img = new Image();
+
+                canvas.width = $img.width();
+                canvas.height = 20;
+
+                img.onload = function () {
+                    var context = canvas.getContext('2d');
+                    var width = canvas.width;
+                    var height = canvas.height;
+
+                    context.save();
+                    context.translate(0, $img.height());
+                    context.scale(1, -1);
+                    context.drawImage(this, 0, 0, $img.width(), $img.height());
+                    context.restore(); 
+
+                    // add gradient
+                    context.globalCompositeOperation = 'destination-out';
+
+                    var gradient = context.createLinearGradient(0, 0, 0, height);
+                    gradient.addColorStop(0, 'rgba(255, 255, 255, '+(1-0.3)+')');
+                    gradient.addColorStop(1, 'rgba(255, 255, 255, 1.0)');
+
+                    context.fillStyle = gradient;
+                    context.fillRect(0, 0, width, height);
+                };
+                img.src = $img.attr('src');
+
+                $this.append($canvas);
+            });
+
+        })(jQuery);
+        </script>
+    </body>
+</html>

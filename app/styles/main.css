@@ -260,6 +260,113 @@ a {
     margin: 0 auto 10px;
 }
 
+
+
+
+
+#live .container {
+    width: 750px !important;
+}
+
+
+
+
+#live .brand big {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+#live .brand small {
+    font-size: 1em;
+    background: white;
+    color: black;
+    padding: 0 5px;
+    border-radius: 5px;
+}
+
+#live {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding-top: 50px;
+}
+
+#live .table {
+    height: 100%;
+    position: relative;
+    top: 0;
+    overflow: hidden;
+}
+
+#live .score {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 80px;
+    line-height: 80px;
+    margin-top: -40px;
+}
+
+#live .score > * {
+    vertical-align: middle;
+}
+
+#live .seat {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+}
+
+#live .seat.red {
+    padding-right: 5px;
+}
+
+#live .seat.blue {
+    padding-left: 5px;
+    left: 50%;
+}
+
+#live .seat.attack {
+    padding-top: 10px;
+    padding-bottom: 50px;
+}
+
+#live .seat.defense {
+    padding-top: 50px;
+    padding-bottom: 10px;
+    top: 50%;
+}
+
+#live .player {
+    height: 100%;
+    position: relative;
+}
+
+#live .player .picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: no-repeat 50% 50%;
+    background-size: cover;
+}
+
+#live .player h2 {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: -1.2em;
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
+}
+
+
+
 @media (min-width: 768px) {
     .container {
         width: 500px !important;
@@ -280,6 +387,10 @@ a {
     }
 }
 
+
+
+
+/*
 #live { padding-top: 50px; }
 #live h2 { text-align: center;}
 #live .score {
@@ -330,3 +441,4 @@ a {
     color: white;
 }
 
+*/
