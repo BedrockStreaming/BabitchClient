@@ -5,6 +5,9 @@ var BabitchGamePage = function(browser) {
 	browser.get(browser.baseUrl + '/?nobackend');
 
 	this.startButton = $('#actionStart button');
+	this.theEnd = $('.the-end');
+	this.theEndRestartGame = $$('.the-end button').get(0);
+	this.theEndNewGame = $$('.the-end button').get(1);
 	this.playersLocation = $$('.seat-layer');
 	this.score = $('.score');
 	this.firstTeamScore = $$('.score strong').get(0);
@@ -166,7 +169,6 @@ describe('Babitch : Game', function() {
   		expect(page.secondTeamScore.getText()).toBe('1');
 	});
 
-
 	it('should add a goal for the red team if the red attacker goal',function() {
 		var playerLocation = page.getPlayerLocation(0);
 		playerLocation.goal();
@@ -205,6 +207,35 @@ describe('Babitch : Game', function() {
   		expect(page.firstTeamScore.getText()).toBe('0');
   		expect(page.secondTeamScore.getText()).toBe('0');
   		expect(cancelLastGoalButton.isDisplayed()).toBe(false);
+	});
+
+	it('should propose to restart or to make a new game',function() {
+		expect(page.theEnd.isDisplayed()).toBe(false);
+		var playerLocation = page.getPlayerLocation(2);
+		for(var i=0; i<10 ; i++) {
+			playerLocation.goal();
+		}
+  		expect(page.firstTeamScore.getText()).toBe('0');
+  		expect(page.secondTeamScore.getText()).toBe('10');
+  		expect(page.theEnd.isDisplayed()).toBe(true);
+	});
+
+	it('should start a new game',function() {
+		var playerLocation = page.getPlayerLocation(2);
+  		expect(page.score.isDisplayed()).toBe(true);
+		for(var i=0; i<10 ; i++) {
+			playerLocation.goal();
+		}
+  		expect(page.firstTeamScore.getText()).toBe('0');
+  		expect(page.secondTeamScore.getText()).toBe('10');
+  		expect(page.theEnd.isDisplayed()).toBe(true);
+  		page.theEndNewGame.click();
+  		expect(page.score.isDisplayed()).toBe(false);
+
+  		//Select adrien again
+  		var playerLocation1 = page.getPlayerLocation(0);
+		playerLocation1.selectPlayer(0);
+		expect(playerLocation1.getPlayerName()).toBe('Adrien');
 	});
 
 });
