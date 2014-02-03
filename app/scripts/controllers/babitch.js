@@ -1,6 +1,6 @@
 'use strict';
 
-babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fayeClient, $interval) {
+babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClient, $interval, Restangular) {
     $scope.gameId = null;
     $scope.gameStarted = false;
     $scope.gameEnded = false;
@@ -105,11 +105,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     };
 
     var loadPlayers = function () {
-        $http({
-            url: CONFIG.BABITCH_WS_URL + '/players',
-            method: 'GET'
-        }).
-        success(function(data) {
+        Restangular.all('players').getList().then(function(data) {
             $scope.playersList = data;
         });
     };
@@ -339,18 +335,12 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     };
 
     var saveGame = function () {
-        $http({
-            url: CONFIG.BABITCH_WS_URL + '/games',
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            data: $scope.getGameData()
-        }).
-        error(function (data, status) {
-            if (status == 0) {
-                setTimeout(function () {
-                    $scope.saveGame();
-                }, 1000);
-            }
+        Restangular.all("games").post($scope.getGameData()).then(function() {
+            //Game Saved
+        }, function() {
+            setTimeout(function () {
+                $scope.saveGame();
+            }, 1000);
         });
     };
 
