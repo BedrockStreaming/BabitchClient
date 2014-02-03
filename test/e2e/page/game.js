@@ -2,11 +2,14 @@ var BabitchGamePage = function(browser) {
 	browser.get(browser.baseUrl + '/?nobackend');
 
 	this.startButton = $('#actionStart button');
-	this.restartButton = $$('.the-end  button').get(0);
+	this.theEnd = $('.the-end');
+	this.theEndRestartGame = $$('.the-end button').get(0);
+	this.theEndNewGame = $$('.the-end button').get(1);
 	this.playersLocation = $$('.seat-layer');
 	this.score = $('.score');
 	this.firstTeamScore = $$('.score strong').get(0);
 	this.secondTeamScore = $$('.score strong').get(1);
+	this.restartButton = $$('.the-end  button').get(0);
 
 	this.getPlayerLocation = function(locationIndex) {
 		return new PlayerLocationElement(browser, $$('#match .seat').get(locationIndex));
@@ -19,25 +22,31 @@ var BabitchGamePage = function(browser) {
 	};
 
 	this.startAGame = function() {
-		this.getPlayerLocation(0).selectPlayer(0);
-		this.getPlayerLocation(1).selectPlayer(1);
-		this.getPlayerLocation(2).selectPlayer(2);
-		this.getPlayerLocation(3).selectPlayer(3);
+		var _this = this;
 
-		this.startButton.click();
+		return this.getPlayerLocation(0).selectPlayer(0).then(function() {
+			return _this.getPlayerLocation(1).selectPlayer(1);
+		}).then(function() {
+			return _this.getPlayerLocation(2).selectPlayer(2);
+		}).then(function() {
+			return _this.getPlayerLocation(3).selectPlayer(3);
+		}).then(function() {
+			return _this.startButton.click();
+		});
   	};
 };
 
 var PlayerLocationElement = function(browser, playerLocation) {
 	this.playerLocation = playerLocation;
-
+	var _this = this;
 	this.click = function() {
-		this.playerLocation.findElement(by.css('.seat-layer')).click();
+		return this.playerLocation.findElement(by.css('.seat-layer')).click();
 	};
 
 	this.selectPlayer = function(playerIndex) {
-		this.click();
-		$$('.player-list div a').get(playerIndex).click();
+		return this.click().then(function() {
+			return $$('.player-list div a').get(playerIndex).click();
+		});
 	};
 
 	this.getPlayerName = function() {
@@ -45,13 +54,15 @@ var PlayerLocationElement = function(browser, playerLocation) {
 	};
 
 	this.goal = function() {
-		this.click();
-		$('.button.goal:not(.ng-hide)').click();
+		return this.click().then(function() {
+			return $('.button.goal:not(.ng-hide)').click();
+		});
 	};
 
 	this.autogoal = function() {
-		this.click();
-		$('.button.autogoal:not(.ng-hide)').click();
+		return _this.click().then(function() {
+			return $('.button.autogoal:not(.ng-hide)').click();
+		});
 	};
 };
 
