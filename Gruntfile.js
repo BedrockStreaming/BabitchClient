@@ -343,6 +343,7 @@ module.exports = function (grunt) {
     'autoprefixer',
     'connect:test',
     'karma:unit',
+    'faye',
     'phantom:test',
     'protractor'
   ]);
@@ -367,4 +368,13 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  grunt.registerTask('faye', 'Launch faye server on 9003 port', function() {
+    var http = require('http'),
+    faye = require('faye');
+    var server = http.createServer(),
+    fayeServer = new faye.NodeAdapter({mount: '/faye', timeout: 45});
+    fayeServer.attach(server);
+    server.listen(9003);
+  });
 };

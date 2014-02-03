@@ -362,7 +362,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
      * @return {void}
      */
     var notify = function (eventName) {
-        if ($scope.gameStarted) {
+        if (!$scope.gameEnded) {
             fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {
                 type:   eventName,
                 gameId: $scope.gameId,
