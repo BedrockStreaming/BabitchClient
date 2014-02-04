@@ -24,6 +24,10 @@ var babitchFrontendApp = angular.module('babitchFrontendApp',[
                 templateUrl: 'views/live.html',
                 controller: 'babitchLiveCtrl'
             })
+            .when('/admin', {
+                templateUrl: 'views/admin.html',
+                controller: 'babitchAdminCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });
