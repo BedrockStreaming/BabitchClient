@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('babitchFrontendApp')
-	.factory('babitchService', function babitchService(CONFIG, Restangular) {
+	.factory('babitchService', function babitchService(Restangular) {
 
 		var _playerService = Restangular.all('players');
 		var _gameService = Restangular.all('games');
@@ -23,12 +23,6 @@ angular.module('babitchFrontendApp')
 
 
 		return {
-			getPlayersRest: function() {
-				return _playerService.getList();
-			},
-			getGamesRest: function() {
-				return _gameService.getList();
-			},
 			getPlayersList: function() {
 				return playersList;
 			},
@@ -133,7 +127,7 @@ angular.module('babitchFrontendApp')
 						data.forEach(function(player) {
 							playersList[player.id] = player;
 
-							//Init Stats
+							//Init Stats of all numerical values
 							if (!statsGoals[player.id]) {
 								statsGoals[player.id] = {
 									name: player.name,
@@ -172,7 +166,7 @@ angular.module('babitchFrontendApp')
 				_this._setPlayersList();
 
 				//Fetch Games
-				_gameService.getList()
+				_gameService.getList({per_page:100})
 					.then(function(data) {
 						_this._setGamesList(data);
 
