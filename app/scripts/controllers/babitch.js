@@ -162,11 +162,16 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     };
 
     $scope.switchSidesOnView = function () {
-
         $scope.table.sides.forEach(function (side) {
-
             side.position = (side.position == 'left' ? 'right' : 'left');
 
+            side.seats[0].position = (side.seats[0].position == 'top' ? 'bottom' : 'top');
+            side.seats[1].position = (side.seats[1].position == 'top' ? 'bottom' : 'top');
+        });
+    }
+
+    $scope.switchSeatsOnView = function () {
+        $scope.table.sides.forEach(function (side) {
             side.seats[0].position = (side.seats[0].position == 'top' ? 'bottom' : 'top');
             side.seats[1].position = (side.seats[1].position == 'top' ? 'bottom' : 'top');
         });

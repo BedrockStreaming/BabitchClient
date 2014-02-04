@@ -14,6 +14,11 @@
                                 <i class="glyphicon glyphicon-transfer"></i> &nbsp; Switch sides
                             </a>
                         </li>
+                        <li>
+                            <a ng-click="switchSeatsOnView()">
+                                <i class="glyphicon glyphicon-sort"></i> &nbsp; Switch seats
+                            </a>
+                        </li>
                         <li class="divider" ng-show="table.sides[0].score || table.sides[1].score"></li>
                         <li ng-show="table.sides[0].score || table.sides[1].score">
                             <a class="cancel-last-goal" ng-click="cancelGoal()">
@@ -51,55 +56,68 @@
     </div>
     <div id="match" class="container">
 
-        <div ng-repeat="side in table.sides" ng-class="['side', 'side-'+side.name, 'side-'+side.position]">
-            <div ng-repeat="seat in side.seats" class="seat seat-{{ seat.position }}">
+        <!-- Players grid -->
+        <div class="grid">
+            <div ng-repeat="side in table.sides">
 
-                <!-- Buttons to add a goal or an autogoal -->
-                <div class="button white focused button-{{ seat.position == 'top' ? 'goal' : 'autogoal' }}"
-                    ng-if="goalTypeShawn && side.position != focusedSide.position"
-                    ng-click="seat.position == 'top' ? goal() : autogoal()">
-                    <span>{{ seat.position == 'top' ? 'Goal' : 'Self goal' }}</span>
-                </div>
+                <div class="grid-cell grid-cell-{{ seat.position }} grid-cell-{{ side.position }}" ng-repeat="seat in side.seats">
+                    <div class="grid-cell-body">
+                        <div class="player player-{{ side.name }}" ng-class="{ focused: seat.focused }">
+                            <div class="player-picture" style="background-image: url({{ seat.player.email | gravatarize:200 }})"></div>
 
-                <!-- Buttons to exit -->
-                <div class="button focused"
-                    ng-if="focusedSeat && (seat.position != focusedSeat.position) && (side.position == focusedSide.position)"
-                    ng-click="resetFocus()">
-                    <big><i class="glyphicon glyphicon-remove"></i></big>
-                </div>
-
-                <div ng-class="{ focused: seat.focused }">
-                    <div class="seat-picture" style="background-image: url({{ seat.player.email | gravatarize:200 }})"></div>
-
-                    <div class="seat-layer {{ side.name }}" ng-click="focusSeat(seat, side)">
-                        <div class="player-name">
-                            <small>{{ seat.place }}</small>
-                            <big>{{ seat.player ? seat.player.name : 'Choose a player' }}</big>
+                            <div class="player-layer {{ side.name }}" ng-click="focusSeat(seat, side)">
+                                <div class="player-name">
+                                    <small>{{ seat.place }}</small>
+                                    <big>{{ seat.player ? seat.player.name : 'Choose a player' }}</big>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Buttons to add a goal or an autogoal -->
-                <div class="button focused {{ side.position == 'left' ? 'goal' : 'autogoal' }}"
-                    ng-show="goalTypeShawn && seat.position != focusedSeat.position"
-                    ng-click="side.position == 'left' ? goal() : autogoal()">
-                    <span>{{ side.position == 'left' ? 'Goal' : 'Autogoal' }}</span>
+                <!-- Coach button. Displayed when there are two player on side -->
+                <div class="coach-btn coach-btn-{{ side.position }}" ng-click="coach(side)" ng-show="side.seats[0].player && side.seats[1].player">
+                    <i class="glyphicon glyphicon-sort"></i>
                 </div>
-
             </div>
 
-            <!-- Coach button. Displayed when there are two player on side -->
-            <div class="side-coach" ng-click="coach(side)" ng-show="side.seats[0].player && side.seats[1].player">
-                <i class="glyphicon glyphicon-sort"></i>
+            <!-- Close button -->
+            <div class="grid-cell grid-cell-{{ focusedSide.position }} grid-cell-{{ focusedSeat.position == 'top' ? 'bottom' : 'top' }}" ng-show="focusedSeat">
+                <div class="grid-cell-body focused">
+                    <div class="grid-btn" ng-click="resetFocus()">
+                        <big><i class="glyphicon glyphicon-remove"></i></big>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="player-list focused {{ focusedSide.position == 'left' ? 'right' : 'left' }}" ng-show="playerListShawn">
-            <div>
-                <a ng-repeat="player in playersList|orderBy: 'name'" ng-click="choosePlayer(player)" ng-hide="player.alreadySelected">
-                    <img gravatar-src="player.email || ''" gravatar-default="wavatar" gravatar-size="30" />
-                    {{ player.name }}
-                </a>
+        <!-- Player list grid -->
+        <div class="grid" ng-show="playerListShawn">
+            <div class="grid-cell grid-cell-{{ focusedSide.position == 'left' ? 'right' : 'left' }} grid-cell-top grid-cell-rowspan2">
+                <div class="grid-cell-body player-list focused">
+                    <a ng-repeat="player in playersList|orderBy: 'name'" ng-click="choosePlayer(player)" ng-hide="player.alreadySelected">
+                        <img gravatar-src="player.email || ''" gravatar-default="wavatar" gravatar-size="30" />
+                        {{ player.name }}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons grid -->
+        <div class="grid" ng-show="goalTypeShawn">
+            <div class="grid-cell grid-cell-{{ focusedSide.position == 'left' ? 'right' : 'left' }} grid-cell-{{ focusedSeat.position }}">
+                <div class="grid-cell-body">
+                    <div class="grid-btn grid-btn-white focused" ng-click="goal()">
+                        <span>Goal</span>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-cell grid-cell-{{ focusedSide.position == 'left' ? 'right' : 'left' }} grid-cell-{{ focusedSeat.position == 'top' ? 'bottom' : 'top' }}">
+                <div class="grid-cell-body">
+                    <div class="grid-btn grid-btn-red focused" ng-click="autogoal()">
+                        <span>Own goal</span>
+                    </div>
+                </div>
             </div>
         </div>
 

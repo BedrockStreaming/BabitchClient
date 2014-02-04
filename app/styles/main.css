@@ -70,50 +70,102 @@ a {
     top: 0;
 }
 
-#match .side {
+
+
+
+/* Grid system */
+
+#match .grid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#match .grid .grid-cell {
     position: absolute;
     width: 50%;
-    height: 100%;
-    left: 0;
-}
-
-#match .side.side-right {
-    left: 50%;
-}
-
-#match .side .seat {
-    position: absolute;
-    top: 0;
     height: 50%;
-    width: 100%;
+    top: 0;
+    left: 0;
+    padding: 0 4px 4px 0;
 }
 
-#match .side .seat.seat-bottom {
-    top: 50%;
+#match .grid .grid-cell-right {
+    left: auto;
+    right: 0;
+    padding-right: 0;
 }
 
-#match .side.side-left .seat.seat-top {
-    padding: 4px 2px 2px 4px;
+#match .grid .grid-cell-bottom {
+    top: auto;
+    bottom: 0;
+    padding-bottom: 0;
 }
 
-#match .side.side-left .seat.seat-bottom {
-    padding: 2px 2px 4px 4px;
-}
-
-#match .side.side-right .seat.seat-top {
-    padding: 4px 4px 2px 2px;
-}
-
-#match .side.side-right .seat.seat-bottom {
-    padding: 2px 4px 4px 2px;
-}
-
-#match .side .seat > div {
-    height: 100%;
+#match .grid .grid-cell-body {
     position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-#match .side .seat .seat-picture {
+#match .grid .grid-cell-colspan2 {
+    width: 100%;
+    left: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#match .grid .grid-cell-rowspan2 {
+    height: 100%;
+    top: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+#match .grid-btn {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: white;
+}
+
+#match .grid-btn > * {
+    position: absolute;
+    display: block;
+    width: 100%;
+    top: 50%;
+    font-size: 20px;
+    margin-top: -10px;
+}
+
+#match .grid-btn big {
+    font-size: 40px;
+    margin-top: -20px;
+}
+
+#match .grid-btn.grid-btn-white {
+    background: white;
+    color: black;
+}
+
+#match .grid-btn.grid-btn-red {
+    background: #C00;
+    color: white;
+}
+
+
+
+/* Player */
+
+#match .player {
+    position: relative;
+    height: 100%;
+}
+
+#match .player .player-picture {
     position: absolute;
     overflow: hidden;
     width: 100%;
@@ -125,7 +177,7 @@ a {
     -webkit-filter: grayscale(100%);
 }
 
-#match .side .seat .seat-layer {
+#match .player .player-layer {
     position: relative;
     width: 100%;
     height: 100%;
@@ -133,7 +185,7 @@ a {
     cursor: pointer;
 }
 
-#match .side .seat .player-name {
+#match .player .player-name {
     position: absolute;
     width: 100%;
     top: 50%;
@@ -144,95 +196,56 @@ a {
     text-shadow: 1px 1px 1px rgba(0,0,0,0.5);
 }
 
-#match .side .seat .player-name big {
+#match .player .player-name big {
     font-weight: bold;
     display: block;
 }
 
-#match .side .seat .player-name small {
+#match .player .player-name small {
     display: block;
 }
 
-#match .side.side-red .seat .seat-layer {
+#match .player.player-red .player-layer {
     background: rgba(211, 0, 0, 0.5);
 }
 
-#match .side.side-blue .seat .seat-layer {
+#match .player.player-blue .player-layer {
     background: rgba(41, 54, 148, 0.5);
 }
 
 
 
-#match .side-coach {
+/* Coach button */
+
+#match .coach-btn {
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 25%;
     height: 50px;
     width: 50px;
-    margin: -25px 0 0 -25px;
+    margin: -27px 0 0 -27px;
     text-align: center;
     background: #ecf0f1;
     border-radius: 100px;
     cursor: pointer;
 }
 
-#match .side-coach i {
+#match .coach-btn-right {
+    left: 75%;
+}
+
+#match .coach-btn i {
     font-size: 20px;
     color: #222;
     line-height: 50px;
 }
 
-#match .button {
-    width: 100%;
-    text-align: center;
-    text-transform: uppercase;
-    cursor: pointer;
-    color: white;
-}
 
-#match .button.white {
-    background: white;
-    color: black;
-}
 
-#match .button > * {
-    position: absolute;
-    display: block;
-    width: 100%;
-    top: 50%;
-    font-size: 20px;
-    margin-top: -10px;
-}
-
-#match .button big {
-    font-size: 40px;
-    margin-top: -20px;
-}
-
-#match .button + div {
-    display: none;
-}
+/* Player list */
 
 #match .player-list {
-    position: absolute;
-    top: 0;
-    width: 50%;
-    height: 100%;
-}
-
-#match .player-list.left {
-    left: 0;
-    padding: 4px 2px 4px 4px;
-}
-
-#match .player-list.right {
-    right: 0;
-    padding: 4px 4px 4px 2px;
-}
-
-#match .player-list > div {
     background: white;
-    height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -245,6 +258,9 @@ a {
     white-space: nowrap;
 }
 
+
+
+/* End buttons */
 
 #match .the-end {
     position: absolute;
@@ -260,15 +276,17 @@ a {
     margin: 0 auto 10px;
 }
 
+
+/* Responsive case */
+
 @media (min-width: 768px) {
     .container {
         width: 500px !important;
         padding: 0;
     }
 
-    #match .side,
-    #match .player-list {
-        max-height: 500px !important;
+    #match .grid {
+        max-height: 500px;
         top: 50%;
         margin-top: -50%;
     }
@@ -279,6 +297,13 @@ a {
         padding: 0;
     }
 }
+
+
+
+
+
+
+
 
 #live { padding-top: 50px; }
 #live h2 { text-align: center;}
