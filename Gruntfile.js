@@ -295,13 +295,6 @@ module.exports = function (grunt) {
         singleRun: true
       }
     },
-    phantom: {
-      options: {
-        port: 4444
-      },
-      test: {
-      }
-    },
     protractor: {
       options: {
         keepAlive: true, // If false, the grunt process stops when the test fails.
@@ -344,7 +337,7 @@ module.exports = function (grunt) {
     'connect:test',
     'karma:unit',
     'faye',
-    'phantom:test',
+    'phantomjs',
     'protractor'
   ]);
 
@@ -376,5 +369,24 @@ module.exports = function (grunt) {
     fayeServer = new faye.NodeAdapter({mount: '/faye', timeout: 45});
     fayeServer.attach(server);
     server.listen(9003);
+  });
+
+  grunt.registerTask('phantomjs', 'Launch phantomjs webdriver', function() {
+    var binPath = require('phantomjs').path;
+    var running = true;
+    var phantom = grunt.util.spawn({
+        cmd: binPath,
+        args: ['--webdriver=4444', '--disk-cache=true']
+      }, function () {
+      running = false;
+      grunt.fatal('PhantomJS killed unexpectedly');
+    });
+    // Kill PhantomJS on exit.
+    process.on('exit', function () {
+      if (running) {
+        phantom.kill();
+        grunt.log.ok('PhantomJS stopped');
+      }
+    });
   });
 };
