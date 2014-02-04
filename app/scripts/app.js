@@ -28,6 +28,14 @@ var babitchFrontendApp = angular.module('babitchFrontendApp',[
                 templateUrl: 'views/admin.html',
                 controller: 'babitchAdminCtrl'
             })
+            .when('/admin/new', {
+                templateUrl: 'views/admin-player.html',
+                controller: 'babitchAdminPlayerCtrl'
+            })
+            .when('/admin/:id', {
+                templateUrl: 'views/admin-player.html',
+                controller: 'babitchAdminPlayerCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });
