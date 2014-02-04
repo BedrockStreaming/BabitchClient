@@ -2,14 +2,14 @@
 
 var babitchFrontendApp = angular.module('babitchFrontendApp',[
     'ngCookies',
-    'ngResource',
     'ngSanitize',
     'ngRoute',
     'babitchServer',
     'faye',
-    'ui.gravatar'
+    'ui.gravatar',
+    'restangular'
     ])
-    .config(function ($routeProvider, $httpProvider, gravatarServiceProvider) {
+    .config(function ($routeProvider, $httpProvider, gravatarServiceProvider, RestangularProvider, CONFIG) {
         gravatarServiceProvider.defaults = {
             size     : 400,
             "default": 'mm'  // Mystery man as default for missing avatars
@@ -31,6 +31,8 @@ var babitchFrontendApp = angular.module('babitchFrontendApp',[
             .otherwise({
                 redirectTo: '/'
             });
+
+        RestangularProvider.setBaseUrl(CONFIG.BABITCH_WS_URL);
 
         //Enable cross domain calls
         $httpProvider.defaults.useXDomain = true;
