@@ -1,55 +1,6 @@
 'use strict';
 
-/* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
-var BabitchGamePage = function(browser) {
-	browser.get(browser.baseUrl + '/?nobackend');
-
-	this.startButton = $('#actionStart button');
-	this.theEnd = $('.the-end');
-	this.theEndRestartGame = $$('.the-end button').get(0);
-	this.theEndNewGame = $$('.the-end button').get(1);
-	this.playersLocation = $$('.seat-layer');
-	this.score = $('.score');
-	this.firstTeamScore = $$('.score strong').get(0);
-	this.secondTeamScore = $$('.score strong').get(1);
-
-	this.getPlayerLocation = function(locationIndex) {
-		return new PlayerLocationElement(browser, $$('#match .seat').get(locationIndex));
-	};
-
-	this.getCancelLastGoalButton = function() {
-		$('.action .btn-group button').click();
-
-		return $('.cancel-last-goal');
-	};
-};
-
-var PlayerLocationElement = function(browser, playerLocation) {
-	this.playerLocation = playerLocation;
-
-	this.click = function() {
-		this.playerLocation.findElement(by.css('.seat-layer')).click();
-	};
-
-	this.selectPlayer = function(playerIndex) {
-		this.click();
-		$$('.player-list div a').get(playerIndex).click();
-	};
-
-	this.getPlayerName = function() {
-		return this.playerLocation.findElement(by.css('.player-name big')).getText();
-	};
-
-	this.goal = function() {
-		this.click();
-		$('.button.goal:not(.ng-hide)').click();
-	};
-
-	this.autogoal = function() {
-		this.click();
-		$('.button.autogoal:not(.ng-hide)').click();
-	};
-};
+var BabitchGamePage = require('./page/game.js');
 
 var page = null;
 
