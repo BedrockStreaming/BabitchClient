@@ -12,22 +12,13 @@ angular.module('babitchFrontendApp')
 		var gamesCompo = [];
 
 		var statsType = [
-			{name: 'goal', show: false}, //total goal the player made 
-			{name: 'percentGoalPerBall', show: true, text: '%Goal', addSuffix: '%'}, // percent of goal per ball played
-			{name: 'avgGoalPerGame', show: true, text: 'Goal/Game'}, // avg of goal the player made by game
-			{name: 'goalAttack', show: false}, // total goal the player made in attack position
-			{name: 'goalDefense', show: false}, // total goal the player made in defense position
-			{name: 'owngoal', show: false}, // total owngoal the player made
-			{name: 'owngoalAttack', show: false}, // total owngoal the player made in attack position
-			{name: 'owngoalDefense', show: false}, // total owngoal the player made in defense position
-			{name: 'goalConcede', show: false}, // total goal the player concede being in defense
-			{name: 'victory', show: false}, // total victory
-			{name: 'percentVictory', show: true, text: '%Victory', addSuffix: '%'}, // percentage of victory
-			{name: 'loose', show: false}, // total loose
-			{name: 'percentLoose', show: true, text: '%Loose', addSuffix: '%'}, // percentage of loose
-			{name: 'gamePlayed', show: true}, // number of game played
-			{name: 'teamGoalaverage', show: true}, // goal of his team - goal concede
-			{name: 'ballsPlayed', show: true} // total number of balls played
+			{name: 'percentGoalPerBall', text: '%Goal', addSuffix: '%'}, // percent of goal per ball played
+			{name: 'avgGoalPerGame', text: 'Goal/Game'}, // avg of goal the player made by game
+			{name: 'percentVictory', text: '%Victory', addSuffix: '%'}, // percentage of victory
+			{name: 'percentLoose', text: '%Loose', addSuffix: '%'}, // percentage of loose
+			{name: 'gamePlayed'}, // number of game played
+			{name: 'teamGoalaverage'}, // goal of his team - goal concede
+			{name: 'ballsPlayed'} // total number of balls played
 		];
 
 
