@@ -159,7 +159,7 @@
 						<th>
 							<a href="" ng-click="setPredicate('name'); setReverse()">Name</a>
 						</th>
-						<th ng-repeat="stat in statsType | filter: {show: true}" class="text-right">
+						<th ng-repeat="stat in statsType" class="text-right">
 							<a href="" ng-click="setPredicate(stat.name); setReverse()">
 								{{ (stat.text ? stat.text : stat.name) }}
 							</a>
@@ -172,7 +172,7 @@
 							<img gravatar-src="playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="30" />
 							<a ng-click="selectPlayer(player.id)">{{ player.name }}</a>
 						</td>
-						<td ng-repeat="stat in statsType | filter: {show: true}" class="text-right">
+						<td ng-repeat="stat in statsType" class="text-right">
 							{{ player[stat.name] }}{{ stat.addSuffix }}
 						</td>
 					</tr>
