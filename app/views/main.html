@@ -62,10 +62,10 @@
 
                 <div class="grid-cell grid-cell-{{ seat.position }} grid-cell-{{ side.position }}" ng-repeat="seat in side.seats">
                     <div class="grid-cell-body">
-                        <div class="player player-{{ side.name }}" ng-class="{ focused: seat.focused }">
+                        <div class="player player-{{ side.name }}" ng-class="{ focused: seat.focused }" ng-click="focusSeat(seat, side)">
                             <div class="player-picture" style="background-image: url({{ seat.player.email | gravatarize:200 }})"></div>
 
-                            <div class="player-layer {{ side.name }}" ng-click="focusSeat(seat, side)">
+                            <div class="player-layer">
                                 <div class="player-name">
                                     <small>{{ seat.place }}</small>
                                     <big>{{ seat.player ? seat.player.name : 'Choose a player' }}</big>
@@ -107,14 +107,14 @@
         <div class="grid" ng-show="goalTypeShawn">
             <div class="grid-cell grid-cell-{{ focusedSide.position == 'left' ? 'right' : 'left' }} grid-cell-{{ focusedSeat.position }}">
                 <div class="grid-cell-body">
-                    <div class="grid-btn grid-btn-white focused" ng-click="goal()">
+                    <div class="grid-btn grid-btn-white btn-goal focused" ng-click="goal()">
                         <span>Goal</span>
                     </div>
                 </div>
             </div>
             <div class="grid-cell grid-cell-{{ focusedSide.position == 'left' ? 'right' : 'left' }} grid-cell-{{ focusedSeat.position == 'top' ? 'bottom' : 'top' }}">
                 <div class="grid-cell-body">
-                    <div class="grid-btn grid-btn-red focused" ng-click="autogoal()">
+                    <div class="grid-btn grid-btn-red btn-autogoal focused" ng-click="autogoal()">
                         <span>Own goal</span>
                     </div>
                 </div>

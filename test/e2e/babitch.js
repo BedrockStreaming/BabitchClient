@@ -18,17 +18,17 @@ describe('Babitch : Choose player', function() {
 		expect(page.playersLocation.count()).toBe(4);
 	});
 
-	it('should not display startButton without less than 4 selected players', function() {
-		var playerLocation = page.getPlayerLocation(0);
-		playerLocation.selectPlayer(0);
-		expect(playerLocation.getPlayerName()).toBe('Adrien');
-  		expect(page.startButton.isDisplayed()).toBe(false);
-	});
+    it('should not display startButton without less than 4 selected players', function() {
+        var playerLocation = page.getPlayerLocation(0);
+        playerLocation.selectPlayer(0);
+        expect(playerLocation.getPlayerName()).toBe('Adrien');
+        expect(page.startButton.isDisplayed()).toBe(false);
+    });
 
-	it('should begin game with 4 different selected players', function() {
-		var playerLocation1 = page.getPlayerLocation(0);
-		playerLocation1.selectPlayer(0);
-		expect(playerLocation1.getPlayerName()).toBe('Adrien');
+    it('should begin game with 4 different selected players', function() {
+        var playerLocation1 = page.getPlayerLocation(0);
+        playerLocation1.selectPlayer(0);
+        expect(playerLocation1.getPlayerName()).toBe('Adrien');
 
 		var playerLocation2 = page.getPlayerLocation(1);
 		playerLocation2.selectPlayer(1);
@@ -57,7 +57,6 @@ describe('Babitch : Choose player', function() {
 });
 
 describe('Babitch : Game', function() {
-
 	beforeEach(function() {
 		page = new BabitchGamePage(browser);
 
@@ -90,12 +89,13 @@ describe('Babitch : Game', function() {
   		expect(page.secondTeamScore.getText()).toBe('1');
 	});
 
-	it('should add a goal for the red team if the red defender goal',function() {
-		var playerLocation = page.getPlayerLocation(0);
-		playerLocation.goal();
-  		expect(page.firstTeamScore.getText()).toBe('1');
-  		expect(page.secondTeamScore.getText()).toBe('0');
-	});
+
+    it('should add a goal for the red team if the red defender goal',function() {
+        var playerLocation = page.getPlayerLocation(0);
+        playerLocation.goal();
+        expect(page.firstTeamScore.getText()).toBe('1');
+        expect(page.secondTeamScore.getText()).toBe('0');
+    });
 
 	//Defense CSC
 	it('should add a goal for red team if the blue defender goal csc',function() {
