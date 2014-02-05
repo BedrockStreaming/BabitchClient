@@ -304,7 +304,17 @@ module.exports = function (grunt) {
       e2e: {
         options: {
           configFile: "protractor-e2e.conf.js", // Target-specific config file
-          args: {} // Target-specific arguments
+          args: {seleniumAddress: 'http://localhost:9515'} // Target-specific arguments
+        }
+      },
+      e2eTravis: {
+        options: {
+          configFile: "protractor-e2e.conf.js", // Target-specific config file
+          args: {
+            sauceUser: process.env.SAUCE_USERNAME,
+            sauceKey:  process.env.SAUCE_ACCESS_KEY,
+            capabilities: {'tunnel-identifier' : process.env.TRAVIS_JOB_NUMBER}
+          }
         }
       }
     }
@@ -338,7 +348,17 @@ module.exports = function (grunt) {
     'karma:unit',
     'faye',
     'chromedriver',
-    'protractor'
+    'protractor:e2e'
+  ]);
+
+  grunt.registerTask('test-travis', [
+    'clean:server',
+    'concurrent:test',
+    'autoprefixer',
+    'connect:test',
+    'karma:unit',
+    'faye',
+    'protractor:e2eTravis'
   ]);
 
   grunt.registerTask('build', [
@@ -376,7 +396,7 @@ module.exports = function (grunt) {
     var binPath = chromedriver.path;var running = true;
     var chrome = grunt.util.spawn({
         cmd: binPath,
-        args: []
+        args: ['--no-sandbox']
       }, function () {
       running = false;
       grunt.fatal('Chrome killed unexpectedly');
