@@ -11,8 +11,8 @@ var babitchFrontendApp = angular.module('babitchFrontendApp',[
     ])
     .config(function ($routeProvider, $httpProvider, gravatarServiceProvider, RestangularProvider, CONFIG) {
         gravatarServiceProvider.defaults = {
-            size     : 400,
-            "default": 'mm'  // Mystery man as default for missing avatars
+            size: 400,
+            "default": 'mm' // Mystery man as default for missing avatars
         };
 
         $routeProvider
@@ -23,6 +23,10 @@ var babitchFrontendApp = angular.module('babitchFrontendApp',[
             .when('/live', {
                 templateUrl: 'views/live.html',
                 controller: 'babitchLiveCtrl'
+            })
+            .when('/stats', {
+                templateUrl: 'views/stats.html',
+                controller: 'babitchStatsCtrl'
             })
             .otherwise({
                 redirectTo: '/'
@@ -37,4 +41,3 @@ var babitchFrontendApp = angular.module('babitchFrontendApp',[
         //Remove the header used to identify ajax call  that would prevent CORS from working
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
-

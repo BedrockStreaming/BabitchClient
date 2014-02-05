@@ -1,15 +1,18 @@
 language: node_js
 node_js:
   - '0.10'
-before_install:
-  - sudo rm -rf /usr/local/phantomjs
+
+env:
+  global:
+  - secure: goQA8hTY4l1v982NcEmGiYzTbvpYomLY2VQUpaZ5CBQHhYbM83gaQ4ZqWQ/4maCKNEZ7pNsw667gixhRs0rqyHY83aZQBiqVB9FdB1SPMJSGkFxgNRHjay5B/R8ky2k5oSw6H4WiokMha4to23sBJpIUBNmCHEqikQHXDm0oTH4=
+  - secure: akZelWfDqx31wZJAkOc0f1x2bLWM9XHfDhAl6pflqq3T8eG1sV/7WqhYf/15j3oKOBRgR544IYM+mQJYTwb9CD2fO0EaNELLmC1IFe6/c++2E4VIzD875+TpiHXj9yeUC2kdPOF0g5f0dHvV6qyozI0SaQQmPkGXEAAMYb27pBw=
+
 before_script:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
+  - curl https://gist.github.com/everzet/5698159/raw/4238a54d4ba87d2489db25f65a3bd23b2da4992f/sauce_connect_setup.sh | bash
   - 'npm install'
   - 'npm install -g bower'
   - 'npm install -g grunt-cli'
   - 'bower install'
 
 script:
- - grunt test
+ - grunt test-travis

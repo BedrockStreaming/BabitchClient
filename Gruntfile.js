@@ -297,14 +297,24 @@ module.exports = function (grunt) {
     },
     protractor: {
       options: {
-        keepAlive: true, // If false, the grunt process stops when the test fails.
+        keepAlive: false, // If false, the grunt process stops when the test fails.
         noColor: false, // If true, protractor will not use colors in its output.
         args: {}
       },
       e2e: {
         options: {
           configFile: "protractor-e2e.conf.js", // Target-specific config file
-          args: {} // Target-specific arguments
+          args: {seleniumAddress: 'http://localhost:9515'} // Target-specific arguments
+        }
+      },
+      e2eTravis: {
+        options: {
+          configFile: "protractor-e2e.conf.js", // Target-specific config file
+          args: {
+            sauceUser: process.env.SAUCE_USERNAME,
+            sauceKey:  process.env.SAUCE_ACCESS_KEY,
+            capabilities: {'tunnel-identifier' : process.env.TRAVIS_JOB_NUMBER}
+          }
         }
       }
     }
@@ -337,8 +347,18 @@ module.exports = function (grunt) {
     'connect:test',
     'karma:unit',
     'faye',
-    'phantomjs',
-    'protractor'
+    'chromedriver',
+    'protractor:e2e'
+  ]);
+
+  grunt.registerTask('test-travis', [
+    'clean:server',
+    'concurrent:test',
+    'autoprefixer',
+    'connect:test',
+    'karma:unit',
+    'faye',
+    'protractor:e2eTravis'
   ]);
 
   grunt.registerTask('build', [
@@ -371,21 +391,21 @@ module.exports = function (grunt) {
     server.listen(9003);
   });
 
-  grunt.registerTask('phantomjs', 'Launch phantomjs webdriver', function() {
-    var binPath = require('phantomjs').path;
-    var running = true;
-    var phantom = grunt.util.spawn({
+  grunt.registerTask('chromedriver', 'Launch Chrome webdriver', function() {
+    var chromedriver = require('chromedriver');
+    var binPath = chromedriver.path;var running = true;
+    var chrome = grunt.util.spawn({
         cmd: binPath,
-        args: ['--webdriver=4444', '--disk-cache=true']
+        args: ['--no-sandbox']
       }, function () {
       running = false;
-      grunt.fatal('PhantomJS killed unexpectedly');
+      grunt.fatal('Chrome killed unexpectedly');
     });
-    // Kill PhantomJS on exit.
+    // Kill Chrome on exit.
     process.on('exit', function () {
       if (running) {
-        phantom.kill();
-        grunt.log.ok('PhantomJS stopped');
+        chrome.kill();
+        grunt.log.ok('Chrome stopped');
       }
     });
   });

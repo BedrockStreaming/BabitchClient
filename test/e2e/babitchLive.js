@@ -84,9 +84,11 @@ describe('Babitch Live', function() {
 		}).then(function() {
 			return pageManager.switchToLivePage();
 		}).then(function() {
+			return browser.sleep(2000);
+		}).then(function() {
 			var page = pageManager.livePage;
 			expect(page.score.getText()).toBe('0 : 0');
 		});
-	});
+	}, 50000);
 
 });
