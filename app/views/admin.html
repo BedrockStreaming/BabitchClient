@@ -12,6 +12,7 @@
                             <th>Name</th>
                             <th>Email</th>
                             <th>Gravatar</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,6 +29,10 @@
                             <td>
                                 <img gravatar-src="player.email || ''"  gravatar-size="30" />
                             </td>       
+                            <td>
+                                <a ng-href="#/admin/{{ player.id }}" class="btn btn-primary">Edit</a>
+                                <a ng-click="deletePlayer(player.id, player.name)" class="btn btn-danger">Delete</a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

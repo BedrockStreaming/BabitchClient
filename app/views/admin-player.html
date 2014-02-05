@@ -4,7 +4,7 @@
     <div class="row">
 
         <div class="col-sm-10  col-md-10 col-md-offset-1">
-            <h2> Edit players : {{ player.name }}</h2>
+            <h2> {{ player.id ? 'Edit players' : 'New Player' }} : {{ player.name }}</h2>
 
             <form name="playerForm" ng-submit="submitForm()" novalidate> <!-- novalidate prevents HTML5 validation since we will be validating ourselves -->
 

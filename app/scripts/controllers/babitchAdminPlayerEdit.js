@@ -1,13 +1,15 @@
 'use strict';
 
-babitchFrontendApp.controller('babitchAdminPlayerCtrl', function($scope, Restangular, $location) {
+babitchFrontendApp.controller('babitchAdminPlayerEditCtrl', function($scope, Restangular, player, $location) {
     
+    $scope.player = Restangular.copy(player);
+
     // function to submit the form after all validation has occurred            
     $scope.submitForm = function() {
 
         // check to make sure the form is completely valid
         if ($scope.playerForm.$valid) {
-            Restangular.all('players').post($scope.player);
+            $scope.player.put();
             $location.path('/admin');
         }
     };
