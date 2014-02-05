@@ -72,6 +72,13 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
     };
 
     var resetPlayers = function () {
+        //Unselect players on the table
+        $scope.table.sides[0].seats[0].player.alreadySelected = false;
+        $scope.table.sides[0].seats[1].player.alreadySelected = false;
+        $scope.table.sides[1].seats[0].player.alreadySelected = false;
+        $scope.table.sides[1].seats[1].player.alreadySelected = false;
+
+        //Unlink players
         $scope.table.sides[0].seats[0].player = null;
         $scope.table.sides[0].seats[1].player = null;
         $scope.table.sides[1].seats[0].player = null;
@@ -158,9 +165,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
     };
 
     $scope.switchSidesOnView = function () {
-
         $scope.table.sides.forEach(function (side) {
-
             side.position = (side.position == 'left' ? 'right' : 'left');
 
             side.seats[0].position = (side.seats[0].position == 'top' ? 'bottom' : 'top');
@@ -352,7 +357,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
      * @return {void}
      */
     var notify = function (eventName) {
-        if ($scope.gameStarted) {
+        if (!$scope.gameEnded) {
             fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {
                 type:   eventName,
                 gameId: $scope.gameId,
