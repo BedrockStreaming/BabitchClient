@@ -1,6 +1,6 @@
 'use strict';
 
-babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fayeClient, $interval) {
+babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClient, $interval, Restangular) {
     $scope.gameId = null;
     $scope.gameStarted = false;
     $scope.gameEnded = false;
@@ -72,6 +72,13 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     };
 
     var resetPlayers = function () {
+        //Unselect players on the table
+        $scope.table.sides[0].seats[0].player.alreadySelected = false;
+        $scope.table.sides[0].seats[1].player.alreadySelected = false;
+        $scope.table.sides[1].seats[0].player.alreadySelected = false;
+        $scope.table.sides[1].seats[1].player.alreadySelected = false;
+
+        //Unlink players
         $scope.table.sides[0].seats[0].player = null;
         $scope.table.sides[0].seats[1].player = null;
         $scope.table.sides[1].seats[0].player = null;
@@ -105,11 +112,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     };
 
     var loadPlayers = function () {
-        $http({
-            url: CONFIG.BABITCH_WS_URL + '/players',
-            method: 'GET'
-        }).
-        success(function(data) {
+        Restangular.all('players').getList().then(function(data) {
             $scope.playersList = data;
         });
     };
@@ -339,18 +342,12 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
     };
 
     var saveGame = function () {
-        $http({
-            url: CONFIG.BABITCH_WS_URL + '/games',
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            data: $scope.getGameData()
-        }).
-        error(function (data, status) {
-            if (status == 0) {
-                setTimeout(function () {
-                    $scope.saveGame();
-                }, 1000);
-            }
+        Restangular.all("games").post($scope.getGameData()).then(function() {
+            //Game Saved
+        }, function() {
+            setTimeout(function () {
+                $scope.saveGame();
+            }, 1000);
         });
     };
 
@@ -362,7 +359,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, $http, CONFIG, fa
      * @return {void}
      */
     var notify = function (eventName) {
-        if ($scope.gameStarted) {
+        if (!$scope.gameEnded) {
             fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {
                 type:   eventName,
                 gameId: $scope.gameId,

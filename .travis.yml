@@ -1,6 +1,8 @@
 language: node_js
 node_js:
   - '0.10'
+before_install:
+  - sudo rm -rf /usr/local/phantomjs
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
@@ -10,4 +12,4 @@ before_script:
   - 'bower install'
 
 script:
- - grunt test 
+ - grunt test
