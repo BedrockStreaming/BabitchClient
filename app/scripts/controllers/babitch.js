@@ -173,13 +173,6 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
         });
     }
 
-    $scope.switchSeatsOnView = function () {
-        $scope.table.sides.forEach(function (side) {
-            side.seats[0].position = (side.seats[0].position == 'top' ? 'bottom' : 'top');
-            side.seats[1].position = (side.seats[1].position == 'top' ? 'bottom' : 'top');
-        });
-    }
-
     $scope.startGame = function () {
         if($scope.nbPlayers != 4) {
             console.log("Error, not enough player selected : need 4");
