@@ -165,9 +165,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
     };
 
     $scope.switchSidesOnView = function () {
-
         $scope.table.sides.forEach(function (side) {
-
             side.position = (side.position == 'left' ? 'right' : 'left');
 
             side.seats[0].position = (side.seats[0].position == 'top' ? 'bottom' : 'top');

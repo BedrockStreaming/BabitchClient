@@ -5,14 +5,14 @@ var BabitchGamePage = function(browser) {
 	this.theEnd = $('.the-end');
 	this.theEndRestartGame = $$('.the-end button').get(0);
 	this.theEndNewGame = $$('.the-end button').get(1);
-	this.playersLocation = $$('.seat-layer');
+	this.playersLocation = $$('.player');
 	this.score = $('.score');
 	this.firstTeamScore = $$('.score strong').get(0);
 	this.secondTeamScore = $$('.score strong').get(1);
 	this.restartButton = $$('.the-end  button').get(0);
 
 	this.getPlayerLocation = function(locationIndex) {
-		return new PlayerLocationElement(browser, $$('#match .seat').get(locationIndex));
+		return new PlayerLocationElement(browser, $$('#match .player').get(locationIndex));
 	};
 
 	this.getCancelLastGoalButton = function() {
@@ -40,12 +40,12 @@ var PlayerLocationElement = function(browser, playerLocation) {
 	this.playerLocation = playerLocation;
 	var _this = this;
 	this.click = function() {
-		return this.playerLocation.findElement(by.css('.seat-layer')).click();
+		return this.playerLocation.click();
 	};
 
 	this.selectPlayer = function(playerIndex) {
 		return this.click().then(function() {
-			return $$('.player-list div a').get(playerIndex).click();
+			return $$('.player-list a').get(playerIndex).click();
 		});
 	};
 
@@ -55,13 +55,13 @@ var PlayerLocationElement = function(browser, playerLocation) {
 
 	this.goal = function() {
 		return this.click().then(function() {
-			return $('.button.goal:not(.ng-hide)').click();
+			return $('.btn-goal').click();
 		});
 	};
 
 	this.autogoal = function() {
 		return _this.click().then(function() {
-			return $('.button.autogoal:not(.ng-hide)').click();
+			return $('.btn-autogoal').click();
 		});
 	};
 };
