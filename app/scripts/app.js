@@ -41,6 +41,10 @@ var babitchFrontendApp = angular.module('babitchFrontendApp', [
                     }
                 }
             })
+            .when('/stats', {
+                templateUrl: 'views/stats.html',
+                controller: 'babitchStatsCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -48,7 +52,6 @@ var babitchFrontendApp = angular.module('babitchFrontendApp', [
         RestangularProvider.setBaseUrl(CONFIG.BABITCH_WS_URL);
 
         RestangularProvider.setRequestInterceptor(function(element, operation, route, url) {
-            console.log(element);
             if (operation === 'put' || operation === 'post') {
                 delete element._links;
                 delete element.id;
