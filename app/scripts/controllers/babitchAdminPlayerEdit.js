@@ -9,8 +9,9 @@ babitchFrontendApp.controller('babitchAdminPlayerEditCtrl', function($scope, Res
 
         // check to make sure the form is completely valid
         if ($scope.playerForm.$valid) {
-            $scope.player.put();
-            $location.path('/admin');
+            $scope.player.put().then(function() {
+                $location.path('/admin');
+            });
         }
     };
 });

@@ -7,8 +7,9 @@ babitchFrontendApp.controller('babitchAdminPlayerCtrl', function($scope, Restang
 
         // check to make sure the form is completely valid
         if ($scope.playerForm.$valid) {
-            Restangular.all('players').post($scope.player);
-            $location.path('/admin');
+            Restangular.all('players').post($scope.player).then(function() {
+                $location.path('/admin');
+            });
         }
     };
 });
