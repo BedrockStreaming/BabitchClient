@@ -1,0 +1,33 @@
+            <div class="player-header">
+                <div class="player-bg" style="background-image: url({{ playersList[selectedPlayer].email | gravatarize:500 }})"></div>
+
+                <div class="container">
+                    <div class="player-title">
+                        <img gravatar-src="playersList[selectedPlayer].email || ''" gravatar-default="wavatar" gravatar-size="150" />
+                        <h1>{{ playersList[selectedPlayer].name }}</h1>
+                    </div>
+                </div>
+            </div>
+
+            <div class="player-body container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="page-header">
+                            <h2>Stats</h2>
+                        </div>
+
+                        <table class="table table-hover table-condensed">
+                            <tbody>
+                                <tr ng-repeat="stat in statsType">
+                                    <td>
+                                        {{ (stat.text ? stat.text : stat.name) }}
+                                    </td>
+                                    <td class="text-right">
+                                        {{ statsPlayers[selectedPlayer][stat.name] }}{{ stat.addSuffix }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
