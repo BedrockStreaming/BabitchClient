@@ -11,7 +11,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="games in gamesList | limitTo:25">
+                    <tr ng-repeat="games in gamesList | limitTo:(selectedPlayer ? 100 : 25) | withPlayerInTeam: selectedPlayer">
                         <td class="team red">
                             <a ng-click="selectPlayer(games.redDefense)">
                                 <img gravatar-src="playersList[games.redDefense].email || ''" gravatar-default="wavatar" gravatar-size="30" />

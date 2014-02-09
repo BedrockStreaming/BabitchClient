@@ -16,13 +16,13 @@
 						<a ng-click="menuSelect=''">Overview</a>
 					</li>
 					<li ng-class="{active: menuSelect=='lastgames'}">
-						<a ng-click="menuSelect='lastgames'">Last Games</a>
+						<a ng-click="menuSelect='lastgames';selectedPlayer=0;">Last Games</a>
 					</li>
 					<li ng-class="{active: menuSelect=='allstats'}">
 						<a ng-click="menuSelect='playerstats'">Player Stats</a>
 					</li>
 					<li ng-class="{active: menuSelect=='allstats'}">
-						<a ng-click="menuSelect='teamstats'">Team Stats</a>
+						<a ng-click="menuSelect='teamstats';selectedPlayer=0;">Team Stats</a>
 					</li>
 				</ul>
 	        </div>

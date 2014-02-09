@@ -2,7 +2,6 @@
                 <h1>Team Stats</h1> 
             </div>
 
-
             <table class="table table-hover table-condensed">
                 <thead>
                     <tr>
@@ -17,14 +16,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="team in statsTeams | orderBy:predicate:reverse | minGamePlayed:3">
+                    <tr ng-repeat="team in statsTeams | orderBy:predicate:reverse | minGamePlayed:(selectedPlayer ? 1:3) | withPlayerInTeam: selectedPlayer">
                         <td>
                             <img gravatar-src="playersList[team.player_id1].email || ''" gravatar-sizevatar-default="wavatar" gravatar-size="30" />
                             <a ng-click="selectPlayer(playersList[team.player_id1].id)">{{ playersList[team.player_id1].name }}</a> 
                         </td>
                         <td>
                             <img gravatar-src="playersList[team.player_id2].email || ''" gravatar-default="wavatar" gravatar-size="30" />
-                            <a ng-click="selectPlayer(playersList[team.player_id1].id)">{{ playersList[team.player_id2].name }}</a>
+                            <a ng-click="selectPlayer(playersList[team.player_id2].id)">{{ playersList[team.player_id2].name }}</a>
                         </td>
                         <td ng-repeat="stat in statsType" class="text-right">
                             {{ team[stat.name] }}
