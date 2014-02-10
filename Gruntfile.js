@@ -351,6 +351,14 @@ module.exports = function (grunt) {
     'protractor:e2e'
   ]);
 
+  grunt.registerTask('test-unit', [
+    'clean:server',
+    'concurrent:test',
+    'autoprefixer',
+    'connect:test',
+    'karma:unit'
+  ]);
+
   grunt.registerTask('test-travis', [
     'clean:server',
     'concurrent:test',
