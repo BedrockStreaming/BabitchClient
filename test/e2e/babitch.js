@@ -1,52 +1,6 @@
 'use strict';
 
-/* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
-var BabitchGamePage = function(browser) {
-	browser.get(browser.baseUrl + '/?nobackend');
-
-	this.startButton = $('#actionStart button');
-	this.playersLocation = $$('.seat-layer');
-	this.score = $('.score');
-	this.firstTeamScore = $$('.score strong').get(0);
-	this.secondTeamScore = $$('.score strong').get(1);
-
-	this.getPlayerLocation = function(locationIndex) {
-		return new PlayerLocationElement(browser, $$('#match .seat').get(locationIndex));
-	};
-
-	this.getCancelLastGoalButton = function() {
-		$('.action .btn-group button').click();
-
-		return $('.cancel-last-goal');
-	};
-};
-
-var PlayerLocationElement = function(browser, playerLocation) {
-	this.playerLocation = playerLocation;
-
-	this.click = function() {
-		this.playerLocation.findElement(by.css('.seat-layer')).click();
-	};
-
-	this.selectPlayer = function(playerIndex) {
-		this.click();
-		$$('.player-list div a').get(playerIndex).click();
-	};
-
-	this.getPlayerName = function() {
-		return this.playerLocation.findElement(by.css('.player-name big')).getText();
-	};
-
-	this.goal = function() {
-		this.click();
-		$('.button.goal:not(.ng-hide)').click();
-	};
-
-	this.autogoal = function() {
-		this.click();
-		$('.button.autogoal:not(.ng-hide)').click();
-	};
-};
+var BabitchGamePage = require('./page/game.js');
 
 var page = null;
 
@@ -64,17 +18,17 @@ describe('Babitch : Choose player', function() {
 		expect(page.playersLocation.count()).toBe(4);
 	});
 
-	it('should not display startButton without less than 4 selected players', function() {
-		var playerLocation = page.getPlayerLocation(0);
-		playerLocation.selectPlayer(0);
-		expect(playerLocation.getPlayerName()).toBe('Adrien');
-  		expect(page.startButton.isDisplayed()).toBe(false);
-	});
+    it('should not display startButton without less than 4 selected players', function() {
+        var playerLocation = page.getPlayerLocation(0);
+        playerLocation.selectPlayer(0);
+        expect(playerLocation.getPlayerName()).toBe('Adrien');
+        expect(page.startButton.isDisplayed()).toBe(false);
+    });
 
-	it('should begin game with 4 different selected players', function() {
-		var playerLocation1 = page.getPlayerLocation(0);
-		playerLocation1.selectPlayer(0);
-		expect(playerLocation1.getPlayerName()).toBe('Adrien');
+    it('should begin game with 4 different selected players', function() {
+        var playerLocation1 = page.getPlayerLocation(0);
+        playerLocation1.selectPlayer(0);
+        expect(playerLocation1.getPlayerName()).toBe('Adrien');
 
 		var playerLocation2 = page.getPlayerLocation(1);
 		playerLocation2.selectPlayer(1);
@@ -103,7 +57,6 @@ describe('Babitch : Choose player', function() {
 });
 
 describe('Babitch : Game', function() {
-
 	beforeEach(function() {
 		page = new BabitchGamePage(browser);
 
@@ -136,12 +89,13 @@ describe('Babitch : Game', function() {
   		expect(page.secondTeamScore.getText()).toBe('1');
 	});
 
-	it('should add a goal for the red team if the red defender goal',function() {
-		var playerLocation = page.getPlayerLocation(0);
-		playerLocation.goal();
-  		expect(page.firstTeamScore.getText()).toBe('1');
-  		expect(page.secondTeamScore.getText()).toBe('0');
-	});
+
+    it('should add a goal for the red team if the red defender goal',function() {
+        var playerLocation = page.getPlayerLocation(0);
+        playerLocation.goal();
+        expect(page.firstTeamScore.getText()).toBe('1');
+        expect(page.secondTeamScore.getText()).toBe('0');
+    });
 
 	//Defense CSC
 	it('should add a goal for red team if the blue defender goal csc',function() {
@@ -165,7 +119,6 @@ describe('Babitch : Game', function() {
   		expect(page.firstTeamScore.getText()).toBe('0');
   		expect(page.secondTeamScore.getText()).toBe('1');
 	});
-
 
 	it('should add a goal for the red team if the red attacker goal',function() {
 		var playerLocation = page.getPlayerLocation(0);
@@ -205,6 +158,35 @@ describe('Babitch : Game', function() {
   		expect(page.firstTeamScore.getText()).toBe('0');
   		expect(page.secondTeamScore.getText()).toBe('0');
   		expect(cancelLastGoalButton.isDisplayed()).toBe(false);
+	});
+
+	it('should propose to restart or to make a new game',function() {
+		expect(page.theEnd.isDisplayed()).toBe(false);
+		var playerLocation = page.getPlayerLocation(2);
+		for(var i=0; i<10 ; i++) {
+			playerLocation.goal();
+		}
+  		expect(page.firstTeamScore.getText()).toBe('0');
+  		expect(page.secondTeamScore.getText()).toBe('10');
+  		expect(page.theEnd.isDisplayed()).toBe(true);
+	});
+
+	it('should start a new game',function() {
+		var playerLocation = page.getPlayerLocation(2);
+  		expect(page.score.isDisplayed()).toBe(true);
+		for(var i=0; i<10 ; i++) {
+			playerLocation.goal();
+		}
+  		expect(page.firstTeamScore.getText()).toBe('0');
+  		expect(page.secondTeamScore.getText()).toBe('10');
+  		expect(page.theEnd.isDisplayed()).toBe(true);
+  		page.theEndNewGame.click();
+  		expect(page.score.isDisplayed()).toBe(false);
+
+  		//Select adrien again
+  		var playerLocation1 = page.getPlayerLocation(0);
+		playerLocation1.selectPlayer(0);
+		expect(playerLocation1.getPlayerName()).toBe('Adrien');
 	});
 
 });

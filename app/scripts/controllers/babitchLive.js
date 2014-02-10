@@ -1,8 +1,6 @@
 'use strict';
 
-babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, $resource, CONFIG) {
-    var Player = $resource(CONFIG.BABITCH_WS_URL + '/players/:playerId', {playerId:'@id'});
-
+babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, Restangular, CONFIG) {
 
     $scope.refreshAvailableGames = function() {
         $scope.currentGamesIds = [];
@@ -56,7 +54,7 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, $
         var lastGoal = _.last(data.game.goals);
 
         if (lastGoal) {
-            var lastGoalPlayer = Player.get({playerId: lastGoal.player_id}, function(player) {
+            Restangular.one("players", lastGoal.player_id).get().then(function(player) {
                 $scope.lastGoal = _.extend({player: player}, lastGoal);
             });
         }
@@ -64,20 +62,7 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, $
         $scope.game = data.game;
 
         data.game.player.forEach(function(position) {
-            var player = Player.get({ playerId: position.player_id }, function() {
-                // if (position.position == 'attack' && position.team == 'red') {
-                //     $scope.redAttacker = player;
-                // }
-                // if (position.position == 'defense' && position.team == 'red') {
-                //     $scope.redDefender = player;
-                // }
-                // if (position.position == 'attack' && position.team == 'blue') {
-                //     $scope.blueAttacker = player;
-                // }
-                // if (position.position == 'defense' && position.team == 'blue') {
-                //     $scope.blueDefender = player;
-                // }
-
+            Restangular.one("players", position.player_id).get().then(function(player) {
                 position.player = player;
             });
         });

@@ -1,7 +1,9 @@
 {
   "name": "babitchfrontend",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "faye": "~1.0.1"
+  },
   "devDependencies": {
     "grunt": "~0.4.1",
     "grunt-autoprefixer": "~0.4.0",
@@ -41,10 +43,10 @@
     "karma": "~0.10.8",
     "karma-ng-html2js-preprocessor": "~0.1.0",
     "jshint": "~2.3.0",
-    "grunt-phantom": "~0.2.0",
-    "grunt-protractor-runner": "~0.2.1",
-    "phantomjs": "~1.9.7-1",
-    "protractor": "~0.17.0"
+    "grunt-protractor-runner": "0.2.3",
+    "phantomjs": "1.9.2-6",
+    "protractor": "~0.17.0",
+    "chromedriver": "~2.8.1"
   },
   "engines": {
     "node": ">=0.8.0"

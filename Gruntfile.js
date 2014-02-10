@@ -295,23 +295,26 @@ module.exports = function (grunt) {
         singleRun: true
       }
     },
-    phantom: {
-      options: {
-        port: 4444
-      },
-      test: {
-      }
-    },
     protractor: {
       options: {
-        keepAlive: true, // If false, the grunt process stops when the test fails.
+        keepAlive: false, // If false, the grunt process stops when the test fails.
         noColor: false, // If true, protractor will not use colors in its output.
         args: {}
       },
       e2e: {
         options: {
           configFile: "protractor-e2e.conf.js", // Target-specific config file
-          args: {} // Target-specific arguments
+          args: {seleniumAddress: 'http://localhost:9515'} // Target-specific arguments
+        }
+      },
+      e2eTravis: {
+        options: {
+          configFile: "protractor-e2e.conf.js", // Target-specific config file
+          args: {
+            sauceUser: process.env.SAUCE_USERNAME,
+            sauceKey:  process.env.SAUCE_ACCESS_KEY,
+            capabilities: {'tunnel-identifier' : process.env.TRAVIS_JOB_NUMBER}
+          }
         }
       }
     }
@@ -343,8 +346,27 @@ module.exports = function (grunt) {
     'autoprefixer',
     'connect:test',
     'karma:unit',
-    'phantom:test',
-    'protractor'
+    'faye',
+    'chromedriver',
+    'protractor:e2e'
+  ]);
+
+  grunt.registerTask('test-unit', [
+    'clean:server',
+    'concurrent:test',
+    'autoprefixer',
+    'connect:test',
+    'karma:unit'
+  ]);
+
+  grunt.registerTask('test-travis', [
+    'clean:server',
+    'concurrent:test',
+    'autoprefixer',
+    'connect:test',
+    'karma:unit',
+    'faye',
+    'protractor:e2eTravis'
   ]);
 
   grunt.registerTask('build', [
@@ -367,4 +389,32 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  grunt.registerTask('faye', 'Launch faye server on 9003 port', function() {
+    var http = require('http'),
+    faye = require('faye');
+    var server = http.createServer(),
+    fayeServer = new faye.NodeAdapter({mount: '/faye', timeout: 45});
+    fayeServer.attach(server);
+    server.listen(9003);
+  });
+
+  grunt.registerTask('chromedriver', 'Launch Chrome webdriver', function() {
+    var chromedriver = require('chromedriver');
+    var binPath = chromedriver.path;var running = true;
+    var chrome = grunt.util.spawn({
+        cmd: binPath,
+        args: ['--no-sandbox']
+      }, function () {
+      running = false;
+      grunt.fatal('Chrome killed unexpectedly');
+    });
+    // Kill Chrome on exit.
+    process.on('exit', function () {
+      if (running) {
+        chrome.kill();
+        grunt.log.ok('Chrome stopped');
+      }
+    });
+  });
 };
