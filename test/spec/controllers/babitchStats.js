@@ -572,6 +572,38 @@ describe('Controller: BabitchStatsCtrl', function() {
         expect(scope.statsTeams[4].owngoal).toBe(0);
     });
 
+    it('should calculate team average goal per game correctly', function() {
+        expect(scope.statsTeams[0].avgGoalPerGame).toBe(8);
+        expect(scope.statsTeams[1].avgGoalPerGame).toBe(9);
+        expect(scope.statsTeams[2].avgGoalPerGame).toBe(3);
+        expect(scope.statsTeams[3].avgGoalPerGame).toBe(10);
+        expect(scope.statsTeams[4].avgGoalPerGame).toBe(4);
+    });
+
+    it('should calculate team game played', function() {
+        expect(scope.statsTeams[0].gamePlayed).toBe(1);
+        expect(scope.statsTeams[1].gamePlayed).toBe(1);
+        expect(scope.statsTeams[2].gamePlayed).toBe(1);
+        expect(scope.statsTeams[3].gamePlayed).toBe(2);
+        expect(scope.statsTeams[4].gamePlayed).toBe(1);
+    });
+
+    it('should calculate team balls played', function() {
+        expect(scope.statsTeams[0].ballsPlayed).toBe(19);
+        expect(scope.statsTeams[1].ballsPlayed).toBe(19);
+        expect(scope.statsTeams[2].ballsPlayed).toBe(13);
+        expect(scope.statsTeams[3].ballsPlayed).toBe(29);
+        expect(scope.statsTeams[4].ballsPlayed).toBe(16);
+    });
+
+    it('should calculate team percent goal per ball correctly', function() {
+        expect(scope.statsTeams[0].percentGoalPerBall).toBe(42.1);
+        expect(scope.statsTeams[1].percentGoalPerBall).toBe(47.4);
+        expect(scope.statsTeams[2].percentGoalPerBall).toBe(23.1);
+        expect(scope.statsTeams[3].percentGoalPerBall).toBe(69);
+        expect(scope.statsTeams[4].percentGoalPerBall).toBe(25);
+    });
+
     it('should do not forget one goal', function() {
         var nbGoal = scope.statsTeams[0].goal
             +scope.statsTeams[1].goal
