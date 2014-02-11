@@ -87,8 +87,8 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 			$scope.statsTeams[$scope._redTeamId].victory++;
 			$scope.statsTeams[$scope._blueTeamId].loose++;
 
-			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id1].gameSeries.push('V');
-			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id2].gameSeries.push('V');
+			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id1].gameSeries.push('W');
+			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id2].gameSeries.push('W');
 			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id1].gameSeries.push('L');
 			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id2].gameSeries.push('L');
 		} else {
@@ -102,8 +102,8 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 
 			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id1].gameSeries.push('L');
 			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id2].gameSeries.push('L');
-			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id1].gameSeries.push('V');
-			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id2].gameSeries.push('V');
+			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id1].gameSeries.push('W');
+			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id2].gameSeries.push('W');
 		}
 	};
 	
