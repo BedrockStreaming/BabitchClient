@@ -617,5 +617,109 @@ describe('Controller: BabitchStatsCtrl', function() {
             +scope.statsTeams[4].owngoal;
         expect(nbGoal).toBe(48);
     });
+
+    
+    it('should calculate player victory correctly', function() {
+        expect(scope.statsPlayers[7].victory).toBe(0);
+        expect(scope.statsPlayers[8].victory).toBe(3);
+        expect(scope.statsPlayers[9].victory).toBe(2);
+        expect(scope.statsPlayers[12].victory).toBe(1);
+        expect(scope.statsPlayers[16].victory).toBe(0);
+    });
+
+    it('should calculate player loose correctly', function() {
+        expect(scope.statsPlayers[7].loose).toBe(2);
+        expect(scope.statsPlayers[8].loose).toBe(0);
+        expect(scope.statsPlayers[9].loose).toBe(1);
+        expect(scope.statsPlayers[12].loose).toBe(1);
+        expect(scope.statsPlayers[16].loose).toBe(2);
+    });
+
+    it('should calculate player percentVictory correctly', function() {
+        expect(scope.statsPlayers[7].percentVictory).toBe(0);
+        expect(scope.statsPlayers[8].percentVictory).toBe(100);
+        expect(scope.statsPlayers[9].percentVictory).toBe(66.7);
+        expect(scope.statsPlayers[12].percentVictory).toBe(50);
+        expect(scope.statsPlayers[16].percentVictory).toBe(0);
+    });
+
+    it('should calculate player percentLoose correctly', function() {
+        expect(scope.statsPlayers[7].percentLoose).toBe(100);
+        expect(scope.statsPlayers[8].percentLoose).toBe(0);
+        expect(scope.statsPlayers[9].percentLoose).toBe(33.3);
+        expect(scope.statsPlayers[12].percentLoose).toBe(50);
+        expect(scope.statsPlayers[16].percentLoose).toBe(100);
+    });
+
+    it('should calculate player teamGoalaverage correctly', function() {
+        expect(scope.statsPlayers[7].teamGoalaverage).toBe(-5.5);
+        expect(scope.statsPlayers[8].teamGoalaverage).toBe(4);
+        expect(scope.statsPlayers[9].teamGoalaverage).toBe(3.3);
+        expect(scope.statsPlayers[12].teamGoalaverage).toBe(-3);
+        expect(scope.statsPlayers[16].teamGoalaverage).toBe(-2.5);
+    });
+
+
+    it('should calculate player goal correctly', function() {
+        expect(scope.statsPlayers[7].goal).toBe(1);
+        expect(scope.statsPlayers[8].goal).toBe(17);
+        expect(scope.statsPlayers[9].goal).toBe(16);
+        expect(scope.statsPlayers[12].goal).toBe(6);
+        expect(scope.statsPlayers[16].goal).toBe(4);
+    });
+
+    it('should calculate player owngoal correctly', function() {
+        expect(scope.statsPlayers[7].owngoal).toBe(0);
+        expect(scope.statsPlayers[8].owngoal).toBe(2);
+        expect(scope.statsPlayers[9].owngoal).toBe(0);
+        expect(scope.statsPlayers[12].owngoal).toBe(1);
+        expect(scope.statsPlayers[16].owngoal).toBe(1);
+    });
+
+    it('should calculate player average goal per game correctly', function() {
+        expect(scope.statsPlayers[7].avgGoalPerGame).toBe(0.5);
+        expect(scope.statsPlayers[8].avgGoalPerGame).toBe(5.7);
+        expect(scope.statsPlayers[9].avgGoalPerGame).toBe(5.3);
+        expect(scope.statsPlayers[12].avgGoalPerGame).toBe(3);
+        expect(scope.statsPlayers[16].avgGoalPerGame).toBe(2);
+    });
+
+    it('should calculate player game played', function() {
+        expect(scope.statsPlayers[7].gamePlayed).toBe(2);
+        expect(scope.statsPlayers[8].gamePlayed).toBe(3);
+        expect(scope.statsPlayers[9].gamePlayed).toBe(3);
+        expect(scope.statsPlayers[12].gamePlayed).toBe(2);
+        expect(scope.statsPlayers[16].gamePlayed).toBe(2);
+    });
+
+    it('should calculate player balls played', function() {
+        expect(scope.statsPlayers[7].ballsPlayed).toBe(29);
+        expect(scope.statsPlayers[8].ballsPlayed).toBe(48);
+        expect(scope.statsPlayers[9].ballsPlayed).toBe(48);
+        expect(scope.statsPlayers[12].ballsPlayed).toBe(32);
+        expect(scope.statsPlayers[16].ballsPlayed).toBe(35);
+    });
+
+    it('should calculate player percent goal per ball correctly', function() {
+        expect(scope.statsPlayers[7].percentGoalPerBall).toBe(3.4);
+        expect(scope.statsPlayers[8].percentGoalPerBall).toBe(35.4);
+        expect(scope.statsPlayers[9].percentGoalPerBall).toBe(33.3);
+        expect(scope.statsPlayers[12].percentGoalPerBall).toBe(18.8);
+        expect(scope.statsPlayers[16].percentGoalPerBall).toBe(11.4);
+    });
+
+    it('should do not forget one goal', function() {
+        var nbGoal = scope.statsPlayers[7].goal
+            +scope.statsPlayers[8].goal
+            +scope.statsPlayers[9].goal
+            +scope.statsPlayers[12].goal
+            +scope.statsPlayers[16].goal
+            +scope.statsPlayers[7].owngoal
+            +scope.statsPlayers[8].owngoal
+            +scope.statsPlayers[9].owngoal
+            +scope.statsPlayers[12].owngoal
+            +scope.statsPlayers[16].owngoal;
+        expect(nbGoal).toBe(48);
+    });
 });
 
