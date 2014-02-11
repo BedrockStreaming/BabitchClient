@@ -86,6 +86,11 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 
 			$scope.statsTeams[$scope._redTeamId].victory++;
 			$scope.statsTeams[$scope._blueTeamId].loose++;
+
+			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id1].gameSeries.push('V');
+			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id2].gameSeries.push('V');
+			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id1].gameSeries.push('L');
+			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id2].gameSeries.push('L');
 		} else {
 			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id1].loose++;
 			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id2].loose++;
@@ -94,6 +99,11 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 
 			$scope.statsTeams[$scope._redTeamId].loose++;
 			$scope.statsTeams[$scope._blueTeamId].victory++;
+
+			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id1].gameSeries.push('L');
+			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id2].gameSeries.push('L');
+			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id1].gameSeries.push('V');
+			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id2].gameSeries.push('V');
 		}
 	};
 	
@@ -210,7 +220,8 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 							gamePlayed: 0,
 							teamGoalaverage: 0,
 							ballsPlayed: 0,
-							goalConcede: 0
+							goalConcede: 0,
+							gameSeries: []
 						};
 					}
 				});
@@ -321,6 +332,10 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 				$scope.playersList.forEach(function(player) {
 					$scope._setStatsPercentVictoryLoose('Players', player.id);
 					$scope._setStatsPercentGoal('Players', player.id);
+
+					//Generate GameSeries
+					$scope.statsPlayers[player.id].gameSeries = $scope.statsPlayers[player.id].gameSeries.slice(0,5);
+					$scope.statsPlayers[player.id].gameSeries.reverse();
 				});
 
 				//Compute percentage on each team

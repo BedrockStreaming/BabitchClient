@@ -26,6 +26,15 @@
                                         {{ statsPlayers[selectedPlayer][stat.name] }}{{ stat.addSuffix }}
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        Game Series
+                                    </td>
+                                    <td class="text-right">
+                                        <span ng-repeat="serie in statsPlayers[selectedPlayer].gameSeries | limitTo:5 track by $index">
+                                            {{ $index>0 ? '/':'' }} {{ serie }}
+                                        </span>
+                                    </td>
                             </tbody>
                         </table>
                     </div>
