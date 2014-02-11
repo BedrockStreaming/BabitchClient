@@ -130,18 +130,16 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 			if (compo.team == "red") {
 				$scope.statsPlayers[compo.player_id].teamGoalaverage += game.red_score;
 				$scope.statsPlayers[compo.player_id].teamGoalaverage -= game.blue_score;
-
-				$scope.statsTeams[$scope._redTeamId].teamGoalaverage += game.red_score;
-				$scope.statsTeams[$scope._redTeamId].teamGoalaverage -= game.blue_score;
-
 			} else {
 				$scope.statsPlayers[compo.player_id].teamGoalaverage += game.blue_score;
 				$scope.statsPlayers[compo.player_id].teamGoalaverage -= game.red_score;
-
-				$scope.statsTeams[$scope._blueTeamId].teamGoalaverage -= game.red_score;
-				$scope.statsTeams[$scope._blueTeamId].teamGoalaverage += game.blue_score;
 			}
 		});
+
+		$scope.statsTeams[$scope._redTeamId].teamGoalaverage += game.red_score;
+		$scope.statsTeams[$scope._redTeamId].teamGoalaverage -= game.blue_score;
+		$scope.statsTeams[$scope._blueTeamId].teamGoalaverage -= game.red_score;
+		$scope.statsTeams[$scope._blueTeamId].teamGoalaverage += game.blue_score;
 	};
 
 	$scope._setStatsBallsPlayed = function(game) {
@@ -336,12 +334,17 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 					//Generate GameSeries
 					$scope.statsPlayers[player.id].gameSeries = $scope.statsPlayers[player.id].gameSeries.slice(0,5);
 					$scope.statsPlayers[player.id].gameSeries.reverse();
+
+					$scope.statsPlayers[player.id].teamGoalaverage = +($scope.statsPlayers[player.id].teamGoalaverage / $scope.statsPlayers[player.id].gamePlayed).toFixed(1);
 				});
 
 				//Compute percentage on each team
 				$scope.statsTeams.forEach(function(team) {
 					$scope._setStatsPercentVictoryLoose('Teams', team.id);
 					$scope._setStatsPercentGoal('Teams', team.id);
+
+					$scope.statsTeams[team.id].teamGoalaverage = +($scope.statsTeams[team.id].teamGoalaverage / $scope.statsTeams[team.id].gamePlayed).toFixed(1);
+
 				});
 
 			});

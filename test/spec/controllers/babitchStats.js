@@ -549,11 +549,11 @@ describe('Controller: BabitchStatsCtrl', function() {
     });
 
     it('should calculate team teamGoalaverage correctly', function() {
-        expect(scope.statsTeams[0].teamGoalaverage).toBe(-2);
-        expect(scope.statsTeams[1].teamGoalaverage).toBe(2);
-        expect(scope.statsTeams[2].teamGoalaverage).toBe(-14);
-        expect(scope.statsTeams[3].teamGoalaverage).toBe(22);
-        expect(scope.statsTeams[4].teamGoalaverage).toBe(-8);
+        expect(scope.statsTeams[0].teamGoalaverage).toBe(-1);
+        expect(scope.statsTeams[1].teamGoalaverage).toBe(1);
+        expect(scope.statsTeams[2].teamGoalaverage).toBe(-7);
+        expect(scope.statsTeams[3].teamGoalaverage).toBe(5.5);
+        expect(scope.statsTeams[4].teamGoalaverage).toBe(-4);
     });
 
     it('should calculate team goal correctly', function() {
