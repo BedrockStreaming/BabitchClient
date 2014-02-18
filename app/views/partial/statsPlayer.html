@@ -1,10 +1,10 @@
             <div class="player-header">
-                <div class="player-bg" style="background-image: url({{ playersList[selectedPlayer].email | gravatarize:500 }})"></div>
+                <div class="player-bg" style="background-image: url({{ stats.playersList[selectedPlayer].email | gravatarize:500 }})"></div>
 
                 <div class="container">
                     <div class="player-title">
-                        <img gravatar-src="playersList[selectedPlayer].email || ''" gravatar-default="wavatar" gravatar-size="150" />
-                        <h1>{{ playersList[selectedPlayer].name }}</h1>
+                        <img gravatar-src="stats.playersList[selectedPlayer].email || ''" gravatar-default="wavatar" gravatar-size="150" />
+                        <h1>{{ stats.playersList[selectedPlayer].name }}</h1>
                     </div>
                 </div>
             </div>
@@ -18,12 +18,12 @@
 
                         <table class="table table-hover table-condensed">
                             <tbody>
-                                <tr ng-repeat="stat in statsType">
+                                <tr ng-repeat="stat in stats.statsType">
                                     <td>
                                         {{ (stat.text ? stat.text : stat.name) }}
                                     </td>
                                     <td class="text-right">
-                                        {{ statsPlayers[selectedPlayer][stat.name] }}{{ stat.addSuffix }}
+                                        {{ stats.statsPlayers[selectedPlayer][stat.name] }}{{ stat.addSuffix }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -31,7 +31,7 @@
                                         Game Series
                                     </td>
                                     <td class="text-right">
-                                        <span ng-repeat="serie in statsPlayers[selectedPlayer].gameSeries | limitTo:5 track by $index">
+                                        <span ng-repeat="serie in stats.statsPlayers[selectedPlayer].gameSeries | limitTo:5 track by $index">
                                             {{ $index>0 ? '/':'' }} {{ serie }}
                                         </span>
                                     </td>

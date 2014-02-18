@@ -4,33 +4,33 @@
             </div>
 
             <div class="row">
-                <div ng-repeat="player in statsPlayers | orderBy:'percentGoalPerBall':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
+                <div ng-repeat="player in stats.statsPlayers | orderBy:'percentGoalPerBall':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
                     <a ng-click="selectPlayer(player.id)">
-                        <img gravatar-src="playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="200" />
+                        <img gravatar-src="stats.playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="200" />
                     </a>
                     <h4>Top Goaler</h4>
-                    <span class="text-muted">{{ player.name }} ({{ statsPlayers[player.id].percentGoalPerBall }}%)</span>
+                    <span class="text-muted">{{ player.name }} ({{ stats.statsPlayers[player.id].percentGoalPerBall }}%)</span>
                 </div>
-                <div ng-repeat="player in statsPlayers | orderBy:'percentVictory':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
+                <div ng-repeat="player in stats.statsPlayers | orderBy:'percentVictory':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
                     <a ng-click="selectPlayer(player.id)">
-                        <img gravatar-src="playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="200" />
+                        <img gravatar-src="stats.playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="200" />
                     </a>
                     <h4>Top Victory</h4>
-                    <span class="text-muted">{{ player.name }} ({{ statsPlayers[player.id].percentVictory }}%)</span>
+                    <span class="text-muted">{{ player.name }} ({{ stats.statsPlayers[player.id].percentVictory }}%)</span>
                 </div>
-                <div ng-repeat="player in statsPlayers | orderBy:'owngoal':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
+                <div ng-repeat="player in stats.statsPlayers | orderBy:'owngoal':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
                     <a ng-click="selectPlayer(player.id)">
-                        <img gravatar-src="playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="200" />
+                        <img gravatar-src="stats.playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="200" />
                     </a>
                     <h4>Top Own Goal</h4>
-                    <span class="text-muted">{{ player.name }} ({{ statsPlayers[player.id].owngoal }})</span>
+                    <span class="text-muted">{{ player.name }} ({{ stats.statsPlayers[player.id].owngoal }})</span>
                 </div>
-                <div ng-repeat="player in statsPlayers | orderBy:'percentLoose':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
+                <div ng-repeat="player in stats.statsPlayers | orderBy:'percentLoose':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
                     <a ng-click="selectPlayer(player.id)">
-                        <img gravatar-src="playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="200" />
+                        <img gravatar-src="stats.playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="200" />
                     </a>
                     <h4>Top Looser</h4>
-                    <span class="text-muted">{{ player.name }} ({{ statsPlayers[player.id].percentLoose }}%)</span>
+                    <span class="text-muted">{{ player.name }} ({{ stats.statsPlayers[player.id].percentLoose }}%)</span>
                 </div>
             </div>
         

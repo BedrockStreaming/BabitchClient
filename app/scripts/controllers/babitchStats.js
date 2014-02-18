@@ -18,17 +18,13 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 		$scope.menuSelect = 'player';
 	};
 
-	$scope.playersList = [];
-	$scope.teamList = [];
-	$scope.gamesList = [];
-
-	$scope._redTeamId;
-	$scope._blueTeamId;
-
-	$scope.statsPlayers = [];
-	$scope.statsTeams = [];
-
-	$scope.statsType = [{
+	$scope.stats = {
+		playersList: [],
+		teamList: [],
+		gamesList: [],
+		statsPlayers: [],
+		statsTeams: [],
+		statsType: [{
 			name: 'percentGoalPerBall',
 			text: '%Goal',
 			addSuffix: '%'
@@ -56,7 +52,11 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 		{
 			name: 'ballsPlayed'
 		} // total number of balls played
-	];
+		]
+	}
+
+	$scope._redTeamId;
+	$scope._blueTeamId;
 
 	$scope._setGameComposition = function(game) {
 		game.composition.forEach(function(compo) {
@@ -79,75 +79,75 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 	
 	$scope._setStatsVictoryLoose = function(game) {
 		if (game.red_score == 10) {
-			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id1].victory++;
-			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id2].victory++;
-			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id1].loose++;
-			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id2].loose++;
+			$scope.stats.statsPlayers[$scope.stats.statsTeams[$scope._redTeamId].player_id1].victory++;
+			$scope.stats.statsPlayers[$scope.stats.statsTeams[$scope._redTeamId].player_id2].victory++;
+			$scope.stats.statsPlayers[$scope.stats.statsTeams[$scope._blueTeamId].player_id1].loose++;
+			$scope.stats.statsPlayers[$scope.stats.statsTeams[$scope._blueTeamId].player_id2].loose++;
 
-			$scope.statsTeams[$scope._redTeamId].victory++;
-			$scope.statsTeams[$scope._blueTeamId].loose++;
+			$scope.stats.statsTeams[$scope._redTeamId].victory++;
+			$scope.stats.statsTeams[$scope._blueTeamId].loose++;
 
-			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id1].gameSeries.push('W');
-			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id2].gameSeries.push('W');
-			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id1].gameSeries.push('L');
-			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id2].gameSeries.push('L');
+			$scope.stats.statsPlayers[$scope.stats.statsTeams[$scope._redTeamId].player_id1].gameSeries.push('W');
+			$scope.stats.statsPlayers[$scope.stats.statsTeams[$scope._redTeamId].player_id2].gameSeries.push('W');
+			$scope.stats.statsPlayers[$scope.stats.statsTeams[$scope._blueTeamId].player_id1].gameSeries.push('L');
+			$scope.stats.statsPlayers[$scope.stats.statsTeams[$scope._blueTeamId].player_id2].gameSeries.push('L');
 		} else {
-			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id1].loose++;
-			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id2].loose++;
-			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id1].victory++;
-			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id2].victory++;
+			$scope.stats.statsPlayers[$scope.stats.statsTeams[$scope._redTeamId].player_id1].loose++;
+			$scope.stats.statsPlayers[$scope.stats.statsTeams[$scope._redTeamId].player_id2].loose++;
+			$scope.stats.statsPlayers[$scope.stats.statsTeams[$scope._blueTeamId].player_id1].victory++;
+			$scope.stats.statsPlayers[$scope.stats.statsTeams[$scope._blueTeamId].player_id2].victory++;
 
-			$scope.statsTeams[$scope._redTeamId].loose++;
-			$scope.statsTeams[$scope._blueTeamId].victory++;
+			$scope.stats.statsTeams[$scope._redTeamId].loose++;
+			$scope.stats.statsTeams[$scope._blueTeamId].victory++;
 
-			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id1].gameSeries.push('L');
-			$scope.statsPlayers[$scope.statsTeams[$scope._redTeamId].player_id2].gameSeries.push('L');
-			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id1].gameSeries.push('W');
-			$scope.statsPlayers[$scope.statsTeams[$scope._blueTeamId].player_id2].gameSeries.push('W');
+			$scope.stats.statsPlayers[$scope.stats.statsTeams[$scope._redTeamId].player_id1].gameSeries.push('L');
+			$scope.stats.statsPlayers[$scope.stats.statsTeams[$scope._redTeamId].player_id2].gameSeries.push('L');
+			$scope.stats.statsPlayers[$scope.stats.statsTeams[$scope._blueTeamId].player_id1].gameSeries.push('W');
+			$scope.stats.statsPlayers[$scope.stats.statsTeams[$scope._blueTeamId].player_id2].gameSeries.push('W');
 		}
 	};
 	
 	$scope._setStatsPercentVictoryLoose = function(type, id) {
-		$scope["stats" + type][id].percentVictory = +($scope["stats" + type][id].victory / $scope["stats" + type][id].gamePlayed * 100).toFixed(1);
-		$scope["stats" + type][id].percentLoose = +($scope["stats" + type][id].loose / $scope["stats" + type][id].gamePlayed * 100).toFixed(1);
+		$scope.stats["stats" + type][id].percentVictory = +($scope.stats["stats" + type][id].victory / $scope.stats["stats" + type][id].gamePlayed * 100).toFixed(1);
+		$scope.stats["stats" + type][id].percentLoose = +($scope.stats["stats" + type][id].loose / $scope.stats["stats" + type][id].gamePlayed * 100).toFixed(1);
 	};
 
 	$scope._setStatsPercentGoal = function(type, id) {
-		$scope["stats" + type][id].percentGoalPerBall = +($scope["stats" + type][id].goal / $scope["stats" + type][id].ballsPlayed * 100).toFixed(1);
-		$scope["stats" + type][id].avgGoalPerGame = +($scope["stats" + type][id].goal / ($scope["stats" + type][id].gamePlayed * 10) * 10).toFixed(1);
+		$scope.stats["stats" + type][id].percentGoalPerBall = +($scope.stats["stats" + type][id].goal / $scope.stats["stats" + type][id].ballsPlayed * 100).toFixed(1);
+		$scope.stats["stats" + type][id].avgGoalPerGame = +($scope.stats["stats" + type][id].goal / ($scope.stats["stats" + type][id].gamePlayed * 10) * 10).toFixed(1);
 	};
 	
 	$scope._setStatsGamePlayed = function(game) {
 		game.composition.forEach(function(compo) {
-			$scope.statsPlayers[compo.player_id].gamePlayed++;
+			$scope.stats.statsPlayers[compo.player_id].gamePlayed++;
 		});
-		$scope.statsTeams[$scope._redTeamId].gamePlayed++;
-		$scope.statsTeams[$scope._blueTeamId].gamePlayed++;
+		$scope.stats.statsTeams[$scope._redTeamId].gamePlayed++;
+		$scope.stats.statsTeams[$scope._blueTeamId].gamePlayed++;
 	};
 
 	$scope._setStatsTeamGoalaverage = function(game) {
 		game.composition.forEach(function(compo) {
 			if (compo.team == "red") {
-				$scope.statsPlayers[compo.player_id].teamGoalaverage += game.red_score;
-				$scope.statsPlayers[compo.player_id].teamGoalaverage -= game.blue_score;
+				$scope.stats.statsPlayers[compo.player_id].teamGoalaverage += game.red_score;
+				$scope.stats.statsPlayers[compo.player_id].teamGoalaverage -= game.blue_score;
 			} else {
-				$scope.statsPlayers[compo.player_id].teamGoalaverage += game.blue_score;
-				$scope.statsPlayers[compo.player_id].teamGoalaverage -= game.red_score;
+				$scope.stats.statsPlayers[compo.player_id].teamGoalaverage += game.blue_score;
+				$scope.stats.statsPlayers[compo.player_id].teamGoalaverage -= game.red_score;
 			}
 		});
 
-		$scope.statsTeams[$scope._redTeamId].teamGoalaverage += game.red_score;
-		$scope.statsTeams[$scope._redTeamId].teamGoalaverage -= game.blue_score;
-		$scope.statsTeams[$scope._blueTeamId].teamGoalaverage -= game.red_score;
-		$scope.statsTeams[$scope._blueTeamId].teamGoalaverage += game.blue_score;
+		$scope.stats.statsTeams[$scope._redTeamId].teamGoalaverage += game.red_score;
+		$scope.stats.statsTeams[$scope._redTeamId].teamGoalaverage -= game.blue_score;
+		$scope.stats.statsTeams[$scope._blueTeamId].teamGoalaverage -= game.red_score;
+		$scope.stats.statsTeams[$scope._blueTeamId].teamGoalaverage += game.blue_score;
 	};
 
 	$scope._setStatsBallsPlayed = function(game) {
 		game.composition.forEach(function(compo) {
-			$scope.statsPlayers[compo.player_id].ballsPlayed++;
+			$scope.stats.statsPlayers[compo.player_id].ballsPlayed++;
 		});
-		$scope.statsTeams[$scope._redTeamId].ballsPlayed++;
-		$scope.statsTeams[$scope._blueTeamId].ballsPlayed++;
+		$scope.stats.statsTeams[$scope._redTeamId].ballsPlayed++;
+		$scope.stats.statsTeams[$scope._blueTeamId].ballsPlayed++;
 	};
 
 	//Define which team color have goaled
@@ -169,30 +169,30 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 
 		if (goal.autogoal) {
 			if (goal.team == 'red') {
-				$scope.statsTeams[$scope._redTeamId].owngoal++;
+				$scope.stats.statsTeams[$scope._redTeamId].owngoal++;
 			} else {
-				$scope.statsTeams[$scope._blueTeamId].owngoal++;
+				$scope.stats.statsTeams[$scope._blueTeamId].owngoal++;
 			}
-			$scope.statsPlayers[goal.player_id].owngoal++;
+			$scope.stats.statsPlayers[goal.player_id].owngoal++;
 			if (goal.position == "attack") {
-				$scope.statsPlayers[goal.player_id].owngoalAttack++;
+				$scope.stats.statsPlayers[goal.player_id].owngoalAttack++;
 			} else if (goal.position == "defense") {
-				$scope.statsPlayers[goal.player_id].owngoalDefense++;
+				$scope.stats.statsPlayers[goal.player_id].owngoalDefense++;
 			}
 		} else {
 			if (goal.team == 'red') {
-				$scope.statsTeams[$scope._redTeamId].goal++;
+				$scope.stats.statsTeams[$scope._redTeamId].goal++;
 			} else {
-				$scope.statsTeams[$scope._blueTeamId].goal++;
+				$scope.stats.statsTeams[$scope._blueTeamId].goal++;
 			}
-			$scope.statsPlayers[goal.player_id].goal++;
+			$scope.stats.statsPlayers[goal.player_id].goal++;
 			if (goal.position == "attack") {
-				$scope.statsPlayers[goal.player_id].goalAttack++;
+				$scope.stats.statsPlayers[goal.player_id].goalAttack++;
 			} else if (goal.position == "defense") {
-				$scope.statsPlayers[goal.player_id].goalDefense++;
+				$scope.stats.statsPlayers[goal.player_id].goalDefense++;
 			}
 		}
-		$scope.statsPlayers[goal.conceder_id].goalConcede++;
+		$scope.stats.statsPlayers[goal.conceder_id].goalConcede++;
 
 	};
 	$scope._initPlayers = function() {
@@ -200,11 +200,11 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 		Restangular.all('players').getList()
 			.then(function(data) {
 				data.forEach(function(player) {
-					$scope.playersList[player.id] = player;
+					$scope.stats.playersList[player.id] = player;
 
 					//Init Stats of all numerical values
-					if (!$scope.statsPlayers[player.id]) {
-						$scope.statsPlayers[player.id] = {
+					if (!$scope.stats.statsPlayers[player.id]) {
+						$scope.stats.statsPlayers[player.id] = {
 							name: player.name,
 							id: player.id,
 							goal: 0,
@@ -228,8 +228,9 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 			});
 	};
 
-	$scope._setGamesList = function(games) {
-		angular.copy(games, $scope.gamesList);
+	$scope._addToGamesList = function(games) {
+		//angular.copy(games, $scope.stats.gamesList);
+    	$scope.stats.gamesList.push(games);
 	};
 
 	//Get/set Team Id based on composition
@@ -251,19 +252,19 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 		blueTeam.sort()
 		var blueTeamString = blueTeam.join('-');
 
-		if (_.indexOf($scope.teamList, redTeamString) < 0) {
-			$scope.teamList.push(redTeamString);
+		if (_.indexOf($scope.stats.teamList, redTeamString) < 0) {
+			$scope.stats.teamList.push(redTeamString);
 		}
-		$scope._redTeamId = _.indexOf($scope.teamList, redTeamString);
+		$scope._redTeamId = _.indexOf($scope.stats.teamList, redTeamString);
 
-		if (_.indexOf($scope.teamList, blueTeamString) < 0) {
-			$scope.teamList.push(blueTeamString);
+		if (_.indexOf($scope.stats.teamList, blueTeamString) < 0) {
+			$scope.stats.teamList.push(blueTeamString);
 		}
-		$scope._blueTeamId = _.indexOf($scope.teamList, blueTeamString);
+		$scope._blueTeamId = _.indexOf($scope.stats.teamList, blueTeamString);
 
 		//Init Red and Blue Team
-		if (!$scope.statsTeams[$scope._redTeamId]) {
-			$scope.statsTeams[$scope._redTeamId] = {
+		if (!$scope.stats.statsTeams[$scope._redTeamId]) {
+			$scope.stats.statsTeams[$scope._redTeamId] = {
 				id: $scope._redTeamId,
 				player_id1: redTeam[0],
 				player_id2: redTeam[1],
@@ -277,8 +278,8 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 			};
 		}
 
-		if (!$scope.statsTeams[$scope._blueTeamId]) {
-			$scope.statsTeams[$scope._blueTeamId] = {
+		if (!$scope.stats.statsTeams[$scope._blueTeamId]) {
+			$scope.stats.statsTeams[$scope._blueTeamId] = {
 				id: $scope._blueTeamId,
 				player_id1: blueTeam[0],
 				player_id2: blueTeam[1],
@@ -294,11 +295,6 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 	};
 
 	$scope.computeStats = function() {
-		//Don't compute stats again
-		if ($scope.statsPlayers.length > 1) {
-			return $scope.statsPlayers;
-		}
-
 		$scope._initPlayers();
 
 		//Fetch Games
@@ -306,10 +302,11 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 			per_page: 100
 		})
 			.then(function(data) {
-				$scope._setGamesList(data);
 
 				//For each games
-				$scope.gamesList.forEach(function(games) {
+				data.forEach(function(games) {
+					$scope._addToGamesList(games);
+
 					$scope._setGameComposition(games);
 
 					$scope._initTeam(games);
@@ -327,23 +324,27 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, R
 				});
 
 				//Compute percentage on each player
-				$scope.playersList.forEach(function(player) {
+				$scope.stats.playersList.forEach(function(player) {
 					$scope._setStatsPercentVictoryLoose('Players', player.id);
 					$scope._setStatsPercentGoal('Players', player.id);
 
 					//Generate GameSeries
-					$scope.statsPlayers[player.id].gameSeries = $scope.statsPlayers[player.id].gameSeries.slice(0,5);
-					$scope.statsPlayers[player.id].gameSeries.reverse();
+					$scope.stats.statsPlayers[player.id].gameSeries = $scope.stats.statsPlayers[player.id].gameSeries.slice(0,5);
+					$scope.stats.statsPlayers[player.id].gameSeries.reverse();
 
-					$scope.statsPlayers[player.id].teamGoalaverage = +($scope.statsPlayers[player.id].teamGoalaverage / $scope.statsPlayers[player.id].gamePlayed).toFixed(1);
+					if($scope.stats.statsPlayers[player.id].gamePlayed) {
+						$scope.stats.statsPlayers[player.id].teamGoalaverage = +($scope.stats.statsPlayers[player.id].teamGoalaverage / $scope.stats.statsPlayers[player.id].gamePlayed).toFixed(1);
+					}
 				});
 
 				//Compute percentage on each team
-				$scope.statsTeams.forEach(function(team) {
+				$scope.stats.statsTeams.forEach(function(team) {
 					$scope._setStatsPercentVictoryLoose('Teams', team.id);
 					$scope._setStatsPercentGoal('Teams', team.id);
 
-					$scope.statsTeams[team.id].teamGoalaverage = +($scope.statsTeams[team.id].teamGoalaverage / $scope.statsTeams[team.id].gamePlayed).toFixed(1);
+					if($scope.stats.statsTeams[team.id].gamePlayed) {
+						$scope.stats.statsTeams[team.id].teamGoalaverage = +($scope.stats.statsTeams[team.id].teamGoalaverage / $scope.stats.statsTeams[team.id].gamePlayed).toFixed(1);
+					}
 
 				});
 
