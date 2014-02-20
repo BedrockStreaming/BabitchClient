@@ -13,33 +13,7 @@ describe('Controller: BabitchCtrl', function() {
         httpMock = $httpBackend;
         config = CONFIG;
 
-        var JsonPlayer = [{
-            "id": 1,
-            "name": "Benjamin",
-            "email": ""
-        }, {
-            "id": 2,
-            "name": "Marc",
-            "email": ""
-        }, {
-            "id": 3,
-            "name": "Remi",
-            "email": ""
-        }, {
-            "id": 4,
-            "name": "Nicolas",
-            "email": ""
-        }, {
-            "id": 5,
-            "name": "Florent",
-            "email": ""
-        }, {
-            "id": 6,
-            "name": "Kenny",
-            "email": ""
-        }];
-
-        httpMock.whenGET(config.BABITCH_WS_URL + "/players").respond(JsonPlayer);
+        httpMock.whenGET(config.BABITCH_WS_URL + "/players").respond(Fixtures.players);
 
         theBabitchCtrl = $controller('babitchCtrl', {
             $scope: scope
@@ -119,7 +93,7 @@ describe('Controller: BabitchCtrl', function() {
     });
 
     it('should fetch the player list', function() {
-        expect(scope.playersList.length).toBe(6);
+        expect(scope.playersList.length).toBe(21);
     });
 
     it('should not begin a game with a incomplete team', function() {

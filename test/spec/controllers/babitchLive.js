@@ -7,57 +7,18 @@ describe('Controller: BabitchLiveCtrl', function() {
         scope,
         httpMock,
         mockFayeClient,
-        JsonPlayer,
         fayeMessage;
+        
     // Initialize the controller and a mock scope
     beforeEach(inject(function($controller, $rootScope, $httpBackend, fayeClient, CONFIG) {
         scope = $rootScope.$new();
         httpMock = $httpBackend;
-
-        JsonPlayer = [{
-            "id": 1,
-            "name": "Remi",
-            "email": "",
-            "_links": {
-                "self": {
-                    "href": CONFIG.BABITCH_WS_URL + "\/players\/4"
-                }
-            }
-        }, {
-            "id": 2,
-            "name": "Nicolas",
-            "email": "",
-            "_links": {
-                "self": {
-                    "href": CONFIG.BABITCH_WS_URL + "\/players\/3"
-                }
-            }
-        }, {
-            "id": 3,
-            "name": "Florent",
-            "email": "",
-            "_links": {
-                "self": {
-                    "href": CONFIG.BABITCH_WS_URL + "\/players\/2"
-                }
-            }
-        }, {
-            "id": 4,
-            "name": "Kenny",
-            "email": "",
-            "_links": {
-                "self": {
-                    "href": CONFIG.BABITCH_WS_URL + "\/players\/1"
-                }
-            }
-        }];
 
         var players = [
             { position: 'attack', team: 'blue',  player_id: 4 },
             { position: 'defense', team: 'blue',  player_id: 3 },
             { position: 'defense', team: 'red', player_id: 2 },
             { position: 'attack', team: 'red',  player_id: 1 },
-
         ];
 
         fayeMessage = {
@@ -87,12 +48,12 @@ describe('Controller: BabitchLiveCtrl', function() {
             }
         };
 
-        httpMock.whenGET(CONFIG.BABITCH_WS_URL + "/players").respond(JsonPlayer);
+        httpMock.whenGET(CONFIG.BABITCH_WS_URL + "/players").respond(Fixtures.players);
         $httpBackend.whenGET(/v1\/players\/[0-9]/).respond(function(method, url) {
             var regEx = /v1\/players\/([0-9])/;
             var id = regEx.exec(url)[1];
 
-            return [200, JsonPlayer[id - 1]];
+            return [200, Fixtures.players[id - 1]];
         });
 
         mockFayeClient = {
@@ -128,9 +89,9 @@ describe('Controller: BabitchLiveCtrl', function() {
         mockFayeClient.sendData(fayeMessage.goal1);
         httpMock.flush();
         expect(scope.game).toBe(fayeMessage.goal1.game);
-        expect(scope.redAttacker.name).toEqual('Remi');
-        expect(scope.redDefender.name).toEqual('Nicolas');
-        expect(scope.blueAttacker.name).toEqual('Kenny');
+        expect(scope.redAttacker.name).toEqual('Adrien');
+        expect(scope.redDefender.name).toEqual('Denis');
+        expect(scope.blueAttacker.name).toEqual('Morgan');
         expect(scope.blueDefender.name).toEqual('Florent');
     });
 
