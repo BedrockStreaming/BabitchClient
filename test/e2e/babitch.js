@@ -4,9 +4,9 @@ var BabitchGamePage = require('./page/game.js');
 
 var page = null;
 
-describe('Babitch : Choose player', function() {
+jasmine.getEnv().defaultTimeoutInterval = 800000;
 
-    jasmine.getEnv().defaultTimeoutInterval = 800000;
+describe('Babitch : Choose player', function() {
 
 	beforeEach(function() {
 		page = new BabitchGamePage(browser);
