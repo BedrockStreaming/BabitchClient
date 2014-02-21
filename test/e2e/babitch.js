@@ -4,6 +4,8 @@ var BabitchGamePage = require('./page/game.js');
 
 var page = null;
 
+jasmine.getEnv().defaultTimeoutInterval = 800000;
+
 describe('Babitch : Choose player', function() {
 
 	beforeEach(function() {
@@ -144,15 +146,20 @@ describe('Babitch : Game', function() {
 
 	//Cancel a Goal
 	it('should cancel last goal',function() {
+        var cancelLastGoalButton = page.getCancelLastGoalButton();
+        expect(cancelLastGoalButton.isDisplayed()).toBe(false);
+
 		var playerLocation = page.getPlayerLocation(3);
 		playerLocation.goal();
   		expect(page.firstTeamScore.getText()).toBe('0');
   		expect(page.secondTeamScore.getText()).toBe('1');
 
 		//Cancel the goal
-		var cancelLastGoalButton = page.getCancelLastGoalButton();
+        var optionButton = page.getOptionButton();
+
+        optionButton.click();
 		expect(cancelLastGoalButton.isDisplayed()).toBe(true);
-		cancelLastGoalButton.click();
+        cancelLastGoalButton.click();
 
   		//The button must be hidden
   		expect(page.firstTeamScore.getText()).toBe('0');
