@@ -2,15 +2,15 @@
 
 babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, babitchStats) {
 
-	$scope.menuSelect = '';
+    $scope.menuSelect = '';
 
-	//To deal with ng-repeat scope in stats-player.html views
-	$rootScope.setPredicate = function(variable) {
-		$rootScope.predicate = variable;
-	};
-	$rootScope.setReverse = function() {
-		$rootScope.reverse = !$rootScope.reverse;
-	};
+    //To deal with ng-repeat scope in stats-player.html views
+    $rootScope.setPredicate = function(variable) {
+        $rootScope.predicate = variable;
+    };
+    $rootScope.setReverse = function() {
+        $rootScope.reverse = !$rootScope.reverse;
+    };
 
-	$scope.stats = babitchStats.getStats();
+    $scope.stats = babitchStats.getStats();
 });
