@@ -151,13 +151,24 @@ describe('Babitch : Game', function() {
 
 		//Cancel the goal
 		var cancelLastGoalButton = page.getCancelLastGoalButton();
-		expect(cancelLastGoalButton.isDisplayed()).toBe(true);
-		cancelLastGoalButton.click();
 
-  		//The button must be hidden
-  		expect(page.firstTeamScore.getText()).toBe('0');
-  		expect(page.secondTeamScore.getText()).toBe('0');
-  		expect(cancelLastGoalButton.isDisplayed()).toBe(false);
+        var optionButton = page.getOptionButton()
+
+        optionButton.click()
+            .then(function() {
+                return browser.waitForAngular();
+            })
+            .then(function() {
+
+                expect(cancelLastGoalButton.isDisplayed()).toBe(true);
+
+                return cancelLastGoalButton.click();
+
+                //The button must be hidden
+                expect(page.firstTeamScore.getText()).toBe('0');
+                expect(page.secondTeamScore.getText()).toBe('0');
+                expect(cancelLastGoalButton.isDisplayed()).toBe(false);
+            });
 	});
 
 	it('should propose to restart or to make a new game',function() {
