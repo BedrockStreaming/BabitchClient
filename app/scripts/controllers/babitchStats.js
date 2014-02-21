@@ -2,7 +2,6 @@
 
 babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, babitchStats) {
 
-	$scope.selectedPlayer = 0;
 	$scope.menuSelect = '';
 
 	//To deal with ng-repeat scope in stats-player.html views
@@ -13,10 +12,5 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, b
 		$rootScope.reverse = !$rootScope.reverse;
 	};
 
-	$scope.selectPlayer = function(playerId) {
-		$scope.selectedPlayer = playerId;
-		$scope.menuSelect = 'player';
-	};
-
-	$scope.stats = babitchStats.computeStats();
+	$scope.stats = babitchStats.getStats();
 });

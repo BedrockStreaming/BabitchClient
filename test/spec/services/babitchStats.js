@@ -18,7 +18,7 @@ describe('Service: babitchStats', function() {
         httpMock.whenGET(config.BABITCH_WS_URL + "/games?per_page=100").respond(Fixtures.games);
         
         //Compute stats
-        stats = babitchStatsService.computeStats();
+        stats = babitchStatsService.getStats();
 
         //Flush the .query
         httpMock.flush();

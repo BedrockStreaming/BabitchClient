@@ -279,7 +279,12 @@ angular.module('babitchFrontendApp')
             }
         };
 
+        this.getStats = function() {
+            return stats;
+        };
+
         this.computeStats = function() {
+
             _initPlayers();
 
             //Fetch Games
@@ -336,4 +341,6 @@ angular.module('babitchFrontendApp')
                 });
             return stats;
         };
+
+        this.computeStats();
     });
