@@ -15,9 +15,12 @@ var BabitchGamePage = function(browser) {
 		return new PlayerLocationElement(browser, $$('#match .player').get(locationIndex));
 	};
 
+	this.getOptionButton = function() {
+		return $('.action .btn-group button');
+	}
+
 	this.getCancelLastGoalButton = function() {
-		return $('.action .btn-group button')
-			.click().then(function() {return $('.cancel-last-goal'); });
+		return $('.cancel-last-goal');
 	};
 
 	this.startAGame = function() {
