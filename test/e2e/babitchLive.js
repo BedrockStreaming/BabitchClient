@@ -37,6 +37,8 @@ var pageManager = null;
 
 describe('Babitch Live', function() {
 
+	jasmine.getEnv().defaultTimeoutInterval = 800000;
+
 	beforeEach(function() {
 		pageManager = new MultipageManager(browser);
 	});

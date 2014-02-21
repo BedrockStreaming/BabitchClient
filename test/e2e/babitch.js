@@ -6,6 +6,8 @@ var page = null;
 
 describe('Babitch : Choose player', function() {
 
+    jasmine.getEnv().defaultTimeoutInterval = 800000;
+
 	beforeEach(function() {
 		page = new BabitchGamePage(browser);
 	});
