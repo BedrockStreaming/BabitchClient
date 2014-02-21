@@ -150,14 +150,15 @@ describe('Babitch : Game', function() {
   		expect(page.secondTeamScore.getText()).toBe('1');
 
 		//Cancel the goal
-		var cancelLastGoalButton = page.getCancelLastGoalButton();
-		expect(cancelLastGoalButton.isDisplayed()).toBe(true);
-		cancelLastGoalButton.click();
+		page.getCancelLastGoalButton().then(function(cancelLastGoalButton) {
+            expect(cancelLastGoalButton.isDisplayed()).toBe(true);
+            cancelLastGoalButton.click();
 
-  		//The button must be hidden
-  		expect(page.firstTeamScore.getText()).toBe('0');
-  		expect(page.secondTeamScore.getText()).toBe('0');
-  		expect(cancelLastGoalButton.isDisplayed()).toBe(false);
+            //The button must be hidden
+            expect(page.firstTeamScore.getText()).toBe('0');
+            expect(page.secondTeamScore.getText()).toBe('0');
+            expect(cancelLastGoalButton.isDisplayed()).toBe(false);
+        });
 	});
 
 	it('should propose to restart or to make a new game',function() {

@@ -16,9 +16,8 @@ var BabitchGamePage = function(browser) {
 	};
 
 	this.getCancelLastGoalButton = function() {
-		$('.action .btn-group button').click();
-
-		return $('.cancel-last-goal');
+		return $('.action .btn-group button')
+			.click().then(function() {return $('.cancel-last-goal'); });
 	};
 
 	this.startAGame = function() {
