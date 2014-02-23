@@ -179,7 +179,7 @@ describe('Babitch : Game', function() {
   		expect(page.firstTeamScore.getText()).toBe('0');
   		expect(page.secondTeamScore.getText()).toBe('10');
   		expect(page.theEnd.isDisplayed()).toBe(true);
-	});
+	}, 60000);
 
 	it('should start a new game',function() {
 		var playerLocation = page.getPlayerLocation(2);
@@ -197,6 +197,6 @@ describe('Babitch : Game', function() {
   		var playerLocation1 = page.getPlayerLocation(0);
 		playerLocation1.selectPlayer(0);
 		expect(playerLocation1.getPlayerName()).toBe('Adrien');
-	});
+	}, 60000);
 
 });
