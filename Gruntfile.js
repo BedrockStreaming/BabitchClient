@@ -314,6 +314,9 @@ module.exports = function (grunt) {
             sauceUser: process.env.SAUCE_USERNAME,
             sauceKey:  process.env.SAUCE_ACCESS_KEY,
             capabilities: {'tunnel-identifier' : process.env.TRAVIS_JOB_NUMBER}
+          },
+          jasmineNodeOpts: {
+            defaultTimeoutInterval: 80000
           }
         }
       }
