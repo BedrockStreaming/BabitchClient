@@ -79,7 +79,9 @@ describe('Babitch : Game', function() {
 
 		//Begin a match
 		page.startButton.click();
-	});
+
+		browser.waitForAngular();
+	}, 60000);
 
 	//Defense goal
 	it('should add a goal for the blue team if the blue defender goal',function() {
@@ -144,20 +146,28 @@ describe('Babitch : Game', function() {
 
 	//Cancel a Goal
 	it('should cancel last goal',function() {
+		var cancelLastGoalButton = page.getCancelLastGoalButton(),
+			optionButtion = page.getOptionButton();
+
+		expect(cancelLastGoalButton.isDisplayed()).toBe(false);
+
 		var playerLocation = page.getPlayerLocation(3);
 		playerLocation.goal();
   		expect(page.firstTeamScore.getText()).toBe('0');
   		expect(page.secondTeamScore.getText()).toBe('1');
 
-		//Cancel the goal
-		var cancelLastGoalButton = page.getCancelLastGoalButton();
-		expect(cancelLastGoalButton.isDisplayed()).toBe(true);
-		cancelLastGoalButton.click();
+  		optionButtion.click().then(function() {
+  			browser.waitForAngular();
+  		}).then(function () {
+  			//Cancel the goal
+			expect(cancelLastGoalButton.isDisplayed()).toBe(true);
+			cancelLastGoalButton.click();
 
-  		//The button must be hidden
-  		expect(page.firstTeamScore.getText()).toBe('0');
-  		expect(page.secondTeamScore.getText()).toBe('0');
-  		expect(cancelLastGoalButton.isDisplayed()).toBe(false);
+	  		//The button must be hidden
+	  		expect(page.firstTeamScore.getText()).toBe('0');
+	  		expect(page.secondTeamScore.getText()).toBe('0');
+	  		expect(cancelLastGoalButton.isDisplayed()).toBe(false);
+  		});
 	});
 
 	it('should propose to restart or to make a new game',function() {
@@ -169,7 +179,7 @@ describe('Babitch : Game', function() {
   		expect(page.firstTeamScore.getText()).toBe('0');
   		expect(page.secondTeamScore.getText()).toBe('10');
   		expect(page.theEnd.isDisplayed()).toBe(true);
-	});
+	}, 60000);
 
 	it('should start a new game',function() {
 		var playerLocation = page.getPlayerLocation(2);
@@ -187,6 +197,6 @@ describe('Babitch : Game', function() {
   		var playerLocation1 = page.getPlayerLocation(0);
 		playerLocation1.selectPlayer(0);
 		expect(playerLocation1.getPlayerName()).toBe('Adrien');
-	});
+	}, 60000);
 
 });
