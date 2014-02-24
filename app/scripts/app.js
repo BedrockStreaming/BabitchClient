@@ -28,6 +28,22 @@ var babitchFrontendApp = angular.module('babitchFrontendApp',[
                 templateUrl: 'views/stats.html',
                 controller: 'babitchStatsCtrl'
             })
+            .when('/stats/games', {
+                templateUrl: 'views/stats.html',
+                controller: 'babitchStatsGamesCtrl'
+            })
+            .when('/stats/players', {
+                templateUrl: 'views/stats.html',
+                controller: 'babitchStatsPlayersCtrl'
+            })
+            .when('/stats/players/:selectedPlayer', {
+                templateUrl: 'views/stats.html',
+                controller: 'babitchStatsPlayerCtrl'
+            })
+            .when('/stats/teams', {
+                templateUrl: 'views/stats.html',
+                controller: 'babitchStatsTeamsCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });
