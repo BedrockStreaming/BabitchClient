@@ -1,8 +1,8 @@
 'use strict';
 
-babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, babitchStats) {
+babitchFrontendApp.controller("babitchStatsTeamsCtrl", function($scope, $rootScope, babitchStats) {
 
-    $scope.menuSelect = '';
+    $scope.menuSelect = 'teamstats';
 
     //To deal with ng-repeat scope in stats-player.html views
     $rootScope.setPredicate = function(variable) {

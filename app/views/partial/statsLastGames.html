@@ -1,0 +1,43 @@
+            <div class="page-header">
+                <h1 ng-show="!selectedPlayer">Last Games</h1> 
+                <h2 ng-show="selectedPlayer">Last Games</h2>
+            </div>
+
+            <table class="table table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th>Red Team</th>
+                        <th class="text-center">Score</th>
+                        <th class="text-right">Blue Team</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="games in stats.gamesList | limitTo:(selectedPlayer ? 100 : 25) | withPlayerInTeam: selectedPlayer">
+                        <td class="team red">
+                            <a ng-click="selectPlayer(games.redDefense)">
+                                <img gravatar-src="stats.playersList[games.redDefense].email || ''" gravatar-default="wavatar" gravatar-size="30" />
+                                {{ stats.playersList[games.redDefense].name }}
+                            </a>
+                            <a ng-click="selectPlayer(games.redAttack)">
+                                <img gravatar-src="stats.playersList[games.redAttack].email || ''" gravatar-default="wavatar" gravatar-size="30" />
+                                {{ stats.playersList[games.redAttack].name }}
+                            </a>
+                        </td>
+                        <td class="score">
+                            <b class="score-{{ games.red_score }}">{{ games.red_score }}</b>
+                            <span>:</span>
+                            <b class="score-{{ games.blue_score }}">{{ games.blue_score }}</b>
+                        </td>
+                        <td class="team blue">
+                            <a ng-click="selectPlayer(games.blueDefense)">
+                                {{ stats.playersList[games.blueDefense].name }}
+                                <img gravatar-src="stats.playersList[games.blueDefense].email || ''" gravatar-default="wavatar" gravatar-size="30" />
+                            </a>
+                            <a ng-click="selectPlayer(games.blueAttack)">
+                                {{ stats.playersList[games.blueAttack].name }}
+                                <img gravatar-src="stats.playersList[games.blueAttack].email || ''" gravatar-default="wavatar" gravatar-size="30" />
+                            </a>
+                        </td>                   
+                    </tr>
+                </tbody>
+            </table>
