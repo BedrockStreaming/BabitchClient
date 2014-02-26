@@ -20,7 +20,7 @@
             $httpBackend.whenGET(/v1\/players\/[0-9]*/).respond(function(method, url) {
                 var regEx = /v1\/players\/([0-9]*)/;
                 var id = regEx.exec(url)[1];
-                return [200, JsonPlayer[id - 1]];
+                return [200, Fixtures.players[id - 1]];
             });
         });
 })(angular);
