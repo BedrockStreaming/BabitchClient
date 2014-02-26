@@ -1,4 +1,4 @@
-# Babitch Client
+# Babitch Client [![Build Status](https://travis-ci.org/M6Web/BabitchClient.png?branch=master)](https://travis-ci.org/M6Web/BabitchClient)
 
 Many companies all over the world uses babyfoot to build team spirit. BabitchClient is a project based on the [Babitch Api](https://github.com/M6Web/Babitch) to record all your babyfoot games.
 
