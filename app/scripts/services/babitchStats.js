@@ -287,19 +287,10 @@ angular.module('babitchFrontendApp')
             _initPlayers();
 
             var gamePagination = {
-                getPage: function(page) {
-                    return Restangular.all('games').getList({
-                        page: page,
-                        per_page: 100
-                    });
-                },
                 getAllPage: function(maxPage) {
                     var deferred = $q.defer();
 
                     var page = 1;
-                    var _this = this;
-
-
                     this._getNextPageOrReturn(null, page, maxPage, deferred);
 
                     return deferred.promise;
@@ -311,7 +302,10 @@ angular.module('babitchFrontendApp')
                     }
 
                     var _this = this;
-                    this.getPage(page).then(function(newData) {
+                    Restangular.all('games').getList({
+                        page: page,
+                        per_page: 100
+                    }).then(function(newData) {
                         data = data.concat(newData);
 
                         if (newData.length < 100 || page == maxPage) {
