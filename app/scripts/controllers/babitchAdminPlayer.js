@@ -10,6 +10,10 @@ babitchFrontendApp.controller('babitchAdminPlayerCtrl', function($scope, Restang
             Restangular.all('players').post($scope.player).then(function() {
                 $location.path('/admin');
             });
+            return true;
+        }
+        else {
+            return false;
         }
     };
 });

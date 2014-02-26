@@ -34,12 +34,7 @@ var babitchFrontendApp = angular.module('babitchFrontendApp', [
             })
             .when('/admin/:id', {
                 templateUrl: 'views/admin-player.html',
-                controller: 'babitchAdminPlayerEditCtrl',
-                resolve: {
-                    player: function(Restangular, $route) {
-                        return Restangular.one('players', $route.current.params.id).get();
-                    }
-                }
+                controller: 'babitchAdminPlayerEditCtrl'
             })
             .when('/stats', {
                 templateUrl: 'views/stats.html',

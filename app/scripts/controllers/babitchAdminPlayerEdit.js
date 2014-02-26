@@ -1,8 +1,14 @@
 'use strict';
 
-babitchFrontendApp.controller('babitchAdminPlayerEditCtrl', function($scope, Restangular, player, $location) {
-    
-    $scope.player = Restangular.copy(player);
+babitchFrontendApp.controller('babitchAdminPlayerEditCtrl', function($scope, Restangular, $routeParams, $location) {
+
+    $scope.player = {
+        id: 0
+    };
+
+    Restangular.one('players', $routeParams.id).get().then(function(data) {
+        $scope.player = data;
+    });
 
     // function to submit the form after all validation has occurred            
     $scope.submitForm = function() {
@@ -12,6 +18,9 @@ babitchFrontendApp.controller('babitchAdminPlayerEditCtrl', function($scope, Res
             $scope.player.put().then(function() {
                 $location.path('/admin');
             });
+            return true;
+        } else {
+            return false;
         }
     };
 });
