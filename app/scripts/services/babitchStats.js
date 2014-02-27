@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('babitchFrontendApp')
-    .service('babitchStats', function babitchStats(Restangular) {
+    .service('babitchStats', function babitchStats(Restangular, $q) {
         // AngularJS will instantiate a singleton by calling "new" on this function
         var stats = {
             playersList: [],
@@ -284,15 +284,43 @@ angular.module('babitchFrontendApp')
         };
 
         this.computeStats = function() {
-
             _initPlayers();
 
-            //Fetch Games
-            Restangular.all('games').getList({
-                per_page: 100
-            })
-                .then(function(data) {
+            var gamePagination = {
+                getAllPage: function(maxPage) {
+                    var deferred = $q.defer();
 
+                    var page = 1;
+                    this._getNextPageOrReturn(null, page, maxPage, deferred);
+
+                    return deferred.promise;
+                },
+                _getNextPageOrReturn: function(data, page, maxPage, deferred) {
+                    if (!data) {
+                        page = 1;
+                        data = [];
+                    }
+
+                    var _this = this;
+                    Restangular.all('games').getList({
+                        page: page,
+                        per_page: 100
+                    }).then(function(newData) {
+                        data = data.concat(newData);
+
+                        if (newData.length < 100 || page == maxPage) {
+
+                            return deferred.resolve(data);
+                        }
+
+                        _this._getNextPageOrReturn(data, ++page, maxPage, deferred);
+                    });
+                }
+            };
+
+            //Fetch Games
+            gamePagination.getAllPage(3)
+                .then(function(data) {
                     //For each games
                     data.forEach(function(games) {
                         _addToGamesList(games);

@@ -15,8 +15,8 @@ describe('Service: babitchStats', function() {
         httpMock = $httpBackend;
 
         httpMock.whenGET(config.BABITCH_WS_URL + "/players").respond(Fixtures.players);
-        httpMock.whenGET(config.BABITCH_WS_URL + "/games?per_page=100").respond(Fixtures.games);
-        
+        httpMock.whenGET(config.BABITCH_WS_URL + "/games?page=1&per_page=100").respond(Fixtures.games);
+
         //Compute stats
         stats = babitchStatsService.getStats();
 
@@ -162,7 +162,7 @@ describe('Service: babitchStats', function() {
         expect(nbGoal).toBe(48);
     });
 
-    
+
     it('should calculate player victory correctly', function() {
         expect(stats.statsPlayers[7].victory).toBe(0);
         expect(stats.statsPlayers[8].victory).toBe(3);
