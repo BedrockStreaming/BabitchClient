@@ -364,6 +364,9 @@ angular.module('babitchFrontendApp')
             //Fetch Games
             gamePagination.getAllPage(3)
                 .then(function(data) {
+                    //Reverse data :
+                    data.reverse();
+
                     //For each games
                     data.forEach(function(games) {
                         _addToGamesList(games);
@@ -412,6 +415,9 @@ angular.module('babitchFrontendApp')
                         stats.statsTeams[team.id].eloRanking = +(stats.statsTeams[team.id].eloRanking).toFixed(0);
 
                     });
+
+                    //Reverse order of gameslist
+                    stats.gamesList.reverse();
 
                 });
             return stats;
