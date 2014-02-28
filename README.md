@@ -1,4 +1,4 @@
-# Babitch Client
+# Babitch Client [![Build Status](https://travis-ci.org/M6Web/BabitchClient.png?branch=master)](https://travis-ci.org/M6Web/BabitchClient)
 
 Many companies all over the world uses babyfoot to build team spirit. BabitchClient is a project based on the [Babitch Api](https://github.com/M6Web/Babitch) to record all your babyfoot games.
 
@@ -14,6 +14,7 @@ BabitchClient provides a simple responsive user interface.
 * Cancel last goal
 * Switch table side
 * Gravatar support
+* Stats
 
 ## Installation
 
@@ -66,7 +67,7 @@ You need to configure `BABITCH_LIVE_FAYE_URL` and `BABITCH_LIVE_FAYE_CHANNEL` in
 * Yeoman, to boostrap the application
 * Angular.Js
 * Grunt, for development server and automation
-* Karma and PhantomJs, for testing
+* Karma, Protractor and PhantomJs, for testing
 * Faye for realtime messaging
 
 ## Credits
