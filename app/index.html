@@ -11,14 +11,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <link href="//fonts.googleapis.com/css?family=Sintony:400,700" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Sintony:400,700" rel="stylesheet" type="text/css">
 
-        <!-- build:css({.tmp,app}) styles/main.css -->
-        <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="styles/main.css">
-        <!-- endbuild -->
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/live.css">
+    <!-- endbuild -->
 </head>
-  <body ng-init="initGame()">
+<body ng-init="initGame()">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -55,12 +56,14 @@
     <script src="scripts/controllers/babitch.js"></script>
     <script src="scripts/controllers/babitchLive.js"></script>
     <script src="scripts/controllers/babitchStats.js"></script>
+    <script src="scripts/controllers/live.js"></script>
     <script src="scripts/httpBackendStub.js"></script>
     <script src="scripts/filters/prettyTime.js"></script>
     <script src="scripts/filters/gravatarize.js"></script>
     <script src="scripts/filters/minGamePlayed.js"></script>
-    <script src="scripts/services/babitchService.js"></script>
     <script src="scripts/filters/startFrom.js"></script>
+    <script src="scripts/services/babitchService.js"></script>
+    <script src="scripts/services/babitchTable.js"></script>
     <!-- endbuild -->
 </body>
 </html>

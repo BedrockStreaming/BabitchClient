@@ -1,0 +1,340 @@
+#live {
+  font-size: 16px;
+}
+#live .container {
+  width: auto;
+}
+#live #header {
+  position: fixed;
+  height: 50px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  color: white;
+  line-height: 50px;
+  text-align: center;
+  background: black;
+  z-index: 20;
+  font-size: 20px;
+}
+#live #header .brand big {
+  font-weight: bold;
+  margin-right: 5px;
+}
+#live #header .brand small {
+  font-size: 0.8em;
+  background: white;
+  color: black;
+  padding: 0 5px;
+  border-radius: 5px;
+}
+#live #teams {
+  background: #EEE;
+}
+#live #teams .team {
+  position: relative;
+  float: left;
+  width: 50%;
+  border-top: 10px solid;
+  border-bottom: 3px solid;
+}
+#live #teams .team.red {
+  border-color: #d30000;
+}
+#live #teams .team.blue {
+  border-color: #293694;
+  float: right;
+}
+#live #teams .team .player .player-picture {
+  background: no-repeat 50% 50%;
+  background-size: cover;
+}
+#live #score {
+  padding: 10px;
+  color: white;
+  font-size: 3.2em;
+  text-align: center;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #222222), color-stop(1, #333333));
+  background-image: -o-linear-gradient(bottom, #222222 0%, #333333 100%);
+  background-image: -moz-linear-gradient(bottom, #222222 0%, #333333 100%);
+  background-image: -webkit-linear-gradient(bottom, #222222 0%, #333333 100%);
+  background-image: -ms-linear-gradient(bottom, #222222 0%, #333333 100%);
+  background-image: linear-gradient(to bottom, #222222 0%, #333333 100%);
+}
+#live #score .score-team {
+  font-weight: bold;
+  letter-spacing: -2px;
+}
+@media (min-width: 600px) {
+  #live {
+    padding-top: 50px;
+  }
+  #live .container {
+    padding: 0 50px;
+  }
+  #live #teams .team .player {
+    width: 50%;
+  }
+  #live #teams .team .player .player-body {
+    position: relative;
+  }
+  #live #teams .team .player.attack {
+    float: right;
+  }
+  #live #teams .team .player.attack .player-body {
+    z-index: 10;
+  }
+  #live #teams .team .player.defense {
+    float: left;
+  }
+  #live #teams .team .player.defense .player-body {
+    z-index: 9;
+  }
+  #live #teams .team.blue .player.attack {
+    float: left;
+  }
+  #live #teams .team.blue .player.attack .player-body {
+    left: auto;
+  }
+  #live #teams .team.blue .player.defense {
+    padding-left: 0;
+    float: right;
+  }
+  #live #teams .team .player .player-picture {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    z-index: 9;
+  }
+  #live #teams .team .player .player-picture canvas {
+    position: absolute;
+    top: 100%;
+  }
+  #live #teams .team .player .player-text {
+    position: relative;
+    text-align: center;
+    z-index: 10;
+  }
+  #live #teams .team .player .player-name {
+    font-size: 1.6em;
+    font-weight: bold;
+    letter-spacing: -2px;
+  }
+}
+@media (max-width: 599px) {
+  #live {
+    min-height: 100%;
+  }
+  #live,
+  #live > * {
+    position: absolute;
+    width: 100% !important;
+  }
+  #live #teams,
+  #live #teams .teams-body,
+  #live #teams .player-body {
+    height: 100%;
+  }
+  #live #teams .teams-body {
+    padding: 50px 0 60px;
+  }
+  #live #teams .team {
+    height: 100%;
+  }
+  #live #teams .team .player {
+    position: relative;
+    height: 50%;
+  }
+  #live #teams .team .player .player-picture {
+    width: 100%;
+    height: 100%;
+  }
+  #live #teams .team .player .player-text {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    color: white;
+    text-shadow: 0 0 20px #000000, -1px 1px 0 rgba(0, 0, 0, 0.2);
+  }
+  #live #teams .team .player .player-name {
+    font-size: 25px;
+    font-weight: bold;
+    margin-top: -30px;
+  }
+  #live #teams .team .player .player-place {
+    font-size: 16px;
+    margin-top: 5px;
+  }
+  #live #teams .team .player canvas {
+    display: none;
+  }
+  #live #score {
+    padding: 0;
+    height: 60px;
+    line-height: 60px;
+    font-size: 40px;
+    top: 100%;
+    margin-top: -60px;
+  }
+  #live #timeline {
+    top: 100%;
+  }
+}
+#live #timeline {
+  padding: 20px 0;
+}
+#live #timeline .tl-event {
+  font-size: 18px;
+}
+#live #timeline .tl-event .tl-event-body {
+  position: relative;
+  width: 50%;
+  padding: 20px;
+}
+#live #timeline .tl-event.tl-event-red .tl-event-body {
+  border-right: 4px solid #222;
+  padding-right: 50px;
+  text-align: right;
+  right: -4px;
+}
+#live #timeline .tl-event.tl-event-blue .tl-event-body {
+  border-left: 4px solid #222;
+  padding-left: 50px;
+  margin-left: 50%;
+}
+#live #timeline .tl-event .tl-event-body:before {
+  content: " ";
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: #222;
+  border-radius: 100px;
+  top: 50%;
+  right: -27px;
+  margin-top: -25px;
+}
+#live #timeline .tl-event.tl-event-blue .tl-event-body:before {
+  right: auto;
+  left: -27px;
+}
+@media screen and (min-width: 1500px) {
+  #live {
+    font-size: 2em;
+  }
+  #live .team {
+    padding: 40px;
+  }
+  #live .team .player.attack .player-body {
+    left: -40px;
+  }
+  #live .team .player.defense {
+    margin-top: 20px;
+    padding-left: 40px;
+  }
+  #live .team.blue .player.attack .player-body {
+    right: -40px;
+  }
+  #live .team.blue .player.defense {
+    padding-right: 40px;
+  }
+  #live .team .player .player-name {
+    margin-top: 10px;
+  }
+  #live .team .player.defense .player-name {
+    margin-top: 30px;
+  }
+  #live .team .player .player-picture canvas {
+    margin-top: 2px;
+  }
+}
+@media screen and (min-width: 1000px) and (max-width: 1499px) {
+  #live {
+    font-size: 1.2em;
+  }
+  #live .team {
+    padding: 20px;
+  }
+  #live .team .player.attack .player-body {
+    left: -20px;
+  }
+  #live .team .player.defense {
+    margin-top: 10px;
+    padding-left: 20px;
+  }
+  #live .team.blue .player.attack .player-body {
+    right: -20px;
+  }
+  #live .team.blue .player.defense {
+    padding-right: 20px;
+  }
+  #live .team .player .player-name {
+    margin-top: 10px;
+  }
+  #live .team .player.defense .player-name {
+    margin-top: 20px;
+  }
+  #live .team .player .player-picture canvas {
+    margin-top: 1px;
+  }
+}
+@media screen and (min-width: 800px) and (max-width: 999px) {
+  #live {
+    font-size: 0.9em;
+  }
+  #live .team {
+    padding: 16px;
+  }
+  #live .team .player.attack .player-body {
+    left: -16px;
+  }
+  #live .team .player.defense {
+    margin-top: 8px;
+    padding-left: 16px;
+  }
+  #live .team.blue .player.attack .player-body {
+    right: -16px;
+  }
+  #live .team.blue .player.defense {
+    padding-right: 16px;
+  }
+  #live .team .player .player-name {
+    margin-top: 10px;
+  }
+  #live .team .player.defense .player-name {
+    margin-top: 18px;
+  }
+  #live .team .player .player-picture canvas {
+    margin-top: 1px;
+  }
+}
+@media screen and (min-width: 600px) and (max-width: 799px) {
+  #live {
+    font-size: 0.7em;
+  }
+  #live .team {
+    padding: 10px;
+  }
+  #live .team .player.attack .player-body {
+    left: -10px;
+  }
+  #live .team .player.defense {
+    margin-top: 5px;
+    padding-left: 10px;
+  }
+  #live .team.blue .player.attack .player-body {
+    right: -10px;
+  }
+  #live .team.blue .player.defense {
+    padding-right: 10px;
+  }
+  #live .team .player .player-name {
+    margin-top: 10px;
+  }
+  #live .team .player.defense .player-name {
+    margin-top: 15px;
+  }
+  #live .team .player .player-picture canvas {
+    margin-top: 1px;
+  }
+}
