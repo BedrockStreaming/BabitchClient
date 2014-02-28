@@ -22,6 +22,14 @@ module.exports = function (grunt) {
       dist: 'dist'
     },
 
+    less: {
+      development: {
+        files: {
+          '<%= yeoman.app %>/styles/live.css': '<%= yeoman.app %>/less/live.less'
+        }
+      },
+    },
+
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       js: {
@@ -35,6 +43,14 @@ module.exports = function (grunt) {
       styles: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
         tasks: ['newer:copy:styles', 'autoprefixer']
+      },
+      less: {
+        // Which files to watch (all .less files recursively in the less directory)
+        files: ['<%= yeoman.app %>/less/**/*.less'],
+        tasks: ['less'],
+        options: {
+          nospawn: true
+        }
       },
       gruntfile: {
         files: ['Gruntfile.js']
