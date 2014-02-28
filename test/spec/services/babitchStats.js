@@ -148,6 +148,14 @@ describe('Service: babitchStats', function() {
         expect(stats.statsTeams[4].percentGoalPerBall).toBe(25);
     });
 
+    it('should calculate elo ranking for team correctly', function() {
+        expect(stats.statsTeams[0].eloRanking).toBe(1475);
+        expect(stats.statsTeams[1].eloRanking).toBe(1525);
+        expect(stats.statsTeams[2].eloRanking).toBe(1487);
+        expect(stats.statsTeams[3].eloRanking).toBe(1550);
+        expect(stats.statsTeams[4].eloRanking).toBe(1451);
+    });
+
     it('should do not forget one goal', function() {
         var nbGoal = stats.statsTeams[0].goal
             +stats.statsTeams[1].goal
@@ -252,6 +260,14 @@ describe('Service: babitchStats', function() {
         expect(stats.statsPlayers[16].percentGoalPerBall).toBe(11.4);
     });
 
+    it('should calculate elo ranking for players correctly', function() {
+        expect(stats.statsPlayers[7].eloRanking).toBe(1450);
+        expect(stats.statsPlayers[8].eloRanking).toBe(1575);
+        expect(stats.statsPlayers[9].eloRanking).toBe(1525);
+        expect(stats.statsPlayers[12].eloRanking).toBe(1499);
+        expect(stats.statsPlayers[16].eloRanking).toBe(1451);
+    });
+
     it('should do not forget one goal', function() {
         var nbGoal = stats.statsPlayers[7].goal
             +stats.statsPlayers[8].goal
@@ -267,4 +283,3 @@ describe('Service: babitchStats', function() {
     });
 
 });
-
