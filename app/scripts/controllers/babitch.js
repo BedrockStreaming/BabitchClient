@@ -321,7 +321,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
         notify('new');
     };
 
-    var getGameData = function () {
+    $scope.getGameData = function () {
         var table = $scope.table;
 
         var game = {
@@ -344,7 +344,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
             //Game Saved
         }, function() {
             setTimeout(function () {
-                saveGame();
+                $scope.saveGame();
             }, 1000);
         });
     };
@@ -361,7 +361,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
             fayeClient.publish(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, {
                 type:   eventName,
                 gameId: $scope.gameId,
-                game:   getGameData()
+                game:   $scope.getGameData()
             });
         }
     };

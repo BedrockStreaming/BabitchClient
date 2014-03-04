@@ -63,7 +63,18 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, R
 
         data.game.player.forEach(function(position) {
             Restangular.one("players", position.player_id).get().then(function(player) {
-                position.player = player;
+                if (position.position == 'attack' && position.team == 'red') {
+                    $scope.redAttacker = player;
+                }
+                if (position.position == 'defense' && position.team == 'red') {
+                    $scope.redDefender = player;
+                }
+                if (position.position == 'attack' && position.team == 'blue') {
+                    $scope.blueAttacker = player;
+                }
+                if (position.position == 'defense' && position.team == 'blue') {
+                    $scope.blueDefender = player;
+                }
             });
         });
     });
