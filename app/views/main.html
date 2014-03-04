@@ -20,8 +20,8 @@
                                 <i class="glyphicon glyphicon-thumbs-down"></i> &nbsp; Cancel last goal
                             </a>
                         </li>
-                        <li class="divider" ng-show="gameStarted"></li>
-                        <li ng-show="gameStarted">
+                        <li class="divider" ng-show="match.infos.started"></li>
+                        <li ng-show="match.infos.started">
                             <a ng-click="cancelGame()">
                                 <i class="glyphicon glyphicon-minus-sign"></i> &nbsp; Cancel match
                             </a>
@@ -32,19 +32,19 @@
 
             <!-- On right -->
             <div class="duration pull-right">
-                <span ng-show="gameStarted">{{ duration | prettyTime }}</span>&nbsp;
+                <span ng-show="match.infos.started">{{ duration | prettyTime }}</span>&nbsp;
             </div>
 
             <!-- On middle -->
-            <div class="score" ng-show="gameStarted">
+            <div class="score" ng-show="match.infos.started">
                 <strong>{{ table.sides[0].position == 'left' ? table.sides[0].score : table.sides[1].score }}</strong>
                 <span>-</span>
                 <strong>{{ table.sides[0].position == 'right' ? table.sides[0].score : table.sides[1].score }}</strong>
             </div>
-            <div id="actionStart" ng-show="!gameStarted && nbPlayers == 4">
+            <div id="actionStart" ng-show="!match.infos.started && match.infos.nbPlayers == 4">
                 <button class="btn btn-success" ng-click="startGame()">Start</button>
             </div>
-            <div ng-show="!gameStarted && nbPlayers < 4">
+            <div ng-show="!match.infos.started && match.infos.nbPlayers < 4">
                 Team composition
             </div>
         </div>
@@ -62,7 +62,7 @@
 
                             <div class="player-layer">
                                 <div class="player-name">
-                                    <small>{{ seat.place }}</small>
+                                    <small>{{ seat.name }}</small>
                                     <big>{{ seat.player ? seat.player.name : 'Choose a player' }}</big>
                                 </div>
                             </div>
@@ -116,7 +116,7 @@
             </div>
         </div>
 
-        <div class="the-end focused" ng-show="gameEnded">
+        <div class="the-end focused" ng-show="match.infos.ended">
             <button class="btn btn-default btn-lg btn-block" ng-click="restartGame()">
                 Restart this game
             </button>
@@ -126,4 +126,4 @@
         </div>
     </div>
 </div>
-<div id="game-overlay" ng-show="focusedSeat || gameEnded" ng-click="resetFocus()"></div>
+<div id="game-overlay" ng-show="focusedSeat || match.infos.ended" ng-click="resetFocus()"></div>

@@ -1,16 +1,13 @@
 'use strict';
 
-babitchFrontendApp.controller('babitchLiveCtrl', function ($scope, BabitchTable) {
+babitchFrontendApp.controller('BabitchLiveCtrl', function ($scope, BabitchMatch) {
 
-    var client = BabitchTable().client();
-    var server = BabitchTable().server();
+    var match = BabitchMatch().client();
 
-    $scope.table = client.table;
+    $scope.table = match.table;
     $scope.history = [];
 
-    client.on('goal', function (data) {
+    match.on('goal', function (data) {
         // Do anything
     });
-
-    window.server = server;
 });
