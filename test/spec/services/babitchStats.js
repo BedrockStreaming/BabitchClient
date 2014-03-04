@@ -62,90 +62,98 @@ describe('Service: babitchStats', function() {
     it('should calculate team victory correctly', function() {
         expect(stats.statsTeams.length).toBe(5); //5 different teams
         expect(stats.statsTeams[0].victory).toBe(0);
-        expect(stats.statsTeams[1].victory).toBe(1);
+        expect(stats.statsTeams[1].victory).toBe(2);
         expect(stats.statsTeams[2].victory).toBe(0);
-        expect(stats.statsTeams[3].victory).toBe(2);
-        expect(stats.statsTeams[4].victory).toBe(0);
+        expect(stats.statsTeams[3].victory).toBe(0);
+        expect(stats.statsTeams[4].victory).toBe(1);
     });
 
     it('should calculate team loose correctly', function() {
         expect(stats.statsTeams[0].loose).toBe(1);
         expect(stats.statsTeams[1].loose).toBe(0);
         expect(stats.statsTeams[2].loose).toBe(1);
-        expect(stats.statsTeams[3].loose).toBe(0);
-        expect(stats.statsTeams[4].loose).toBe(1);
+        expect(stats.statsTeams[3].loose).toBe(1);
+        expect(stats.statsTeams[4].loose).toBe(0);
     });
 
     it('should calculate team percentVictory correctly', function() {
         expect(stats.statsTeams[0].percentVictory).toBe(0);
         expect(stats.statsTeams[1].percentVictory).toBe(100);
         expect(stats.statsTeams[2].percentVictory).toBe(0);
-        expect(stats.statsTeams[3].percentVictory).toBe(100);
-        expect(stats.statsTeams[4].percentVictory).toBe(0);
+        expect(stats.statsTeams[3].percentVictory).toBe(0);
+        expect(stats.statsTeams[4].percentVictory).toBe(100);
     });
 
     it('should calculate team percentLoose correctly', function() {
         expect(stats.statsTeams[0].percentLoose).toBe(100);
         expect(stats.statsTeams[1].percentLoose).toBe(0);
         expect(stats.statsTeams[2].percentLoose).toBe(100);
-        expect(stats.statsTeams[3].percentLoose).toBe(0);
-        expect(stats.statsTeams[4].percentLoose).toBe(100);
+        expect(stats.statsTeams[3].percentLoose).toBe(100);
+        expect(stats.statsTeams[4].percentLoose).toBe(0);
     });
 
     it('should calculate team teamGoalaverage correctly', function() {
-        expect(stats.statsTeams[0].teamGoalaverage).toBe(-1);
-        expect(stats.statsTeams[1].teamGoalaverage).toBe(1);
+        expect(stats.statsTeams[0].teamGoalaverage).toBe(-4);
+        expect(stats.statsTeams[1].teamGoalaverage).toBe(5.5);
         expect(stats.statsTeams[2].teamGoalaverage).toBe(-7);
-        expect(stats.statsTeams[3].teamGoalaverage).toBe(5.5);
-        expect(stats.statsTeams[4].teamGoalaverage).toBe(-4);
+        expect(stats.statsTeams[3].teamGoalaverage).toBe(-1);
+        expect(stats.statsTeams[4].teamGoalaverage).toBe(1);
     });
 
     it('should calculate team goal correctly', function() {
-        expect(stats.statsTeams[0].goal).toBe(8);
-        expect(stats.statsTeams[1].goal).toBe(9);
+        expect(stats.statsTeams[0].goal).toBe(4);
+        expect(stats.statsTeams[1].goal).toBe(20);
         expect(stats.statsTeams[2].goal).toBe(3);
-        expect(stats.statsTeams[3].goal).toBe(20);
-        expect(stats.statsTeams[4].goal).toBe(4);
+        expect(stats.statsTeams[3].goal).toBe(8);
+        expect(stats.statsTeams[4].goal).toBe(9);
     });
 
     it('should calculate team owngoal correctly', function() {
-        expect(stats.statsTeams[0].owngoal).toBe(1);
-        expect(stats.statsTeams[1].owngoal).toBe(1);
+        expect(stats.statsTeams[0].owngoal).toBe(0);
+        expect(stats.statsTeams[1].owngoal).toBe(2);
         expect(stats.statsTeams[2].owngoal).toBe(0);
-        expect(stats.statsTeams[3].owngoal).toBe(2);
-        expect(stats.statsTeams[4].owngoal).toBe(0);
+        expect(stats.statsTeams[3].owngoal).toBe(1);
+        expect(stats.statsTeams[4].owngoal).toBe(1);
     });
 
     it('should calculate team average goal per game correctly', function() {
-        expect(stats.statsTeams[0].avgGoalPerGame).toBe(8);
-        expect(stats.statsTeams[1].avgGoalPerGame).toBe(9);
+        expect(stats.statsTeams[0].avgGoalPerGame).toBe(4);
+        expect(stats.statsTeams[1].avgGoalPerGame).toBe(10);
         expect(stats.statsTeams[2].avgGoalPerGame).toBe(3);
-        expect(stats.statsTeams[3].avgGoalPerGame).toBe(10);
-        expect(stats.statsTeams[4].avgGoalPerGame).toBe(4);
+        expect(stats.statsTeams[3].avgGoalPerGame).toBe(8);
+        expect(stats.statsTeams[4].avgGoalPerGame).toBe(9);
     });
 
     it('should calculate team game played', function() {
         expect(stats.statsTeams[0].gamePlayed).toBe(1);
-        expect(stats.statsTeams[1].gamePlayed).toBe(1);
+        expect(stats.statsTeams[1].gamePlayed).toBe(2);
         expect(stats.statsTeams[2].gamePlayed).toBe(1);
-        expect(stats.statsTeams[3].gamePlayed).toBe(2);
+        expect(stats.statsTeams[3].gamePlayed).toBe(1);
         expect(stats.statsTeams[4].gamePlayed).toBe(1);
     });
 
     it('should calculate team balls played', function() {
-        expect(stats.statsTeams[0].ballsPlayed).toBe(19);
-        expect(stats.statsTeams[1].ballsPlayed).toBe(19);
+        expect(stats.statsTeams[0].ballsPlayed).toBe(16);
+        expect(stats.statsTeams[1].ballsPlayed).toBe(29);
         expect(stats.statsTeams[2].ballsPlayed).toBe(13);
-        expect(stats.statsTeams[3].ballsPlayed).toBe(29);
-        expect(stats.statsTeams[4].ballsPlayed).toBe(16);
+        expect(stats.statsTeams[3].ballsPlayed).toBe(19);
+        expect(stats.statsTeams[4].ballsPlayed).toBe(19);
     });
 
     it('should calculate team percent goal per ball correctly', function() {
-        expect(stats.statsTeams[0].percentGoalPerBall).toBe(42.1);
-        expect(stats.statsTeams[1].percentGoalPerBall).toBe(47.4);
+        expect(stats.statsTeams[0].percentGoalPerBall).toBe(25);
+        expect(stats.statsTeams[1].percentGoalPerBall).toBe(69);
         expect(stats.statsTeams[2].percentGoalPerBall).toBe(23.1);
-        expect(stats.statsTeams[3].percentGoalPerBall).toBe(69);
-        expect(stats.statsTeams[4].percentGoalPerBall).toBe(25);
+        expect(stats.statsTeams[3].percentGoalPerBall).toBe(42.1);
+        expect(stats.statsTeams[4].percentGoalPerBall).toBe(47.4);
+    });
+
+    it('should calculate elo ranking for team correctly', function() {
+        expect(stats.statsTeams[0].eloRanking).toBe(1475);
+        expect(stats.statsTeams[1].eloRanking).toBe(1549);
+        expect(stats.statsTeams[2].eloRanking).toBe(1464);
+        expect(stats.statsTeams[3].eloRanking).toBe(1487);
+        expect(stats.statsTeams[4].eloRanking).toBe(1538);
     });
 
     it('should do not forget one goal', function() {
@@ -252,6 +260,14 @@ describe('Service: babitchStats', function() {
         expect(stats.statsPlayers[16].percentGoalPerBall).toBe(11.4);
     });
 
+    it('should calculate elo ranking for players correctly', function() {
+        expect(stats.statsPlayers[7].eloRanking).toBe(1451);
+        expect(stats.statsPlayers[8].eloRanking).toBe(1574);
+        expect(stats.statsPlayers[9].eloRanking).toBe(1524);
+        expect(stats.statsPlayers[12].eloRanking).toBe(1501);
+        expect(stats.statsPlayers[16].eloRanking).toBe(1450);
+    });
+
     it('should do not forget one goal', function() {
         var nbGoal = stats.statsPlayers[7].goal
             +stats.statsPlayers[8].goal
@@ -267,4 +283,3 @@ describe('Service: babitchStats', function() {
     });
 
 });
-
