@@ -1,30 +1,111 @@
-<div id="live">
-        <div id="header">
+<div id="live" ng-liveheighthandler>
+    <div id="header">
         <div class="container">
-            <div class="text-center pull-right">
-                Available games :
-                <select ng-model="currentGameId" ng-options="c for c in currentGamesIds">
-                </select> <a ng-click="refreshAvailableGames()">(refresh)</a>
+            <div class="brand pull-left">
+                <big>Babitch</big><small>live</small>
             </div>
-            <div>
-                Babitch Live
-            </div>
-        </div>
-    </div>
-    <div class="row" ng-show="game">
-      <div class="col-sm-3 col-sm-offset-1" id="redside">
-            <div class="player" ng-repeat="player in [redDefender]" ng-include="'/views/partial/player.html'"></div>
-            <div class="player" ng-repeat="player in [redAttacker]" ng-include="'/views/partial/player.html'"></div>
-        </div>
-        <div class="col-sm-4">
-            <div class="score">
-                <strong>{{ game.red_score }}</strong> : <strong>{{ game.blue_score }}</strong>
-            </div>
-        </div>
-        <div class="col-sm-3" id="blueside">
-            <div class="player" ng-repeat="player in [blueAttacker]" ng-include="'/views/partial/player.html'"></div>
-            <div class="player" ng-repeat="player in [blueDefender]" ng-include="'/views/partial/player.html'"></div>
         </div>
     </div>
 
+    <div id="teams" class="clearfix">
+        <div class="teams-body container">
+            <div class="team {{ side.name }}" ng-repeat="side in table.sides">
+                <div class="player {{ seat.name }}" ng-repeat="seat in side.seats">
+                    <div class="player-body">
+                        <div class="player-picture" style="background-image: url({{ seat.player.email | gravatarize:200 }})">
+                            <canvas></canvas>
+                        </div>
+                        <div class="player-text player-name">{{ seat.player.name || 'Unknown' }}</div>
+                        <div class="player-text player-place">{{ seat.name }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="score" class="clearfix">
+        <span class="score-team score-red">{{ table.sides.0.score }}</span>
+        <span>:</span>
+        <span class="score-team score-blue">{{ table.sides.1.score }}</span>
+    </div>
+
+    <!-- <div id="timeline" class="container">
+        <div class="tl-event tl-event-blue">
+            <div class="tl-event-body">
+                Nicolas marque un but
+            </div>
+        </div>
+        <div class="tl-event tl-event-red">
+            <div class="tl-event-body">
+                Kenny marque le premier but
+            </div>
+        </div>
+    </div> -->
 </div>
+
+<script>
+$(function ($) {
+    var timer = null;
+
+    var resize = function () {
+        (function () {
+            var $window = $(this);
+            var $teams = $('#teams');
+
+            if($window.width() >= 600) {
+                $teams.css('height', 'auto');
+                return;
+            }
+
+            var $header = $('#header');
+            var $score = $('#score');
+
+            $teams.css('height', $window.height()-$header.innerHeight()-$score.innerHeight());
+        })();
+
+        $('.player').each(function () {
+            var $this = $(this);
+            var $img = $this.find('.player-picture');
+
+            var canvas = $this.find('canvas').get(0);
+            var img = new Image();
+
+            canvas.width = $img.width();
+            canvas.height = 40;
+
+            img.onload = function () {
+                var context = canvas.getContext('2d');
+                var width = canvas.width;
+                var height = canvas.height;
+
+                context.save();
+                context.translate(0, this.height);
+                context.scale(1, -1);
+                context.drawImage(this, 0, 0, canvas.width, this.height);
+                context.restore();
+
+                // add gradient
+                context.globalCompositeOperation = 'destination-out';
+
+                var gradient = context.createLinearGradient(0, 0, 0, height);
+                gradient.addColorStop(0, 'rgba(255, 255, 255, '+(1-0.3)+')');
+                gradient.addColorStop(1, 'rgba(255, 255, 255, 1.0)');
+
+                context.fillStyle = gradient;
+                context.fillRect(0, 0, width, height);
+            };
+            img.src = $img.css('background-image').replace('url(', '').replace(')', '');
+        });   
+    }
+
+    // Max height
+    $(window).resize(function() {
+        if(timer !== null) {
+            clearTimeout(timer);
+        }
+
+        timer = setTimeout(resize, 200);
+    }).trigger('resize');
+
+    resize();
+});
+</script>

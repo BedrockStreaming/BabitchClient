@@ -1,0 +1,330 @@
+
+#live {
+
+    @header-height: 50px;
+    @score-height: 60px; // only for devices width under 600px
+
+    font-size: 16px;
+
+    .container {
+        width: auto;
+    }
+
+    #header {
+        position: fixed;
+        height: @header-height;
+        width: 100%;
+        top: 0;
+        left: 0;
+        color: white;
+        line-height: @header-height;
+        text-align: center;
+        background: black;
+        z-index: 20;
+        font-size: 20px;
+
+        .brand big {
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .brand small {
+            font-size: 0.8em;
+            background: white;
+            color: black;
+            padding: 0 5px;
+            border-radius: 5px;
+        }
+    }
+
+
+    #teams {
+        background: #EEE;
+
+        .team {
+            position: relative;
+            float: left;
+            width: 50%;
+            border-top: 10px solid;
+            border-bottom: 3px solid;
+        }
+
+        .team.red {
+            border-color: rgb(211, 0, 0);
+        }
+
+        .team.blue {
+            border-color: rgb(41, 54, 148);
+            float: right;
+        }
+
+        .team .player .player-picture {
+            background: no-repeat 50% 50%;
+            background-size: cover;
+        }
+
+        .player-measurement(@ratio) {
+            .team {
+                padding: ( 20px * @ratio / 100 );
+            }
+
+            .team .player.attack .player-body {
+                left: -( 20px * @ratio / 100 );
+            }
+
+            .team .player.defense {
+                margin-top: ( 10px * @ratio / 100 );
+                padding-left: ( 20px * @ratio / 100 );
+            }
+
+            .team.blue .player.attack .player-body {
+                right: -( 20px * @ratio / 100 );
+            }
+
+            .team.blue .player.defense {
+                padding-right: ( 20px * @ratio / 100 );
+            }
+
+            .team .player .player-name {
+                margin-top: 10px;
+            }
+
+            .team .player.defense .player-name {
+                margin-top: 10px + ( 10px * @ratio / 100 );
+            }
+
+            .team .player .player-picture canvas {
+                margin-top: max(1px, 1px * @ratio / 100 );
+            }
+        }
+    }
+
+    #score {
+        padding: 10px;
+        color: white;
+        font-size: 3.2em;
+        text-align: center;
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #222222), color-stop(1, #333333));
+        background-image: -o-linear-gradient(bottom, #222222 0%, #333333 100%);
+        background-image: -moz-linear-gradient(bottom, #222222 0%, #333333 100%);
+        background-image: -webkit-linear-gradient(bottom, #222222 0%, #333333 100%);
+        background-image: -ms-linear-gradient(bottom, #222222 0%, #333333 100%);
+        background-image: linear-gradient(to bottom, #222222 0%, #333333 100%);
+    }
+
+    #score .score-team {
+        font-weight: bold;
+        letter-spacing: -2px;
+    }
+
+    @media (min-width: 600px) {
+        padding-top: @header-height;
+
+        .container {
+            padding: 0 50px;
+        }
+
+        #teams {
+
+            .team .player {
+                width: 50%;
+            }
+
+            .team .player .player-body {
+                position: relative;
+            }
+
+            .team .player.attack {
+                float: right;
+            }
+
+            .team .player.attack .player-body {
+                z-index: 10;
+            }
+
+            .team .player.defense {
+                float: left;
+            }
+
+            .team .player.defense .player-body {
+                z-index: 9;
+            }
+
+            .team.blue .player.attack {
+                float: left;
+            }
+
+            .team.blue .player.attack .player-body {
+                left: auto;
+            }
+
+            .team.blue .player.defense {
+                padding-left: 0;
+                float: right;
+            }
+
+            .team .player .player-picture {
+                position: relative;
+                width: 100%;
+                padding-bottom: 100%;
+                z-index: 9;
+            }
+
+            .team .player .player-picture canvas {
+                position: absolute;
+                top: 100%;
+            }
+
+            .team .player .player-text {
+                position: relative;
+                text-align: center;
+                z-index: 10;
+            }
+
+            .team .player .player-name {
+                font-size: 1.6em;
+                font-weight: bold;
+                letter-spacing: -2px;
+            }
+        }    
+    }
+
+    @media (max-width: 599px) {
+
+        min-height: 100%;
+
+        &, & > * {
+            position: absolute;
+            width: 100% !important;
+        }
+
+        #teams,
+        #teams .teams-body,
+        #teams .player-body {
+            height: 100%;
+        }
+
+        #teams .teams-body {
+            padding: @header-height 0 @score-height;
+        }
+
+        #teams .team {
+            height: 100%;
+        }
+
+        #teams .team .player {
+            position: relative;
+            height: 50%;
+        }
+
+        #teams .team .player .player-picture {
+            width: 100%;
+            height: 100%;
+        }
+
+        #teams .team .player .player-text {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            text-align: center;
+            color: white;
+            text-shadow: 0 0 20px black, -1px 1px 0 rgba(0,0,0,0.2);
+        }
+
+        #teams .team .player .player-name {
+            font-size: 25px;
+            font-weight: bold;
+            margin-top: -30px;
+        }
+
+        #teams .team .player .player-place {
+            font-size: 16px;
+            margin-top: 5px;
+        }
+
+        #teams .team .player canvas {
+            display: none;
+        }
+
+        #score {
+            padding: 0;
+            height: @score-height;
+            line-height: @score-height;
+            font-size: ( @score-height * 2 / 3);
+            top: 100%;
+            margin-top: -@score-height;
+        }
+
+        #timeline {
+            top: 100%;
+        }
+    }
+
+    #timeline {
+        padding: 20px 0;
+
+        .tl-event {
+            font-size: 18px;
+        }
+
+        .tl-event .tl-event-body {
+            position: relative;
+            width: 50%;
+            padding: 20px;
+        }
+
+        .tl-event.tl-event-red .tl-event-body {
+            border-right: 4px solid #222;
+            padding-right: 50px;
+            text-align: right;
+            right: -4px;
+        }
+
+        .tl-event.tl-event-blue .tl-event-body {
+            border-left: 4px solid #222;
+            padding-left: 50px;
+            margin-left: 50%;
+        }
+
+        .tl-event .tl-event-body:before {
+            content: " ";
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #222;
+            border-radius: 100px;
+            top: 50%;
+            right: -27px;
+            margin-top: -25px;
+        }
+
+        .tl-event.tl-event-blue .tl-event-body:before {
+            right: auto;
+            left: -27px;
+        }
+    }
+
+    @media screen and (min-width: 1500px) {
+        font-size: 2em;
+
+        #teams .player-measurement(200);
+    }
+
+    @media screen and (min-width: 1000px) and (max-width: 1499px) {
+        font-size: 1.2em;
+
+        #teams .player-measurement(100);
+    }
+
+    @media screen and (min-width: 800px) and (max-width: 999px) {
+        font-size: 0.9em;
+
+        #teams .player-measurement(80);
+    }
+
+    @media screen and (min-width: 600px) and (max-width: 799px) {
+        font-size: 0.7em;
+
+        #teams .player-measurement(50);
+    }
+}

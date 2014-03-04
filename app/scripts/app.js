@@ -18,11 +18,11 @@ var babitchFrontendApp = angular.module('babitchFrontendApp',[
         $routeProvider
             .when('/', {
                 templateUrl: 'views/main.html',
-                controller: 'babitchCtrl'
+                controller: 'BabitchMainCtrl'
             })
             .when('/live', {
                 templateUrl: 'views/live.html',
-                controller: 'babitchLiveCtrl'
+                controller: 'BabitchLiveCtrl'
             })
             .when('/stats', {
                 templateUrl: 'views/stats.html',

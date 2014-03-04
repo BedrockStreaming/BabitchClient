@@ -277,6 +277,8 @@ a {
 }
 
 
+
+
 /* Responsive case */
 
 @media (min-width: 768px) {
@@ -297,64 +299,6 @@ a {
         padding: 0;
     }
 }
-
-
-
-
-
-
-
-
-#live { padding-top: 50px; }
-#live h2 { text-align: center;}
-#live .score {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 3em;
-}
-#live .player {
-    margin: 20px 0; position: relative;
-}
-#live .player:after{
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-#live #blueside .player:after{
-    background-color: rgba(97, 158, 232, 0.3);
-}
-#live #redside .player:after{
-    background-color: rgba(229, 96, 96, 0.3);
-}
-#live .player h2 {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    margin: 0;
-    padding: 10px;
-    color: white;
-    z-index: 1;
-}
-#live #redside .player h2 { background-color: rgb(229, 96, 96); }
-#live #blueside .player h2 { background-color: rgb(97, 158, 232); }
-
-#live .player h3 {
-    margin: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(9,9,9, 0.6);
-    padding-top: 40%;
-    text-align: center;
-    font-size: 30px;
-    color: white;
-}
-
 
 
 

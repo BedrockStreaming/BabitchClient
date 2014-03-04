@@ -11,14 +11,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <link href="//fonts.googleapis.com/css?family=Sintony:400,700" rel="stylesheet" type="text/css">
+    <link href="//fonts.googleapis.com/css?family=Sintony:400,700" rel="stylesheet" type="text/css">
 
-        <!-- build:css({.tmp,app}) styles/main.css -->
-        <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
-        <link rel="stylesheet" href="styles/main.css">
-        <!-- endbuild -->
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/live.css">
+    <!-- endbuild -->
 </head>
-  <body ng-init="initGame()">
+<body ng-init="initGame()">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -35,7 +36,7 @@
     <script src="bower_components/angular/angular.js"></script>
 
     <script src="bower_components/underscore/underscore-min.js"></script>
-    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
@@ -53,9 +54,9 @@
     <script src="scripts/fixtures.js"></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/services/faye.js"></script>
-    <script src="scripts/controllers/babitch.js"></script>
-    <script src="scripts/controllers/babitchLive.js"></script>
+    <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/babitchStats.js"></script>
+    <script src="scripts/controllers/live.js"></script>
     <script src="scripts/httpBackendStub.js"></script>
     <script src="scripts/filters/prettyTime.js"></script>
     <script src="scripts/filters/gravatarize.js"></script>
@@ -63,6 +64,7 @@
     <script src="scripts/filters/startFrom.js"></script>
     <script src="scripts/filters/withPlayerInTeam.js"></script>
     <script src="scripts/services/babitchStats.js"></script>
+    <script src="scripts/services/BabitchMatch.js"></script>
     <script src="scripts/controllers/babitchStatsGames.js"></script>
     <script src="scripts/controllers/babitchStatsPlayers.js"></script>
     <script src="scripts/controllers/babitchStatsTeams.js"></script>
