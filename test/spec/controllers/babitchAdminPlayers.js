@@ -1,9 +1,9 @@
-describe('Controller: BabitchAdminCtrl', function($window) {
+describe('Controller: BabitchAdminPlayersCtrl', function($window) {
 
     // load the controller's module
     beforeEach(module('babitchFrontendApp'));
 
-    var theBabitchAdminCtrl,
+    var theBabitchAdminPlayersCtrl,
         scope,
         httpMock,
         windowMock;
@@ -18,7 +18,7 @@ describe('Controller: BabitchAdminCtrl', function($window) {
 
         windowMock = { confirm: function(msg) { return true } }
 
-        theBabitchAdminCtrl = $controller('babitchAdminCtrl', {
+        theBabitchAdminPlayersCtrl = $controller('babitchAdminPlayersCtrl', {
             $scope: scope,
             $window: windowMock
         });

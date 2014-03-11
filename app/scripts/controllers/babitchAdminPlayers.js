@@ -1,6 +1,6 @@
 'use strict';
 
-babitchFrontendApp.controller('babitchAdminCtrl', function($scope, $window, Restangular) {
+babitchFrontendApp.controller('babitchAdminPlayersCtrl', function($scope, $window, Restangular) {
 
     Restangular.all('players').getList().then(function(players) {
         $scope.players = players;

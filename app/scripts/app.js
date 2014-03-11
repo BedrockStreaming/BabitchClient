@@ -25,14 +25,17 @@ var babitchFrontendApp = angular.module('babitchFrontendApp', [
                 controller: 'babitchLiveCtrl'
             })
             .when('/admin', {
-                templateUrl: 'views/admin.html',
-                controller: 'babitchAdminCtrl'
+                redirectTo: '/admin/players'
             })
-            .when('/admin/new', {
+            .when('/admin/players', {
+                templateUrl: 'views/adminPlayers.html',
+                controller: 'babitchAdminPlayersCtrl'
+            })
+            .when('/admin/players/new', {
                 templateUrl: 'views/admin-player.html',
                 controller: 'babitchAdminPlayerCtrl'
             })
-            .when('/admin/:id', {
+            .when('/admin/players/:id', {
                 templateUrl: 'views/admin-player.html',
                 controller: 'babitchAdminPlayerEditCtrl'
             })
