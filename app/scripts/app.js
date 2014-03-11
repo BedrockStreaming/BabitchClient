@@ -1,6 +1,6 @@
 'use strict';
 
-var babitchFrontendApp = angular.module('babitchFrontendApp',[
+var babitchFrontendApp = angular.module('babitchFrontendApp', [
     'ngCookies',
     'ngSanitize',
     'ngRoute',
@@ -8,8 +8,8 @@ var babitchFrontendApp = angular.module('babitchFrontendApp',[
     'faye',
     'ui.gravatar',
     'restangular'
-    ])
-    .config(function ($routeProvider, $httpProvider, gravatarServiceProvider, RestangularProvider, CONFIG) {
+])
+    .config(function($routeProvider, $httpProvider, gravatarServiceProvider, RestangularProvider, CONFIG) {
         gravatarServiceProvider.defaults = {
             size: 400,
             "default": 'mm' // Mystery man as default for missing avatars
@@ -23,6 +23,21 @@ var babitchFrontendApp = angular.module('babitchFrontendApp',[
             .when('/live', {
                 templateUrl: 'views/live.html',
                 controller: 'babitchLiveCtrl'
+            })
+            .when('/admin', {
+                redirectTo: '/admin/players'
+            })
+            .when('/admin/players', {
+                templateUrl: 'views/adminPlayers.html',
+                controller: 'babitchAdminPlayersCtrl'
+            })
+            .when('/admin/players/new', {
+                templateUrl: 'views/admin-player.html',
+                controller: 'babitchAdminPlayerCtrl'
+            })
+            .when('/admin/players/:id', {
+                templateUrl: 'views/admin-player.html',
+                controller: 'babitchAdminPlayerEditCtrl'
             })
             .when('/stats', {
                 templateUrl: 'views/stats.html',
@@ -49,6 +64,16 @@ var babitchFrontendApp = angular.module('babitchFrontendApp',[
             });
 
         RestangularProvider.setBaseUrl(CONFIG.BABITCH_WS_URL);
+
+        RestangularProvider.setRequestInterceptor(function(element, operation, route, url) {
+            if (operation === 'put' || operation === 'post') {
+                delete element._links;
+                delete element.id;
+                delete element.route;
+                return element;
+            }
+        });
+
 
         //Enable cross domain calls
         $httpProvider.defaults.useXDomain = true;

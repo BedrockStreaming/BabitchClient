@@ -12,6 +12,9 @@ angular.module('babitchFrontendApp')
             statsTeams: [],
             statsTeamsFiltered: [],
             statsType: [{
+                    name: 'eloRanking'
+                }, //Elo Ranking
+                {
                     name: 'percentGoalPerBall',
                     text: '%Goal',
                     addSuffix: '%'
@@ -97,6 +100,45 @@ angular.module('babitchFrontendApp')
         var _setStatsPercentVictoryLoose = function(type, id) {
             stats["stats" + type][id].percentVictory = +(stats["stats" + type][id].victory / stats["stats" + type][id].gamePlayed * 100).toFixed(1);
             stats["stats" + type][id].percentLoose = +(stats["stats" + type][id].loose / stats["stats" + type][id].gamePlayed * 100).toFixed(1);
+        };
+
+        var _setStatsEloRanking = function(game) {
+            var redWins, blueWins;
+            if(game.red_score === 10) {
+                redWins = 1;
+                blueWins = 0;
+            }
+            else {
+                redWins = 0;
+                blueWins = 1;
+            }
+
+            stats.statsTeams[_redTeamId].eloRanking = (stats.statsPlayers[game.redAttack].eloRanking + stats.statsPlayers[game.redDefense].eloRanking) / 2;
+            stats.statsTeams[_blueTeamId].eloRanking = (stats.statsPlayers[game.blueAttack].eloRanking + stats.statsPlayers[game.blueDefense].eloRanking) / 2;
+
+            //Diff in ranking between blue and redteam
+            var redDiff = (stats.statsTeams[_blueTeamId].eloRanking - stats.statsTeams[_redTeamId].eloRanking);
+
+            //Calculate Red and Blue Win Expectancy
+            var RedWe = +(1 / ( Math.pow(10, ( redDiff / 1000)) + 1 )).toFixed(2);
+            var BlueWe = +(1 - RedWe).toFixed(2);
+
+            var KFactor = 50;
+
+            var redNewEloRanking = stats.statsTeams[_redTeamId].eloRanking + (KFactor * ( redWins - RedWe));
+            var redRanking = +(redNewEloRanking - stats.statsTeams[_redTeamId].eloRanking).toFixed(0);
+            stats.statsTeams[_redTeamId].eloRanking = redNewEloRanking;
+
+            stats.statsPlayers[game.redAttack].eloRanking += redRanking;
+            stats.statsPlayers[game.redDefense].eloRanking += redRanking;
+
+            var blueNewEloRanking = stats.statsTeams[_blueTeamId].eloRanking + (KFactor * ( blueWins - BlueWe));
+            var blueRanking = +(blueNewEloRanking - stats.statsTeams[_blueTeamId].eloRanking).toFixed(0);
+            stats.statsTeams[_blueTeamId].eloRanking = blueNewEloRanking;
+
+            stats.statsPlayers[game.blueAttack].eloRanking += blueRanking;
+            stats.statsPlayers[game.blueDefense].eloRanking += blueRanking;
+
         };
 
         var _setStatsPercentGoal = function(type, id) {
@@ -194,24 +236,26 @@ angular.module('babitchFrontendApp')
                         stats.playersList[player.id] = player;
 
                         //Init Stats of all numerical values
-                        stats.statsPlayers[player.id] = {
-                            id: player.id,
-                            email: stats.playersList[player.id].email,
-                            goal: 0,
-                            goalAttack: 0,
-                            goalDefense: 0,
-                            owngoal: 0,
-                            owngoalAttack: 0,
-                            owngoalDefense: 0,
-                            victory: 0,
-                            loose: 0,
-                            gamePlayed: 0,
-                            teamGoalaverage: 0,
-                            ballsPlayed: 0,
-                            goalConcede: 0,
-                            gameSeries: []
-                        };
-
+                        if (!stats.statsPlayers[player.id]) {
+                            stats.statsPlayers[player.id] = {
+                                name: player.name,
+                                id: player.id,
+                                goal: 0,
+                                goalAttack: 0,
+                                goalDefense: 0,
+                                owngoal: 0,
+                                owngoalAttack: 0,
+                                owngoalDefense: 0,
+                                victory: 0,
+                                loose: 0,
+                                gamePlayed: 0,
+                                teamGoalaverage: 0,
+                                ballsPlayed: 0,
+                                goalConcede: 0,
+                                eloRanking : 1500,
+                                gameSeries: []
+                            };
+                        }
                     });
 
 
@@ -380,6 +424,9 @@ angular.module('babitchFrontendApp')
             //Fetch Games
             gamePagination.getAllPage(3)
                 .then(function(data) {
+                    //Reverse data :
+                    data.reverse();
+
                     //For each games
                     data.forEach(function(games) {
                         _addToGamesList(games);
@@ -391,6 +438,7 @@ angular.module('babitchFrontendApp')
                         _setStatsVictoryLoose(games);
                         _setStatsGamePlayed(games);
                         _setStatsTeamGoalaverage(games);
+                        _setStatsEloRanking(games);
 
                         //For each Goals
                         games.goals.forEach(function(goal) {
@@ -423,10 +471,13 @@ angular.module('babitchFrontendApp')
                             stats.statsTeams[team.id].teamGoalaverage = +(stats.statsTeams[team.id].teamGoalaverage / stats.statsTeams[team.id].gamePlayed).toFixed(1);
                         }
 
+                        //Round Team Elo Ranking
+                        stats.statsTeams[team.id].eloRanking = +(stats.statsTeams[team.id].eloRanking).toFixed(0);
+
                     });
 
-                    /*_this.getStatsPlayersFilterBy('percentVictory', 10);
-                    _this.getStatsTeamsFilterBy('percentVictory', 5);*/
+                    //Reverse order of gameslist
+                    stats.gamesList.reverse();
 
                 });
 

@@ -1,0 +1,33 @@
+<div ng-include="'/views/partial/admin-header.html'" class="navbar navbar-inverse" role="navigation"></div>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-sm-10  col-md-10 col-md-offset-1">
+            <h2> {{ player.id ? 'Edit players' : 'New Player' }} : {{ player.name }}</h2>
+
+            <form name="playerForm" ng-submit="submitForm()" novalidate> <!-- novalidate prevents HTML5 validation since we will be validating ourselves -->
+
+            <!-- NAME -->
+            <div class="form-group" ng-class="{ 'has-error' : playerForm.name.$invalid && !playerForm.name.$pristine }">
+                <label>Name</label>
+                <input type="text" name="name" class="form-control" ng-model="player.name" required>
+                <p ng-show="playerForm.name.$invalid && !playerForm.name.$pristine" class="help-block">You name is required.</p>
+
+            </div>
+            
+            <!-- EMAIL -->
+            <div class="form-group" ng-class="{ 'has-error' : playerForm.email.$invalid && !playerForm.email.$pristine }">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control" ng-model="player.email" required>
+                <p ng-show="playerForm.email.$invalid && !playerForm.email.$pristine" class="help-block">You email is required.</p>
+
+            </div>
+            
+            <!-- SUBMIT BUTTON -->
+            <button type="submit" class="btn btn-primary" ng-disabled="playerForm.$invalid">Submit</button>
+            
+            </form>
+        </div>
+    </div>
+</div>
