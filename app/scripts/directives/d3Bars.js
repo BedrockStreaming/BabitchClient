@@ -48,7 +48,6 @@ function($window, $timeout, d3Service, gravatarService) {
                 }, true);
 
                 scope.render = function(data) {
-                    //data = _.sortBy(data,scope.dynamicSort('percentVictory'));
                     svg.selectAll('*').remove();
 
                     if (!data) return;
@@ -56,23 +55,26 @@ function($window, $timeout, d3Service, gravatarService) {
 
                     renderTimeout = $timeout(function() {
 
-                        var width = d3.select(ele[0])[0][0].offsetWidth - margin,
-                        height = scope.data.length * (barHeight + barPadding),
-                        color = d3.scale.category20(),
-                        d3min = d3.min(d3.values(data), function(d) {
+                        var width = d3.select(ele[0])[0][0].offsetWidth - margin;
+
+                        if (width<0) return;
+
+                        var height = scope.data.length * (barHeight + barPadding);
+                        var color = d3.scale.category20();
+                        var d3min = d3.min(d3.values(data), function(d) {
                             return d.stat;
                         });
 
                         if(d3min >= 0) {
                             d3min = 0;
                         }
-                        else {
-                        }
+
+                        var d3max = d3.max(d3.values(data), function(d) {
+                            return d.stat;
+                        });
 
                         var xScale = d3.scale.linear()
-                        .domain([d3min, d3.max(d3.values(data), function(d) {
-                            return d.stat;
-                        })])
+                        .domain([d3min, d3max])
                         .range([0, width]);
 
                         svg.attr('height', height);

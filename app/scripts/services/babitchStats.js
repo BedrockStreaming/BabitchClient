@@ -308,19 +308,21 @@ angular.module('babitchFrontendApp')
             return stats.statsPlayersFiltered;
         };
 
-        this.getStatsTeamsFilterBy = function(statType, minGamePlayed) {
+        this.getStatsTeamsFilterBy = function(statType, minGamePlayed, withPlayer) {
             var oneOrderedStat = [];
             stats.statsTeams.forEach(function(data) {
                 if(data.gamePlayed >= minGamePlayed) {
-                    oneOrderedStat.push({
-                        name1: stats.playersList[data.player_id1].name,
-                        name2: stats.playersList[data.player_id2].name,
-                        id1: data.player_id1,
-                        id2: data.player_id2,
-                        email1: stats.playersList[data.player_id1].email,
-                        email2: stats.playersList[data.player_id2].email,
-                        stat: data[statType]
-                    });
+                    if(!withPlayer || withPlayer == data.player_id1 || withPlayer == data.player_id2) {
+                        oneOrderedStat.push({
+                            name1: stats.playersList[data.player_id1].name,
+                            name2: stats.playersList[data.player_id2].name,
+                            id1: data.player_id1,
+                            id2: data.player_id2,
+                            email1: stats.playersList[data.player_id1].email,
+                            email2: stats.playersList[data.player_id2].email,
+                            stat: data[statType]
+                        });
+                    }
                 }
             });
             stats.statsTeamsFiltered = oneOrderedStat.sort(this.dynamicSort("-stat"));
@@ -423,8 +425,8 @@ angular.module('babitchFrontendApp')
 
                     });
 
-                    _this.getStatsPlayersFilterBy('percentVictory', 10);
-                    _this.getStatsTeamsFilterBy('percentVictory', 5);
+                    /*_this.getStatsPlayersFilterBy('percentVictory', 10);
+                    _this.getStatsTeamsFilterBy('percentVictory', 5);*/
 
                 });
 

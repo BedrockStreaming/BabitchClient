@@ -3,13 +3,14 @@
                 <h2 ng-show="selectedPlayer">Team Stats</h2>
             </div>
 
-<div class="btn-group">
-    <button type="button" class="btn btn-default" ng-repeat="stat in stats.statsType" ng-click='getFilteredStat(stat.name)'>{{ (stat.text ? stat.text : stat.name) }}</button>
-</div>
-<br /><br />
-<div d3-bars data="stats.statsTeamsFiltered" type='teams' bar-height="20" bar-padding="5"></div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" ng-click='setTableHide(false)'>All stats</button>
+                <button type="button" class="btn btn-default" ng-repeat="stat in stats.statsType" ng-click='getFilteredStat(stat.name)'>{{ (stat.text ? stat.text : stat.name) }}</button>
+            </div>
+            <br /><br />
+            <div d3-bars data="stats.statsTeamsFiltered" type='teams' bar-height="20" bar-padding="5" ng-show='tableHide'></div>
 
-            <table class="table table-hover table-condensed">
+            <table class="table table-hover table-condensed" ng-hide='tableHide'>
                 <thead>
                     <tr>
                         <th colspan="2">

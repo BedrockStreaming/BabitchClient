@@ -11,13 +11,18 @@ babitchFrontendApp.controller("babitchStatsTeamsCtrl", function($scope, $rootSco
     $rootScope.setReverse = function() {
         $rootScope.reverse = !$rootScope.reverse;
     };
+    $rootScope.setTableHide = function(variable) {
+        $rootScope.tableHide = variable;
+    };
 
     $scope.stats = babitchStats.getStats();
 
     $scope.minGamePlayed = 5;
+    $rootScope.setTableHide(false);
 
     $scope.getFilteredStat = function(statType) {
-         babitchStats.getStatsTeamsFilterBy(statType, $scope.minGamePlayed);
+        $rootScope.setTableHide(true);
+         babitchStats.getStatsTeamsFilterBy(statType, $scope.minGamePlayed, false);
     };
 
 });
