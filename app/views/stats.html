@@ -29,21 +29,26 @@
         </div>
     </div>
 
-    <div class="main">
+    <div class="main" ng-switch on="menuSelect">
 
-        <div ng-include src="'/views/partial/statsOverall.html'" class="container placeholders" ng-hide="menuSelect">
+        <div ng-switch-default>
+            <div ng-include src="'/views/partial/statsOverall.html'" class="container placeholders"></div>
         </div>
 
-        <div ng-include src="'/views/partial/statsLastGames.html'" class="container" ng-show="menuSelect == 'lastgames'">
+        <div ng-switch-when="lastgames">
+            <div ng-include src="'/views/partial/statsLastGames.html'" class="container"></div>
         </div>
 
-        <div ng-include src="'/views/partial/statsPlayer.html'" class="player" ng-show="menuSelect == 'player'">
+        <div ng-switch-when="player">
+            <div ng-include src="'/views/partial/statsPlayer.html'" class="player"></div>
         </div>
 
-        <div ng-include src="'/views/partial/statsPlayers.html'" class="table-responsive container" ng-show="menuSelect == 'playerstats'">
+        <div ng-switch-when="playerstats">
+            <div ng-include src="'/views/partial/statsPlayers.html'" class="table-responsive container"></div>
         </div>
 
-        <div ng-include src="'/views/partial/statsTeams.html'" class="table-responsive container" ng-show="menuSelect == 'teamstats'">
+        <div ng-switch-when="teamstats">
+            <div ng-include src="'/views/partial/statsTeams.html'" class="table-responsive container"></div>
         </div>
 
     </div>
