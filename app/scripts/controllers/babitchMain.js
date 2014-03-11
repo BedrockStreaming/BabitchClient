@@ -149,12 +149,6 @@ babitchFrontendApp.controller('BabitchMainCtrl', function ($scope, CONFIG, fayeC
         }
     };
 
-    var checkScore = function () {
-        if ($scope.table.sides[0].score == 10 || $scope.table.sides[1].score == 10) {
-            endGame();
-        }
-    }
-
     /**
      * Coach two players for a side
      *
@@ -210,85 +204,4 @@ babitchFrontendApp.controller('BabitchMainCtrl', function ($scope, CONFIG, fayeC
     });
 
     init();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    var helper = {
-        choosePlayer: function (playerId, team, place) {
-            var playerIndex = playerId-1;
-            var sideIndex = (team == 'red' ? 0 : 1);
-            var seatIndex = (place == 'attack' ? 0 : 1);
-
-            var side = match.table.sides[sideIndex];
-            var seat = side.seats[seatIndex];
-            var player = $scope.playersList[playerIndex];
-
-            $scope.focusSeat(seat, side);
-            $scope.choosePlayer(player);
-        },
-
-        chooseAllPlayers: function () {
-            helper.choosePlayer(1, 'red', 'attack');
-            helper.choosePlayer(2, 'red', 'defense');
-            helper.choosePlayer(3, 'blue', 'attack');
-            helper.choosePlayer(4, 'blue', 'defense');
-        },
-
-        focusPlayer: function(team, place) {
-            var sideIndex = (team == 'red' ? 0 : 1);
-            var seatIndex = (place == 'attack' ? 0 : 1);
-
-            var side = $scope.table.sides[sideIndex];
-            var seat = side.seats[seatIndex];
-
-            $scope.focusSeat(seat, side);
-        },
-
-        playerScoreAnyGoals: function(team, place, howMuch) {
-            howMuch = howMuch || 1;
-
-            for(var i = 0; i < howMuch; i++) {
-                helper.focusPlayer(team, place);
-                $scope.goal();
-            }
-        },
-
-        playerScoreAnyAutogoals: function(team, place, howMuch) {
-            howMuch = howMuch || 1;
-
-            for(var i = 0; i < howMuch; i++) {
-                helper.focusPlayer(team, place);
-                $scope.autogoal();
-            }
-        },
-
-        getRedScore: function () {
-            return $scope.table.sides[0].score;
-        },
-
-        getBlueScore: function () {
-            return $scope.table.sides[1].score;
-        },
-
-        getPlayers: function () {
-            return $scope.playersList;
-        }
-    };
-
-    window.helper = helper;
 });
