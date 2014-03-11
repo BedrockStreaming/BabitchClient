@@ -1,0 +1,43 @@
+<div ng-include="'/views/partial/admin-header.html'" class="navbar navbar-inverse" role="navigation"></div>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <div class="col-sm-10  col-md-10 col-md-offset-1 main">
+            <div class="table-responsive" ng-hide="menuSelect">
+                <h2 class="sub-header">Last Players</h2>
+                <table id="lastgames" class="table table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Gravatar</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="player in players | orderBy:'name'">
+                            <td>
+                                <a ng-href="#/admin/players/{{ player.id }}">
+                                    {{ player.name }}
+                                </a>
+                            </td>
+                            <td>
+
+                                {{ player.email }}
+                            </td>
+                            <td>
+                                <img gravatar-src="player.email || ''"  gravatar-size="30" />
+                            </td>
+                            <td>
+                                <a ng-href="#/admin/players/{{ player.id }}" class="btn btn-primary">Edit</a>
+                                <a ng-click="deletePlayer(player)" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
