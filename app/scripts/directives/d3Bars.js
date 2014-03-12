@@ -43,7 +43,9 @@ function($window, $timeout, d3Service, gravatarService) {
 
                     renderTimeout = $timeout(function() {
 
-                        var width = d3.select(ele[0])[0][0].offsetWidth - margin;
+                        var RectBegin = (scope.type == "teams" ? 250 : 150);
+                        var RectEnd = 50;
+                        var width = d3.select(ele[0])[0][0].offsetWidth - margin - RectBegin - RectEnd;
 
                         if (width<0) return;
 
@@ -76,7 +78,7 @@ function($window, $timeout, d3Service, gravatarService) {
                         })
                         .attr('height', barHeight)
                         .attr('width', 140)
-                        .attr('x', Math.round(margin/2))
+                        .attr('x', RectBegin + Math.round(margin/2))
                         .attr('y', function(d,i) {
                             return i * (barHeight + barPadding);
                         })
@@ -101,7 +103,7 @@ function($window, $timeout, d3Service, gravatarService) {
                             .attr("xlink:href", function(d) {
                                 return gravatarService.url(d.email);
                             })
-                            .attr("x", Math.round(margin/2))
+                            .attr("x", RectBegin - barHeight - barPadding + Math.round(margin/2))
                             .attr('y', function(d,i) {
                                 return i * (barHeight + barPadding);
                             })
@@ -117,7 +119,7 @@ function($window, $timeout, d3Service, gravatarService) {
                             .attr("xlink:href", function(d) {
                                 return gravatarService.url(d.email1);
                             })
-                            .attr("x", Math.round(margin/2))
+                            .attr("x", RectBegin - barHeight - barPadding + Math.round(margin/2))
                             .attr('y', function(d,i) {
                                 return i * (barHeight + barPadding);
                             })
@@ -129,7 +131,7 @@ function($window, $timeout, d3Service, gravatarService) {
                             .attr("xlink:href", function(d) {
                                 return gravatarService.url(d.email2);
                             })
-                            .attr("x", Math.round(margin/2)+barHeight)
+                            .attr("x", RectBegin - barHeight - barPadding + Math.round(margin/2) - barHeight - barPadding)
                             .attr('y', function(d,i) {
                                 return i * (barHeight + barPadding);
                             })
@@ -139,18 +141,41 @@ function($window, $timeout, d3Service, gravatarService) {
                         }
 
 
-                        svg.selectAll('text')
-                        .data(d3.values(data))
-                        .enter()
+                        var texts = svg.selectAll('text')
+                        .data(d3.values(data));
+
+                        texts.enter()
                         .append('text')
-                        .attr('fill', '#fff')
+                        .attr('fill', '#000')
                         .attr('y', function(d,i) {
                             return i * (barHeight + barPadding) + 15;
                         })
-                        .attr('x', barHeight + (scope.type=="teams" ? barHeight*2 : barHeight))
+                        .attr('x', (scope.type == "teams" ? RectBegin - barHeight - barHeight - barPadding : RectBegin - barHeight))
+                        .attr("text-anchor", "end")
                         .text(function(d) {
-                            return (d.name ? d.name : d.name1 + ' - ' + d.name2) + " (" + (typeof d.stat == "undefined" ? "" : d.stat) + ")";
+                            return (d.name ? d.name : d.name1 + ' - ' + d.name2);
                         });
+
+                        texts.enter()
+                        .append('text')
+                        .attr('fill', '#000')
+                        .attr('y', function(d,i) {
+                            return i * (barHeight + barPadding) + 15;
+                        })
+                        .attr('x', 140 + RectBegin + barPadding + barPadding)
+                        .attr("text-anchor", "start")
+                        .text(function(d) {
+                            return (typeof d.stat == "undefined" ? "" : d.stat);
+                        })
+                        .transition()
+                        .duration(950)
+                        .attr('x',function(d) {
+                            if(typeof d.stat == "number") {
+                                return xScale(d.stat) + RectBegin + barPadding + barPadding;
+                            }
+                            else return 0;
+                        });
+
                     }, 200);
                 };
             });
