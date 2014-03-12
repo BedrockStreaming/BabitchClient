@@ -96,8 +96,10 @@ angular.module('babitchFrontendApp')
         };
 
         var _setStatsPercentVictoryLoose = function(type, id) {
-            stats["stats" + type][id].percentVictory = +(stats["stats" + type][id].victory / stats["stats" + type][id].gamePlayed * 100).toFixed(1);
-            stats["stats" + type][id].percentLoose = +(stats["stats" + type][id].loose / stats["stats" + type][id].gamePlayed * 100).toFixed(1);
+            if(stats["stats" + type][id].gamePlayed) {
+                stats["stats" + type][id].percentVictory = +(stats["stats" + type][id].victory / stats["stats" + type][id].gamePlayed * 100).toFixed(1);
+                stats["stats" + type][id].percentLoose = +(stats["stats" + type][id].loose / stats["stats" + type][id].gamePlayed * 100).toFixed(1);
+            }
         };
 
         var _setStatsEloRanking = function(game) {
@@ -140,8 +142,12 @@ angular.module('babitchFrontendApp')
         };
 
         var _setStatsPercentGoal = function(type, id) {
-            stats["stats" + type][id].percentGoalPerBall = +(stats["stats" + type][id].goal / stats["stats" + type][id].ballsPlayed * 100).toFixed(1);
-            stats["stats" + type][id].avgGoalPerGame = +(stats["stats" + type][id].goal / (stats["stats" + type][id].gamePlayed * 10) * 10).toFixed(1);
+            if(stats["stats" + type][id].ballsPlayed) {
+                stats["stats" + type][id].percentGoalPerBall = +(stats["stats" + type][id].goal / stats["stats" + type][id].ballsPlayed * 100).toFixed(1);
+            }
+            if(stats["stats" + type][id].gamePlayed) {
+                stats["stats" + type][id].avgGoalPerGame = +(stats["stats" + type][id].goal / (stats["stats" + type][id].gamePlayed * 10) * 10).toFixed(1);
+            }
         };
 
         var _setStatsGamePlayed = function(game) {
@@ -247,7 +253,11 @@ angular.module('babitchFrontendApp')
                                 ballsPlayed: 0,
                                 goalConcede: 0,
                                 eloRanking : 1500,
-                                gameSeries: []
+                                gameSeries: [],
+                                percentGoalPerBall: 0,
+                                avgGoalPerGame: 0,
+                                percentVictory: 0,
+                                percentLoose: 0
                             };
                         }
                     });
