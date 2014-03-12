@@ -404,8 +404,7 @@ angular.module('babitchFrontendApp')
                         _setStatsPercentGoal('Players', player.id);
 
                         //Generate GameSeries
-                        stats.statsPlayers[player.id].gameSeries = stats.statsPlayers[player.id].gameSeries.slice(0, 5);
-                        stats.statsPlayers[player.id].gameSeries.reverse();
+                        stats.statsPlayers[player.id].gameSeries = stats.statsPlayers[player.id].gameSeries.slice(-5);
 
                         if (stats.statsPlayers[player.id].gamePlayed) {
                             stats.statsPlayers[player.id].teamGoalaverage = +(stats.statsPlayers[player.id].teamGoalaverage / stats.statsPlayers[player.id].gamePlayed).toFixed(1);

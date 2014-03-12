@@ -268,6 +268,14 @@ describe('Service: babitchStats', function() {
         expect(stats.statsPlayers[16].eloRanking).toBe(1450);
     });
 
+    it('should calculate gameSeries for players correctly', function() {
+        expect(stats.statsPlayers[7].gameSeries).toEqual(['L','L']);
+        expect(stats.statsPlayers[8].gameSeries).toEqual(['W','W','W']);
+        expect(stats.statsPlayers[9].gameSeries).toEqual(['W','W','L']);
+        expect(stats.statsPlayers[12].gameSeries).toEqual(['L','W']);
+        expect(stats.statsPlayers[16].gameSeries).toEqual(['L','L']);
+    });
+
     it('should do not forget one goal', function() {
         var nbGoal = stats.statsPlayers[7].goal
             +stats.statsPlayers[8].goal
