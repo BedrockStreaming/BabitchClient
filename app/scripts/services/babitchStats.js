@@ -396,6 +396,14 @@ angular.module('babitchFrontendApp')
         };
 
         this.computeStats = function() {
+            var deferred = $q.defer();
+
+            //do not recompute stat when already did
+            if (stats.computedStat) {
+                deferred.resolve(stats);
+                return deferred.promise;
+            }
+
             _initPlayers();
 
             var gamePagination = {
@@ -488,11 +496,12 @@ angular.module('babitchFrontendApp')
 
                     //Reverse order of gameslist
                     stats.gamesList.reverse();
+                    stats.computedStat = true;
+                    deferred.resolve(stats);
 
                 });
 
-            return stats;
+            return deferred.promise;
         };
 
-        this.computeStats();
     });
