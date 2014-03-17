@@ -368,16 +368,17 @@ a {
 #stats table .score {
     width: 60px;
     text-align: center;
-    white-space: nowrap;   
+    white-space: nowrap;
 }
 
-#stats table .score b {
+#stats table .score a {
     display: inline-block;
+    color: #000;
     font-weight: normal;
     width: 25px;
 }
 
-#stats table .score b.score-10 {
+#stats table .score a.score-10 {
     font-weight: bold;
 }
 
