@@ -8,7 +8,9 @@ angular.module('babitchFrontendApp')
             teamList: [],
             gamesList: [],
             statsPlayers: [],
+            statsPlayersFiltered: [],
             statsTeams: [],
+            statsTeamsFiltered: [],
             statsType: [{
                     name: 'eloRanking'
                 }, //Elo Ranking
@@ -41,7 +43,7 @@ angular.module('babitchFrontendApp')
                     name: 'ballsPlayed'
                 } // total number of balls played
             ]
-        }
+        };
 
         var _redTeamId;
         var _blueTeamId;
@@ -67,31 +69,31 @@ angular.module('babitchFrontendApp')
 
         var _setStatsVictoryLoose = function(game) {
             if (game.red_score == 10) {
-                stats.statsPlayers[stats.statsTeams[_redTeamId].player_id1].victory++;
-                stats.statsPlayers[stats.statsTeams[_redTeamId].player_id2].victory++;
-                stats.statsPlayers[stats.statsTeams[_blueTeamId].player_id1].loose++;
-                stats.statsPlayers[stats.statsTeams[_blueTeamId].player_id2].loose++;
+                stats.statsPlayers[game.redAttack].victory++;
+                stats.statsPlayers[game.redDefense].victory++;
+                stats.statsPlayers[game.blueAttack].loose++;
+                stats.statsPlayers[game.blueDefense].loose++;
 
                 stats.statsTeams[_redTeamId].victory++;
                 stats.statsTeams[_blueTeamId].loose++;
 
-                stats.statsPlayers[stats.statsTeams[_redTeamId].player_id1].gameSeries.push('W');
-                stats.statsPlayers[stats.statsTeams[_redTeamId].player_id2].gameSeries.push('W');
-                stats.statsPlayers[stats.statsTeams[_blueTeamId].player_id1].gameSeries.push('L');
-                stats.statsPlayers[stats.statsTeams[_blueTeamId].player_id2].gameSeries.push('L');
+                stats.statsPlayers[game.redAttack].gameSeries.push('W');
+                stats.statsPlayers[game.redDefense].gameSeries.push('W');
+                stats.statsPlayers[game.blueAttack].gameSeries.push('L');
+                stats.statsPlayers[game.blueDefense].gameSeries.push('L');
             } else {
-                stats.statsPlayers[stats.statsTeams[_redTeamId].player_id1].loose++;
-                stats.statsPlayers[stats.statsTeams[_redTeamId].player_id2].loose++;
-                stats.statsPlayers[stats.statsTeams[_blueTeamId].player_id1].victory++;
-                stats.statsPlayers[stats.statsTeams[_blueTeamId].player_id2].victory++;
+                stats.statsPlayers[game.redAttack].loose++;
+                stats.statsPlayers[game.redDefense].loose++;
+                stats.statsPlayers[game.blueAttack].victory++;
+                stats.statsPlayers[game.blueDefense].victory++;
 
                 stats.statsTeams[_redTeamId].loose++;
                 stats.statsTeams[_blueTeamId].victory++;
 
-                stats.statsPlayers[stats.statsTeams[_redTeamId].player_id1].gameSeries.push('L');
-                stats.statsPlayers[stats.statsTeams[_redTeamId].player_id2].gameSeries.push('L');
-                stats.statsPlayers[stats.statsTeams[_blueTeamId].player_id1].gameSeries.push('W');
-                stats.statsPlayers[stats.statsTeams[_blueTeamId].player_id2].gameSeries.push('W');
+                stats.statsPlayers[game.redAttack].gameSeries.push('L');
+                stats.statsPlayers[game.redDefense].gameSeries.push('L');
+                stats.statsPlayers[game.blueAttack].gameSeries.push('W');
+                stats.statsPlayers[game.blueDefense].gameSeries.push('W');
             }
         };
 
@@ -151,23 +153,25 @@ angular.module('babitchFrontendApp')
         };
 
         var _setStatsGamePlayed = function(game) {
-            game.composition.forEach(function(compo) {
-                stats.statsPlayers[compo.player_id].gamePlayed++;
-            });
+            stats.statsPlayers[game.redAttack].gamePlayed++;
+            stats.statsPlayers[game.redDefense].gamePlayed++;
+            stats.statsPlayers[game.blueAttack].gamePlayed++;
+            stats.statsPlayers[game.blueDefense].gamePlayed++;
+
             stats.statsTeams[_redTeamId].gamePlayed++;
             stats.statsTeams[_blueTeamId].gamePlayed++;
         };
 
         var _setStatsTeamGoalaverage = function(game) {
-            game.composition.forEach(function(compo) {
-                if (compo.team == "red") {
-                    stats.statsPlayers[compo.player_id].teamGoalaverage += game.red_score;
-                    stats.statsPlayers[compo.player_id].teamGoalaverage -= game.blue_score;
-                } else {
-                    stats.statsPlayers[compo.player_id].teamGoalaverage += game.blue_score;
-                    stats.statsPlayers[compo.player_id].teamGoalaverage -= game.red_score;
-                }
-            });
+            stats.statsPlayers[game.redAttack].teamGoalaverage += game.red_score;
+            stats.statsPlayers[game.redAttack].teamGoalaverage -= game.blue_score;
+            stats.statsPlayers[game.redDefense].teamGoalaverage += game.red_score;
+            stats.statsPlayers[game.redDefense].teamGoalaverage -= game.blue_score;
+
+            stats.statsPlayers[game.blueAttack].teamGoalaverage += game.blue_score;
+            stats.statsPlayers[game.blueAttack].teamGoalaverage -= game.red_score;
+            stats.statsPlayers[game.blueDefense].teamGoalaverage += game.blue_score;
+            stats.statsPlayers[game.blueDefense].teamGoalaverage -= game.red_score;
 
             stats.statsTeams[_redTeamId].teamGoalaverage += game.red_score;
             stats.statsTeams[_redTeamId].teamGoalaverage -= game.blue_score;
@@ -176,9 +180,11 @@ angular.module('babitchFrontendApp')
         };
 
         var _setStatsBallsPlayed = function(game) {
-            game.composition.forEach(function(compo) {
-                stats.statsPlayers[compo.player_id].ballsPlayed++;
-            });
+            stats.statsPlayers[game.redAttack].ballsPlayed++;
+            stats.statsPlayers[game.redDefense].ballsPlayed++;
+            stats.statsPlayers[game.blueAttack].ballsPlayed++;
+            stats.statsPlayers[game.blueDefense].ballsPlayed++;
+
             stats.statsTeams[_redTeamId].ballsPlayed++;
             stats.statsTeams[_blueTeamId].ballsPlayed++;
         };
@@ -199,7 +205,6 @@ angular.module('babitchFrontendApp')
 
         //Add goal and owngoal for team and players
         var _setStatsGoalOwnGoal = function(goal) {
-
             if (goal.autogoal) {
                 if (goal.team == 'red') {
                     stats.statsTeams[_redTeamId].owngoal++;
@@ -232,6 +237,7 @@ angular.module('babitchFrontendApp')
             //Fetch players
             Restangular.all('players').getList()
                 .then(function(data) {
+                    var i = 0;
                     data.forEach(function(player) {
                         stats.playersList[player.id] = player;
 
@@ -306,6 +312,8 @@ angular.module('babitchFrontendApp')
                     id: _redTeamId,
                     player_id1: redTeam[0],
                     player_id2: redTeam[1],
+                    email1: stats.playersList[redTeam[0]].email,
+                    email2: stats.playersList[redTeam[1]].email,
                     victory: 0,
                     loose: 0,
                     teamGoalaverage: 0,
@@ -321,6 +329,8 @@ angular.module('babitchFrontendApp')
                     id: _blueTeamId,
                     player_id1: blueTeam[0],
                     player_id2: blueTeam[1],
+                    email1: stats.playersList[blueTeam[0]].email,
+                    email2: stats.playersList[blueTeam[1]].email,
                     victory: 0,
                     loose: 0,
                     teamGoalaverage: 0,
@@ -334,6 +344,61 @@ angular.module('babitchFrontendApp')
 
         this.getStats = function() {
             return stats;
+        };
+
+        this.getStatsPlayersFilterBy = function(statType, minGamePlayed) {
+            var oneOrderedStat = [];
+            stats.statsPlayers.forEach(function(data) {
+                if(data.gamePlayed >= minGamePlayed) {
+                    oneOrderedStat.push({
+                        stat: data[statType],
+                        players: [{
+                            id: data.id,
+                            email: stats.playersList[data.id].email,
+                            name: stats.playersList[data.id].name
+                        }]
+                    });
+                }
+            });
+            stats.statsPlayersFiltered = oneOrderedStat.sort(this.dynamicSort("-stat"));
+            return stats.statsPlayersFiltered;
+        };
+
+        this.getStatsTeamsFilterBy = function(statType, minGamePlayed, withPlayer) {
+            var oneOrderedStat = [];
+            stats.statsTeams.forEach(function(data) {
+                if(data.gamePlayed >= minGamePlayed) {
+                    if(!withPlayer || withPlayer == data.player_id1 || withPlayer == data.player_id2) {
+                        oneOrderedStat.push({
+                            stat: data[statType],
+                            players: [{
+                                id: data.player_id1,
+                                email: stats.playersList[data.player_id1].email,
+                                name: stats.playersList[data.player_id1].name
+                            },{
+                                id: data.player_id2,
+                                email: stats.playersList[data.player_id2].email,
+                                name: stats.playersList[data.player_id2].name
+                            }]
+
+                        });
+                    }
+                }
+            });
+            stats.statsTeamsFiltered = oneOrderedStat.sort(this.dynamicSort("-stat"));
+            return stats.statsTeamsFiltered;
+        };
+
+        this.dynamicSort = function (property) {
+            var sortOrder = 1;
+            if(property[0] === "-") {
+                sortOrder = -1;
+                property = property.substr(1);
+            }
+            return function (a,b) {
+                var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+                return result * sortOrder;
+            }
         };
 
         this.computeStats = function() {
@@ -371,6 +436,7 @@ angular.module('babitchFrontendApp')
                 }
             };
 
+            var _this = this;
             //Fetch Games
             gamePagination.getAllPage(3)
                 .then(function(data) {
@@ -429,6 +495,7 @@ angular.module('babitchFrontendApp')
                     stats.gamesList.reverse();
 
                 });
+
             return stats;
         };
 

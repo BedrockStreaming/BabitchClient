@@ -8,9 +8,21 @@ babitchFrontendApp.controller("babitchStatsTeamsCtrl", function($scope, $rootSco
     $rootScope.setPredicate = function(variable) {
         $rootScope.predicate = variable;
     };
-    $rootScope.setReverse = function() {
+    $rootScope.doReverse = function() {
         $rootScope.reverse = !$rootScope.reverse;
+    };
+    $rootScope.setTableHide = function(variable) {
+        $rootScope.tableHide = variable;
     };
 
     $scope.stats = babitchStats.getStats();
+
+    $scope.minGamePlayed = 5;
+    $rootScope.setTableHide(false);
+
+    $scope.getFilteredStat = function(statType) {
+        $rootScope.setTableHide(true);
+         babitchStats.getStatsTeamsFilterBy(statType, $scope.minGamePlayed, false);
+    };
+
 });
