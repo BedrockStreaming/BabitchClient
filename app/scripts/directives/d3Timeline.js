@@ -24,7 +24,7 @@ function($window, $timeout, d3Service, gravatarService) {
                 scope.$watch(function() {
                     return angular.element($window)[0].innerWidth;
                 }, function() {
-                    scope.render('watch' , scope.data);
+                    scope.render(scope.data);
                 });
 
                 scope.$watch('data', function(newData) {
@@ -34,11 +34,15 @@ function($window, $timeout, d3Service, gravatarService) {
                 scope.render = function(data) {
                     svg.selectAll('*').remove();
 
-                    if (!data || !data.goals) return;
-                    if (renderTimeout) clearTimeout(renderTimeout);
+                    if (!data || !data.goals) {
+                        return;
+                    }
+                    if (renderTimeout) {
+                        clearTimeout(renderTimeout);
+                    }
 
                     renderTimeout = $timeout(function() {
-                        var width = 1000;
+                        var width = parseInt(svg.style('width'), 10);
                         var barHeight = 20;
                         var margin = 5;
                         var ended_at = new Date(data.ended_at);
@@ -52,59 +56,83 @@ function($window, $timeout, d3Service, gravatarService) {
                         svg.attr('height', height);
 
                         svg.selectAll("rect")
-                        .data([1])
-                        .enter()
-                        .append("rect")
-                        .attr("x", Math.round(width/2) - 2)
-                        .attr('y', 20)
-                        .attr("width", 4)
-                        .attr("height", height)
-                        .style("fill","black");
+                            .data([1])
+                            .enter()
+                            .append("rect")
+                            .attr("x", Math.round(width/2) - 2)
+                            .attr('y', 20)
+                            .attr("width", 4)
+                            .attr("height", height)
+                            .style("fill","black");
 
                         svg.selectAll("circle")
-                        .data(data.goals)
-                        .enter()
-                        .append("circle")
-                        .attr("cx", Math.round(width/2))
-                        .attr("cy", function(d,i) {
-                            //return 15 + i * (barHeight);
-                            var goal_at = new Date(d.scored_at);
-                            var goal_time = (goal_at - started_at) / 1000;
-                            return 20 + (game_length - goal_time) * 2  + 15*i;
-                        })
-                        .attr("r", 8)
-                        .style("fill", function(d) {
-                            if(d.autogoal) return "red";
-                            return "black";
-                        });
+                            .data(data.goals)
+                            .enter()
+                            .append("circle")
+                            .attr("cx", Math.round(width/2))
+                            .attr("cy", function(d,i) {
+                                var goal_at = new Date(d.scored_at);
+                                var goal_time = (goal_at - started_at) / 1000;
+                                return 20 + (game_length - goal_time) * 2  + 15*i;
+                            })
+                            .attr("r", 8)
+                            .style("fill", function(d) {
+                                if(d.autogoal) {
+                                    return "red";
+                                }
+                                return "black";
+                            });
 
                         var texts = svg.selectAll('text')
-                        .data(data.goals);
+                            .data(data.goals);
 
+                        //Add player action
                         texts.enter()
-                        .append('text')
-                        .attr('fill', '#000')
-                        .attr('y', function(d,i) {
-                            var goal_at = new Date(d.scored_at);
-                            var goal_time = (goal_at - started_at) / 1000;
-                            return 20 + (game_length - goal_time) * 2 + 5 + 15*i;
-                        })
-                        .attr('x', function(d) {
-                            var x = Math.round(width/2);
-                            x += (d.team == "red" ? -20 : 20);
-                            return x;
-                        })
-                        .style('text-anchor',function(d) {
-                            return (d.team == "red" ? "end" : "start");
-                        })
-                        .text(function(d) {
-                            var text = d.player_name + ' (' + d.position + ') ';
-                            if(d.autogoal) text += 'autogoal';
-                            else text += 'goal ' + d.conceder_name;
-                            var time = (new Date(d.scored_at) - started_at) / 1000;
-                            text += ' ' + ~~( time / 60) + 'mn' + time % 60 + 's';
-                            return text;
-                        });
+                            .append('text')
+                            .attr('fill', '#000')
+                            .attr('y', function(d,i) {
+                                var goal_at = new Date(d.scored_at);
+                                var goal_time = (goal_at - started_at) / 1000;
+                                return 20 + (game_length - goal_time) * 2 + 5 + 15*i;
+                            })
+                            .attr('x', function(d) {
+                                var x = Math.round(width/2);
+                                x += (d.team == "red" ? -20 : 20);
+                                return x;
+                            })
+                            .style('text-anchor',function(d) {
+                                return (d.team == "red" ? "end" : "start");
+                            })
+                            .text(function(d) {
+                                var text = d.player_name + ' (' + d.position + ') ';
+                                if(d.autogoal) {
+                                    text += 'autogoal';
+                                }
+                                else text += 'goal ' + d.conceder_name;
+                                return text;
+                            });
+
+                        //Add time
+                        texts.enter()
+                            .append('text')
+                            .attr('fill', '#ccc')
+                            .attr('y', function(d,i) {
+                                var goal_at = new Date(d.scored_at);
+                                var goal_time = (goal_at - started_at) / 1000;
+                                return 20 + (game_length - goal_time) * 2 + 5 + 15*i;
+                            })
+                            .attr('x', function(d) {
+                                var x = (d.team == "red" ? 0 : width);
+                                return x;
+                            })
+                            .style('text-anchor',function(d) {
+                                return (d.team == "red" ? "start" : "end");
+                            })
+                            .text(function(d) {
+                                var time = (new Date(d.scored_at) - started_at) / 1000;
+                                text = ~~( time / 60) + 'mn' + time % 60 + 's';
+                                return text;
+                            });
 
                     }, 200);
                 };

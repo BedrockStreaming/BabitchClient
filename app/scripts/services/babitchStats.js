@@ -141,6 +141,8 @@ angular.module('babitchFrontendApp')
             stats.statsPlayers[game.blueAttack].eloRanking += blueRanking;
             stats.statsPlayers[game.blueDefense].eloRanking += blueRanking;
 
+            game.redEloTeam = stats.statsTeams[_redTeamId].eloRanking;
+            game.blueEloTeam = stats.statsTeams[_blueTeamId].eloRanking;
             game.redEloWins = redRanking;
             game.blueEloWins = blueRanking;
 
