@@ -1,6 +1,5 @@
 <img gravatar-src="player.email" class="img-responsive">
 <h2>{{ player.name }}</h2>
-{{ player.id }} {{ lastGoal.player_id}}
 <h3 ng-if="player.id == lastGoal.player_id">
      <ng-switch on="lastGoal.autogoal">
         <ng-switch ng-switch-when="true">Autogoal</ng-switch>

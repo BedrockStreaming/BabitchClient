@@ -133,9 +133,9 @@ module.exports = function (grunt) {
       }
     },
 
-    
 
-    
+
+
 
     // Renames files for browser caching purposes
     rev: {
@@ -243,7 +243,6 @@ module.exports = function (grunt) {
           src: [
             '*.{ico,png,txt}',
             '.htaccess',
-            'bower_components/**/*',
             'images/{,*/}*.{webp}',
             'fonts/*'
           ]
@@ -261,6 +260,16 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      fonts: {
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/',
+          dest: '<%= yeoman.dist %>/fonts',
+          src: [
+              '**/fonts/*',
+          ],
+          flatten: true,
       }
     },
 
@@ -274,6 +283,7 @@ module.exports = function (grunt) {
       ],
       dist: [
         'copy:styles',
+        'copy:fonts',
         'imagemin',
         'svgmin',
         'htmlmin'
@@ -283,10 +293,32 @@ module.exports = function (grunt) {
       unit: {
         configFile: 'karma.conf.js',
         singleRun: true
+      }
+    },
+    protractor: {
+      options: {
+        keepAlive: false, // If false, the grunt process stops when the test fails.
+        noColor: false, // If true, protractor will not use colors in its output.
+        args: {}
       },
       e2e: {
-        configFile: 'karma-e2e.conf.js',
-        singleRun: true
+        options: {
+          configFile: "protractor-e2e.conf.js", // Target-specific config file
+          args: {seleniumAddress: 'http://localhost:9515'} // Target-specific arguments
+        }
+      },
+      e2eTravis: {
+        options: {
+          configFile: "protractor-e2e.conf.js", // Target-specific config file
+          args: {
+            sauceUser: process.env.SAUCE_USERNAME,
+            sauceKey:  process.env.SAUCE_ACCESS_KEY,
+            capabilities: {'tunnel-identifier' : process.env.TRAVIS_JOB_NUMBER}
+          },
+          jasmineNodeOpts: {
+            defaultTimeoutInterval: 80000
+          }
+        }
       }
     }
   });
@@ -316,7 +348,28 @@ module.exports = function (grunt) {
     'concurrent:test',
     'autoprefixer',
     'connect:test',
-    'karma'
+    'karma:unit',
+    'faye',
+    'chromedriver',
+    'protractor:e2e'
+  ]);
+
+  grunt.registerTask('test-unit', [
+    'clean:server',
+    'concurrent:test',
+    'autoprefixer',
+    'connect:test',
+    'karma:unit'
+  ]);
+
+  grunt.registerTask('test-travis', [
+    'clean:server',
+    'concurrent:test',
+    'autoprefixer',
+    'connect:test',
+    'karma:unit',
+    'faye',
+    'protractor:e2eTravis'
   ]);
 
   grunt.registerTask('build', [
@@ -339,4 +392,32 @@ module.exports = function (grunt) {
     'test',
     'build'
   ]);
+
+  grunt.registerTask('faye', 'Launch faye server on 9003 port', function() {
+    var http = require('http'),
+    faye = require('faye');
+    var server = http.createServer(),
+    fayeServer = new faye.NodeAdapter({mount: '/faye', timeout: 45});
+    fayeServer.attach(server);
+    server.listen(9003);
+  });
+
+  grunt.registerTask('chromedriver', 'Launch Chrome webdriver', function() {
+    var chromedriver = require('chromedriver');
+    var binPath = chromedriver.path;var running = true;
+    var chrome = grunt.util.spawn({
+        cmd: binPath,
+        args: ['--no-sandbox']
+      }, function () {
+      running = false;
+      grunt.fatal('Chrome killed unexpectedly');
+    });
+    // Kill Chrome on exit.
+    process.on('exit', function () {
+      if (running) {
+        chrome.kill();
+        grunt.log.ok('Chrome stopped');
+      }
+    });
+  });
 };
