@@ -21,7 +21,6 @@ module.exports = function(config) {
       'app/bower_components/angular-gravatar/src/md5.js',
       'app/bower_components/restangular/src/restangular.js',
       'app/bower_components/angular-gravatar/build/angular-gravatar.js',
-      'app/bower_components/d3js/build/d3.v3.js',
       'app/scripts/*.js',
       'app/scripts/**/*.js',
       'test/spec/**/*.js'

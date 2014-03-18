@@ -13,10 +13,10 @@
                 <thead>
                     <tr>
                         <th>
-                            <a href="" ng-click="setPredicate('name'); setReverse()">Name</a>
+                            <a href="" ng-click="setPredicate('name'); doReverse()">Name</a>
                         </th>
                         <th ng-repeat="stat in stats.statsType" class="text-right">
-                            <a href="" ng-click="setPredicate(stat.name); setReverse()">
+                            <a href="" ng-click="setPredicate(stat.name); doReverse()">
                                 {{ (stat.text ? stat.text : stat.name) }}
                             </a>
                         </th>

@@ -216,7 +216,10 @@ describe('Controller: BabitchCtrl', function() {
     it('should save game after 10 goals', function() {
         helper.chooseAllPlayers();
         scope.startGame();
-        
+
+        var realToISOString = Date.prototype.toISOString;
+        Date.prototype.toISOString = function () { return 'fake-date';};
+
         helper.playerScoreAnyGoals('red', 'defense', 9);
         expect(helper.getRedScore()).toBe(9);
         expect(helper.getBlueScore()).toBe(0);
@@ -234,7 +237,8 @@ describe('Controller: BabitchCtrl', function() {
                 position: 'defense',
                 player_id: 2,
                 conceder_id: 4,
-                autogoal: false
+                autogoal: false,
+                scored_at: 'fake-date'
             });
         }
 
@@ -247,9 +251,13 @@ describe('Controller: BabitchCtrl', function() {
                 { team: 'blue', position: 'attack',  player_id: 3 },
                 { team: 'blue', position: 'defense', player_id: 4 },
             ],
-            goals: goals
+            goals: goals,
+            started_at: 'fake-date',
+            ended_at: 'fake-date'
         }).respond(200, '');
 
         httpMock.flush();
+
+        Date.prototype.toISOString = realToISOString;
     });
 });

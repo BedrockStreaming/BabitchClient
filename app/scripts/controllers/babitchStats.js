@@ -8,7 +8,7 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, b
     $rootScope.setPredicate = function(variable) {
         $rootScope.predicate = variable;
     };
-    $rootScope.setReverse = function() {
+    $rootScope.doReverse = function() {
         $rootScope.reverse = !$rootScope.reverse;
     };
 

@@ -368,10 +368,12 @@ angular.module('babitchFrontendApp')
             stats.statsPlayers.forEach(function(data) {
                 if(data.gamePlayed >= minGamePlayed) {
                     oneOrderedStat.push({
-                        name: stats.playersList[data.id].name,
-                        id: data.id,
-                        email: stats.playersList[data.id].email,
-                        stat: data[statType]
+                        stat: data[statType],
+                        players: [{
+                            id: data.id,
+                            email: stats.playersList[data.id].email,
+                            name: stats.playersList[data.id].name
+                        }]
                     });
                 }
             });
@@ -385,13 +387,17 @@ angular.module('babitchFrontendApp')
                 if(data.gamePlayed >= minGamePlayed) {
                     if(!withPlayer || withPlayer == data.player_id1 || withPlayer == data.player_id2) {
                         oneOrderedStat.push({
-                            name1: stats.playersList[data.player_id1].name,
-                            name2: stats.playersList[data.player_id2].name,
-                            id1: data.player_id1,
-                            id2: data.player_id2,
-                            email1: stats.playersList[data.player_id1].email,
-                            email2: stats.playersList[data.player_id2].email,
-                            stat: data[statType]
+                            stat: data[statType],
+                            players: [{
+                                id: data.player_id1,
+                                email: stats.playersList[data.player_id1].email,
+                                name: stats.playersList[data.player_id1].name
+                            },{
+                                id: data.player_id2,
+                                email: stats.playersList[data.player_id2].email,
+                                name: stats.playersList[data.player_id2].name
+                            }]
+
                         });
                     }
                 }
@@ -490,8 +496,7 @@ angular.module('babitchFrontendApp')
                         _setStatsPercentGoal('Players', player.id);
 
                         //Generate GameSeries
-                        stats.statsPlayers[player.id].gameSeries = stats.statsPlayers[player.id].gameSeries.slice(0, 5);
-                        stats.statsPlayers[player.id].gameSeries.reverse();
+                        stats.statsPlayers[player.id].gameSeries = stats.statsPlayers[player.id].gameSeries.slice(-5);
 
                         if (stats.statsPlayers[player.id].gamePlayed) {
                             stats.statsPlayers[player.id].teamGoalaverage = +(stats.statsPlayers[player.id].teamGoalaverage / stats.statsPlayers[player.id].gamePlayed).toFixed(1);

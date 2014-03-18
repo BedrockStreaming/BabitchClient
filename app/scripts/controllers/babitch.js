@@ -203,7 +203,8 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
                 position:       $scope.focusedSeat.place,
                 player_id:      $scope.focusedSeat.player.id,
                 conceder_id:    $scope.focusedSide.oppositeSide.seats[1].player.id,
-                autogoal:       false
+                autogoal:       false,
+                scored_at:      (new Date()).toISOString()
             });
 
             $scope.focusedSide.score++;
@@ -226,7 +227,8 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
                 position:       $scope.focusedSeat.place,
                 player_id:      $scope.focusedSeat.player.id,
                 conceder_id:    $scope.focusedSide.seats[1].player.id,
-                autogoal:       true
+                autogoal:       true,
+                scored_at:      (new Date()).toISOString()
             });
 
             $scope.focusedSide.oppositeSide.score++;
@@ -333,7 +335,9 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
                 { team: 'blue', position: 'attack',  player_id: table.sides[1].seats[0].player.id },
                 { team: 'blue', position: 'defense', player_id: table.sides[1].seats[1].player.id },
             ],
-            goals: goals
+            goals: goals,
+            started_at: startTime.toISOString(),
+            ended_at: (new Date()).toISOString()
         };
 
         return game;
