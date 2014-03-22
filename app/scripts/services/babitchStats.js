@@ -4,6 +4,8 @@ angular.module('babitchFrontendApp')
     .service('babitchStats', function babitchStats(Restangular, $q) {
         // AngularJS will instantiate a singleton by calling "new" on this function
         var stats = {
+            minGamePlayedPlayers: 1,
+            minGamePlayedTeams: 1,
             playersList: [],
             teamList: [],
             gamesList: [],
@@ -203,6 +205,18 @@ angular.module('babitchFrontendApp')
             };
         };
 
+        //Set min game play depending on numbers of game played
+        var _setMinGamePlayed = function() {
+            stats.minGamePlayedPlayers = +(stats.gamesList.length * 0.02).toFixed(0);
+            stats.minGamePlayedTeams = +(stats.gamesList.length * 0.02).toFixed(0);
+            if(stats.minGamePlayedPlayers <1 ) {
+                stats.minGamePlayedPlayers = 1;
+            }
+            if(stats.minGamePlayedTeams <1 ) {
+                stats.minGamePlayedTeams = 1;
+            }
+        };
+
         //Add goal and owngoal for team and players
         var _setStatsGoalOwnGoal = function(goal) {
             if (goal.autogoal) {
@@ -346,10 +360,10 @@ angular.module('babitchFrontendApp')
             return stats;
         };
 
-        this.getStatsPlayersFilterBy = function(statType, minGamePlayed) {
+        this.getStatsPlayersFilterBy = function(statType) {
             var oneOrderedStat = [];
             stats.statsPlayers.forEach(function(data) {
-                if(data.gamePlayed >= minGamePlayed) {
+                if(data.gamePlayed >= stats.minGamePlayedPlayers) {
                     oneOrderedStat.push({
                         stat: data[statType],
                         players: [{
@@ -364,10 +378,10 @@ angular.module('babitchFrontendApp')
             return stats.statsPlayersFiltered;
         };
 
-        this.getStatsTeamsFilterBy = function(statType, minGamePlayed, withPlayer) {
+        this.getStatsTeamsFilterBy = function(statType, withPlayer) {
             var oneOrderedStat = [];
             stats.statsTeams.forEach(function(data) {
-                if(data.gamePlayed >= minGamePlayed) {
+                if(data.gamePlayed >= stats.minGamePlayedTeams) {
                     if(!withPlayer || withPlayer == data.player_id1 || withPlayer == data.player_id2) {
                         oneOrderedStat.push({
                             stat: data[statType],
@@ -490,6 +504,8 @@ angular.module('babitchFrontendApp')
                         stats.statsTeams[team.id].eloRanking = +(stats.statsTeams[team.id].eloRanking).toFixed(0);
 
                     });
+
+                    _setMinGamePlayed();
 
                     //Reverse order of gameslist
                     stats.gamesList.reverse();

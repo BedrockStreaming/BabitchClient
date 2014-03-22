@@ -4,28 +4,28 @@
             </div>
 
             <div class="row">
-                <div ng-repeat="player in stats.statsPlayers | orderBy:'percentGoalPerBall':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
+                <div ng-repeat="player in stats.statsPlayers | orderBy:'percentGoalPerBall':true| minGamePlayed:stats.minGamePlayedPlayers | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
                     <a ng-href="/#/stats/players/{{ player.id }}">
                         <img gravatar-src="stats.playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="200" />
                     </a>
                     <h4>Top Goaler</h4>
                     <span class="text-muted">{{ player.name }} ({{ stats.statsPlayers[player.id].percentGoalPerBall }}%)</span>
                 </div>
-                <div ng-repeat="player in stats.statsPlayers | orderBy:'percentVictory':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
+                <div ng-repeat="player in stats.statsPlayers | orderBy:'percentVictory':true| minGamePlayed:stats.minGamePlayedPlayers | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
                     <a ng-href="/#/stats/players/{{ player.id }}">
                         <img gravatar-src="stats.playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="200" />
                     </a>
                     <h4>Top Victory</h4>
                     <span class="text-muted">{{ player.name }} ({{ stats.statsPlayers[player.id].percentVictory }}%)</span>
                 </div>
-                <div ng-repeat="player in stats.statsPlayers | orderBy:'owngoal':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
+                <div ng-repeat="player in stats.statsPlayers | orderBy:'owngoal':true| minGamePlayed:stats.minGamePlayedPlayers | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
                     <a ng-href="/#/stats/players/{{ player.id }}">
                         <img gravatar-src="stats.playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="200" />
                     </a>
                     <h4>Top Own Goal</h4>
                     <span class="text-muted">{{ player.name }} ({{ stats.statsPlayers[player.id].owngoal }})</span>
                 </div>
-                <div ng-repeat="player in stats.statsPlayers | orderBy:'percentLoose':true| minGamePlayed:5 | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
+                <div ng-repeat="player in stats.statsPlayers | orderBy:'percentLoose':true| minGamePlayed:stats.minGamePlayedPlayers | limitTo:1" class="col-xs-6 col-sm-3 placeholder">
                     <a ng-href="/#/stats/players/{{ player.id }}">
                         <img gravatar-src="stats.playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="200" />
                     </a>
@@ -33,4 +33,3 @@
                     <span class="text-muted">{{ player.name }} ({{ stats.statsPlayers[player.id].percentLoose }}%)</span>
                 </div>
             </div>
-        

@@ -23,7 +23,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="player in stats.statsPlayers | orderBy:predicate:reverse | minGamePlayed:5">
+                    <tr ng-repeat="player in stats.statsPlayers | orderBy:predicate:reverse | minGamePlayed:stats.minGamePlayedPlayers">
                         <td>
                             <img gravatar-src="stats.playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="30" />
                             <a ng-href="/#/stats/players/{{ player.id }}">{{ player.name }}</a>

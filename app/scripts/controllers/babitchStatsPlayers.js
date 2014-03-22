@@ -17,12 +17,11 @@ babitchFrontendApp.controller("babitchStatsPlayersCtrl", function($scope, $rootS
 
     $scope.stats = babitchStats.getStats();
 
-    $scope.minGamePlayed = 10;
     $rootScope.setTableHide(false);
 
     $scope.getFilteredStat = function(statType) {
         $rootScope.setTableHide(true);
-        babitchStats.getStatsPlayersFilterBy(statType, $scope.minGamePlayed);
+        babitchStats.getStatsPlayersFilterBy(statType);
     };
 
 });
