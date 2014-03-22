@@ -13,6 +13,9 @@ babitchFrontendApp.controller("babitchStatsPlayersCtrl", function($scope, $rootS
     };
     $rootScope.setTableHide = function(variable) {
         $rootScope.tableHide = variable;
+        if (!variable) {
+            $rootScope.selectedStat = "";
+        }
     };
 
     $scope.stats = babitchStats.getStats();
@@ -21,6 +24,7 @@ babitchFrontendApp.controller("babitchStatsPlayersCtrl", function($scope, $rootS
     $rootScope.setTableHide(false);
 
     $scope.getFilteredStat = function(statType) {
+        $rootScope.selectedStat = statType;
         $rootScope.setTableHide(true);
         babitchStats.getStatsPlayersFilterBy(statType, $scope.minGamePlayed);
     };

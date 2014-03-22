@@ -2,10 +2,10 @@
                 <h1>Players Stats</h1>
             </div>
 
-            <div class="btn-group">
-                <button type="button" class="btn btn-default" ng-click='setTableHide(false)'>All stats</button>
-                <button type="button" class="btn btn-default" ng-repeat="stat in stats.statsType" ng-click='getFilteredStat(stat.name)'>{{ (stat.text ? stat.text : stat.name) }}</button>
-            </div>
+            <ul class="nav nav-tabs nav-justified small">
+                <li ng-class="{ active: !tableHide}"><a ng-click='setTableHide(false)'>All</a></li>
+                <li ng-repeat="stat in stats.statsType" ng-class="{ active: selectedStat == stat.name}"><a ng-click='getFilteredStat(stat.name)'>{{ (stat.text ? stat.text : stat.name) }}</a></li>
+            </ul>
             <br /><br />
             <div d3-bars data="stats.statsPlayersFiltered" type='players' bar-height="20" bar-padding="5" ng-show="tableHide"></div>
 
