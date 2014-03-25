@@ -15,7 +15,10 @@ babitchFrontendApp.controller("babitchStatsTeamsCtrl", function($scope, $rootSco
         $rootScope.tableHide = variable;
     };
 
-    $scope.stats = babitchStats.getStats();
+    babitchStats.computeStats()
+        .then(function(data) {
+            $scope.stats = babitchStats.getStats();
+        });
 
     $scope.minGamePlayed = 5;
     $rootScope.setTableHide(false);

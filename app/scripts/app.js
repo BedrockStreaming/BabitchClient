@@ -47,6 +47,10 @@ var babitchFrontendApp = angular.module('babitchFrontendApp', [
                 templateUrl: 'views/stats.html',
                 controller: 'babitchStatsGamesCtrl'
             })
+            .when('/stats/games/:selectedGame', {
+                templateUrl: 'views/stats.html',
+                controller: 'babitchStatsGameCtrl'
+            })
             .when('/stats/players', {
                 templateUrl: 'views/stats.html',
                 controller: 'babitchStatsPlayersCtrl'

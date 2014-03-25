@@ -141,6 +141,11 @@ angular.module('babitchFrontendApp')
             stats.statsPlayers[game.blueAttack].eloRanking += blueRanking;
             stats.statsPlayers[game.blueDefense].eloRanking += blueRanking;
 
+            game.redEloTeam = stats.statsTeams[_redTeamId].eloRanking;
+            game.blueEloTeam = stats.statsTeams[_blueTeamId].eloRanking;
+            game.redEloWins = redRanking;
+            game.blueEloWins = blueRanking;
+
         };
 
         var _setStatsPercentGoal = function(type, id) {
@@ -201,6 +206,14 @@ angular.module('babitchFrontendApp')
                     goal.team = 'blue';
                     break;
             };
+        };
+
+        //Set Duration of each games
+        var _setDuration = function(games) {
+            var ended_at = new Date(games.ended_at);
+            var started_at = new Date(games.started_at);
+            var game_length = (ended_at - started_at) / 1000;
+            games.duration = game_length;
         };
 
         //Add goal and owngoal for team and players
@@ -273,8 +286,12 @@ angular.module('babitchFrontendApp')
         };
 
         var _addToGamesList = function(games) {
-            //angular.copy(games, stats.gamesList);
+            games.goals.reverse();
             stats.gamesList.push(games);
+        };
+
+        this.getGame = function(gameId) {
+            return _.findWhere(stats.gamesList, {id: parseInt(gameId) });
         };
 
         //Get/set Team Id based on composition
@@ -402,6 +419,14 @@ angular.module('babitchFrontendApp')
         };
 
         this.computeStats = function() {
+            var deferred = $q.defer();
+
+            //do not recompute stat when already did
+            if (stats.computedStat) {
+                deferred.resolve(stats);
+                return deferred.promise;
+            }
+
             _initPlayers();
 
             var gamePagination = {
@@ -455,6 +480,7 @@ angular.module('babitchFrontendApp')
                         _setStatsGamePlayed(games);
                         _setStatsTeamGoalaverage(games);
                         _setStatsEloRanking(games);
+                        _setDuration(games);
 
                         //For each Goals
                         games.goals.forEach(function(goal) {
@@ -493,11 +519,12 @@ angular.module('babitchFrontendApp')
 
                     //Reverse order of gameslist
                     stats.gamesList.reverse();
+                    stats.computedStat = true;
+                    deferred.resolve(stats);
 
                 });
 
-            return stats;
+            return deferred.promise;
         };
 
-        this.computeStats();
     });
