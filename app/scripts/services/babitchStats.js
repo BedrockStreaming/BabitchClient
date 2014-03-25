@@ -11,6 +11,11 @@ angular.module('babitchFrontendApp')
             statsPlayersFiltered: [],
             statsTeams: [],
             statsTeamsFiltered: [],
+            matrix: {
+                "nodes": [],
+                "whoPlayedWithWho": [],
+                "whoPlayedAgainstWho": []
+            },
             statsType: [{
                     name: 'eloRanking'
                 }, //Elo Ranking
@@ -401,6 +406,62 @@ angular.module('babitchFrontendApp')
             }
         };
 
+        var _getMatrixPlayerId = function (playerId) {
+            var id = 0;
+            var findPlayer = _.findWhere(stats.matrix.nodes, {id:playerId});
+            if (findPlayer === undefined) {
+                var tmpId = stats.matrix.nodes.push({
+                    name: stats.playersList[playerId].name,
+                    id: playerId,
+                    group: 1,
+                    fakeId: stats.matrix.nodes.length
+                });
+                id = tmpId - 1;
+
+            }
+            else {
+                id = findPlayer.fakeId;
+            }
+            return id;
+        };
+
+        var _setWhoPlayedWho = function(game) {
+
+            var redAttackId = _getMatrixPlayerId(game.redAttack);
+            var redDefenseId = _getMatrixPlayerId(game.redDefense);
+            var blueAttackId = _getMatrixPlayerId(game.blueAttack);
+            var blueDefenseId = _getMatrixPlayerId(game.blueDefense);
+
+            stats.matrix.whoPlayedWithWho.push({
+            "source" : redAttackId,
+            "target" : redDefenseId,
+            "value" : 1});
+            stats.matrix.whoPlayedWithWho.push({
+            "source" : blueAttackId,
+            "target" : blueDefenseId,
+            "value" : 1});
+
+            stats.matrix.whoPlayedAgainstWho.push({
+            "source" : redAttackId,
+            "target" : blueAttackId,
+            "value" : 1});
+
+            stats.matrix.whoPlayedAgainstWho.push({
+            "source" : redAttackId,
+            "target" : blueDefenseId,
+            "value" : 1});
+
+            stats.matrix.whoPlayedAgainstWho.push({
+            "source" : redDefenseId,
+            "target" : blueAttackId,
+            "value" : 1});
+
+            stats.matrix.whoPlayedAgainstWho.push({
+            "source" : redDefenseId,
+            "target" : blueDefenseId,
+            "value" : 1});
+        };
+
         this.computeStats = function() {
             _initPlayers();
 
@@ -455,6 +516,7 @@ angular.module('babitchFrontendApp')
                         _setStatsGamePlayed(games);
                         _setStatsTeamGoalaverage(games);
                         _setStatsEloRanking(games);
+                        _setWhoPlayedWho(games);
 
                         //For each Goals
                         games.goals.forEach(function(goal) {
