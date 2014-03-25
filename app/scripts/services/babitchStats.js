@@ -212,7 +212,7 @@ angular.module('babitchFrontendApp')
         var _setDuration = function(games) {
             var ended_at = new Date(games.ended_at);
             var started_at = new Date(games.started_at);
-            var game_length = (ended_at - started_at) / 1000;
+            var game_length = (ended_at.getTime() - started_at.getTime()) / 1000;
             games.duration = game_length;
         };
 
