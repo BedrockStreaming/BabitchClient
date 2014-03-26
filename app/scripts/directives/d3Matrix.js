@@ -28,7 +28,6 @@ function($window, $timeout, d3Service, gravatarService) {
                     .attr("class","center-block")
                     .attr("width", width + margin.left + margin.right)
                     .attr("height", height + margin.top + margin.bottom)
-                    //.style("margin-left", -margin.left + "px")
                     .style('font','10px sans-serif')
                     .append("g")
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
