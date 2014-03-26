@@ -32,7 +32,7 @@ describe('Service: babitchStats', function() {
     });
 
     it('should load all players', function() {
-        expect(stats.playersList.length).toBe(22);
+        expect(stats.playersList.length).toBe(22); //because index starting at 1
     });
 
     it('should load all games', function() {
@@ -40,7 +40,11 @@ describe('Service: babitchStats', function() {
     });
 
     it('should generate stats for all players', function() {
-        expect(stats.statsPlayers.length).toBe(22);
+        expect(stats.statsPlayers.length).toBe(22); //because index starting at 1
+    });
+
+    it('should generate matrix nodes for all players', function() {
+        expect(stats.matrix.nodes.length).toBe(21); //because index starting at 0
     });
 
     it('should generate stats for all teams', function() {
@@ -275,6 +279,15 @@ describe('Service: babitchStats', function() {
         expect(stats.statsPlayers[12].gameSeries).toEqual(['L','W']);
         expect(stats.statsPlayers[16].gameSeries).toEqual(['L','L']);
     });
+
+    it('should generate fakeId for each player', function() {
+        expect(stats.statsPlayers[7].fakeId).toBe(6);
+        expect(stats.statsPlayers[8].fakeId).toBe(7);
+        expect(stats.statsPlayers[9].fakeId).toBe(8);
+        expect(stats.statsPlayers[12].fakeId).toBe(11);
+        expect(stats.statsPlayers[16].fakeId).toBe(15);
+    });
+
 
     it('should do not forget one goal', function() {
         var nbGoal = stats.statsPlayers[7].goal
