@@ -83,19 +83,12 @@ function($window, $timeout, d3Service, gravatarService) {
                     data.forEach(function(link) {
                         matrix[link.source][link.target].z += link.value;
                         matrix[link.target][link.source].z += link.value;
-                        //matrix[link.source][link.source].z += link.value;
-                        //matrix[link.target][link.target].z += link.value;
                         nodes[link.source].count += link.value;
                         nodes[link.target].count += link.value;
                     });
 
                     // Precompute the orders.
-                    var orders = {
-                        name: d3.range(n).sort(function(a, b) { return d3.ascending(nodes[a].name, nodes[b].name); }),
-                        count: d3.range(n).sort(function(a, b) { return nodes[b].count - nodes[a].count; }),
-                        group: d3.range(n).sort(function(a, b) { return nodes[b].group - nodes[a].group; })
-                    };
-
+                    var orders = d3.range(n).sort(function(a, b) { return d3.ascending(nodes[a].name, nodes[b].name); });
 
                     var d3max = d3.max(matrix, function(d) {
                         return d3.max(d, function(d1) {
@@ -103,15 +96,11 @@ function($window, $timeout, d3Service, gravatarService) {
                         });
                     });
 
+                    //Scale range for playing with opacity
                     var z = d3.scale.linear().domain([0, d3max]).clamp(true);
 
-                    //Color range according to max values
-                    var c = d3.scale
-                        .category10()
-                        .domain(d3.range(d3max));
-
                     // The default sort order.
-                    x.domain(orders.name);
+                    x.domain(orders);
 
                     var row = svg.selectAll(".row")
                         .data(matrix)
@@ -161,10 +150,7 @@ function($window, $timeout, d3Service, gravatarService) {
                             .attr("width", x.rangeBand())
                             .attr("height", x.rangeBand())
                             .style("fill-opacity", function(d) { return z(d.z); })
-                            .style("fill", function(d) {
-                                return nodes[d.x].group == nodes[d.y].group ? c(nodes[d.x].group) : null;
-                                //return c(matrix[d.x][d.y].z);
-                            })
+                            .style("fill", "#ff7f0e")
                             .on("mouseover", mouseover)
                             .on("mouseout", mouseout);
 
