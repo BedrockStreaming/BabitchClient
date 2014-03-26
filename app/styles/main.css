@@ -368,7 +368,7 @@ a {
 #stats table .score {
     width: 60px;
     text-align: center;
-    white-space: nowrap;   
+    white-space: nowrap;
 }
 
 #stats table .score b {
@@ -439,4 +439,8 @@ a {
 #stats .player .player-header .player-title img {
     box-shadow: -1px 1px 0 rgba(0,0,0,0.2), 1px -1px 0 rgba(0,0,0,0.2);
     border: 5px solid white;
+}
+
+text.active {
+    fill:red;
 }
