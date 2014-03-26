@@ -58,14 +58,18 @@ angular.module('babitchFrontendApp')
                 if (compo.team == "red") {
                     if (compo.position == "attack") {
                         game.redAttack = compo.player_id;
+                        game.redAttackFakeId = stats.statsPlayers[compo.player_id].fakeId;
                     } else {
                         game.redDefense = compo.player_id;
+                        game.redDefenseFakeId = stats.statsPlayers[compo.player_id].fakeId;
                     }
                 } else {
                     if (compo.position == "attack") {
                         game.blueAttack = compo.player_id;
+                        game.blueAttackFakeId = stats.statsPlayers[compo.player_id].fakeId;
                     } else {
                         game.blueDefense = compo.player_id;
+                        game.blueDefenseFakeId = stats.statsPlayers[compo.player_id].fakeId;
                     }
                 }
             });
@@ -270,6 +274,9 @@ angular.module('babitchFrontendApp')
                                 percentVictory: 0,
                                 percentLoose: 0
                             };
+
+                            //generate fake id
+                            stats.statsPlayers[player.id].fakeId = _getMatrixPlayerId(player.id);;
                         }
                     });
 
@@ -427,38 +434,33 @@ angular.module('babitchFrontendApp')
 
         var _setWhoPlayedWho = function(game) {
 
-            var redAttackId = _getMatrixPlayerId(game.redAttack);
-            var redDefenseId = _getMatrixPlayerId(game.redDefense);
-            var blueAttackId = _getMatrixPlayerId(game.blueAttack);
-            var blueDefenseId = _getMatrixPlayerId(game.blueDefense);
-
             stats.matrix.whoPlayedWithWho.push({
-            "source" : redAttackId,
-            "target" : redDefenseId,
+            "source" : game.redAttackFakeId,
+            "target" : game.redDefenseFakeId,
             "value" : 1});
             stats.matrix.whoPlayedWithWho.push({
-            "source" : blueAttackId,
-            "target" : blueDefenseId,
+            "source" : game.blueAttackFakeId,
+            "target" : game.blueDefenseFakeId,
             "value" : 1});
 
             stats.matrix.whoPlayedAgainstWho.push({
-            "source" : redAttackId,
-            "target" : blueAttackId,
+            "source" : game.redAttackFakeId,
+            "target" : game.blueAttackFakeId,
             "value" : 1});
 
             stats.matrix.whoPlayedAgainstWho.push({
-            "source" : redAttackId,
-            "target" : blueDefenseId,
+            "source" : game.redAttackFakeId,
+            "target" : game.blueDefenseFakeId,
             "value" : 1});
 
             stats.matrix.whoPlayedAgainstWho.push({
-            "source" : redDefenseId,
-            "target" : blueAttackId,
+            "source" : game.redDefenseFakeId,
+            "target" : game.blueAttackFakeId,
             "value" : 1});
 
             stats.matrix.whoPlayedAgainstWho.push({
-            "source" : redDefenseId,
-            "target" : blueDefenseId,
+            "source" : game.redDefenseFakeId,
+            "target" : game.blueDefenseFakeId,
             "value" : 1});
         };
 
