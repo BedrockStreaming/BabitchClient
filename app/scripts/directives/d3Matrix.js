@@ -187,31 +187,6 @@ function($window, $timeout, d3Service, gravatarService) {
                         d3.selectAll("text").classed("active", false);
                     }
 
-                      /*function order(value) {
-                        x.domain(orders[value]);
-
-                        var t = svg.transition().duration(2500);
-
-                        t.selectAll(".row")
-                            .delay(function(d, i) { return x(i) * 4; })
-                            .attr("transform", function(d, i) { return "translate(0," + x(i) + ")"; })
-                          .selectAll(".cell")
-                            .delay(function(d) { return x(d.x) * 4; })
-                            .attr("x", function(d) { return x(d.x); });
-
-                        t.selectAll(".column")
-                            .delay(function(d, i) { return x(i) * 4; })
-                            .attr("transform", function(d, i) { return "translate(" + x(i) + ")rotate(-90)"; });
-                      }
-
-                      //var timeout = setTimeout(function() {
-                        order("name");*/
-
-                        //d3.select("#order").property("selectedIndex", 2).node().focus();
-                      //}, 5000);
-
-
-
                 }, 200);
             };
         });
