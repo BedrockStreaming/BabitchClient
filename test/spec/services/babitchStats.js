@@ -288,6 +288,33 @@ describe('Service: babitchStats', function() {
         expect(stats.statsPlayers[16].fakeId).toBe(15);
     });
 
+    it('should calculate matrix for who played with who correctly', function() {
+        expect(stats.matrix.whoPlayedWithWho).toEqual([
+            { source : 15, target : 6, value : 1 },
+            { source : 8, target : 7, value : 1 },
+            { source : 6, target : 11, value : 1 },
+            { source : 7, target : 8, value : 1 },
+            { source : 8, target : 15, value : 1 },
+            { source : 7, target : 11, value : 1 }
+        ]);
+    });
+
+    it('should calculate matrix for who played against who correctly', function() {
+        expect(stats.matrix.whoPlayedAgainstWho).toEqual([
+            { source : 15, target : 8, value : 1 },
+            { source : 15, target : 7, value : 1 },
+            { source : 6, target : 8, value : 1 },
+            { source : 6, target : 7, value : 1 },
+            { source : 6, target : 7, value : 1 },
+            { source : 6, target : 8, value : 1 },
+            { source : 11, target : 7, value : 1 },
+            { source : 11, target : 8, value : 1 },
+            { source : 8, target : 7, value : 1 },
+            { source : 8, target : 11, value : 1 },
+            { source : 15, target : 7, value : 1 },
+            { source : 15, target : 11, value : 1 }
+        ]);
+    });
 
     it('should do not forget one goal', function() {
         var nbGoal = stats.statsPlayers[7].goal
