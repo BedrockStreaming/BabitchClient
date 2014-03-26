@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('babitchFrontendApp')
-    .service('babitchStats', function babitchStats(Restangular, $q) {
+    .service('babitchStats', function babitchStats(Restangular, $q, CONFIG) {
         // AngularJS will instantiate a singleton by calling "new" on this function
         var stats = {
             minGamePlayedPlayers: 1,
@@ -207,8 +207,8 @@ angular.module('babitchFrontendApp')
 
         //Set min game play depending on numbers of game played
         var _setMinGamePlayed = function() {
-            stats.minGamePlayedPlayers = (stats.gamesList.length * 0.02).toFixed(0);
-            stats.minGamePlayedTeams = (stats.gamesList.length * 0.02).toFixed(0);
+            stats.minGamePlayedPlayers = (stats.gamesList.length * (CONFIG.BABITCH_STATS_MIN_GAME_PLAYED / 100)).toFixed(0);
+            stats.minGamePlayedTeams = (stats.gamesList.length * (CONFIG.BABITCH_STATS_MIN_GAME_PLAYED / 100)).toFixed(0);
             if(stats.minGamePlayedPlayers <1 ) {
                 stats.minGamePlayedPlayers = 1;
             }
