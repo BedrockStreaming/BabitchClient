@@ -207,8 +207,8 @@ angular.module('babitchFrontendApp')
 
         //Set min game play depending on numbers of game played
         var _setMinGamePlayed = function() {
-            stats.minGamePlayedPlayers = +(stats.gamesList.length * 0.02).toFixed(0);
-            stats.minGamePlayedTeams = +(stats.gamesList.length * 0.02).toFixed(0);
+            stats.minGamePlayedPlayers = (stats.gamesList.length * 0.02).toFixed(0);
+            stats.minGamePlayedTeams = (stats.gamesList.length * 0.02).toFixed(0);
             if(stats.minGamePlayedPlayers <1 ) {
                 stats.minGamePlayedPlayers = 1;
             }
