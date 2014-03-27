@@ -12,5 +12,8 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, b
         $rootScope.reverse = !$rootScope.reverse;
     };
 
-    $scope.stats = babitchStats.getStats();
+    babitchStats.computeStats()
+        .then(function(data) {
+            $scope.stats = babitchStats.getStats();
+        });
 });

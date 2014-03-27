@@ -4,5 +4,8 @@ babitchFrontendApp.controller("babitchStatsGamesCtrl", function($scope, $rootSco
 
     $scope.menuSelect = 'lastgames';
 
-    $scope.stats = babitchStats.getStats();
+    babitchStats.computeStats()
+        .then(function(data) {
+            $scope.stats = babitchStats.getStats();
+        });
 });

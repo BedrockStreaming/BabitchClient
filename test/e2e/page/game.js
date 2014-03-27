@@ -1,5 +1,5 @@
 var BabitchGamePage = function(browser) {
-	browser.get(browser.baseUrl + '/?nobackend');
+	browser.get(browser.baseUrl + '#/game?nobackend');
 
 	this.startButton = $('#actionStart button');
 	this.theEnd = $('.the-end');
