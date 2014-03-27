@@ -62,6 +62,12 @@ describe('Service: babitchStats', function() {
         //48 goals
     });
 
+    it('should list calculate all game duration', function() {
+        expect(stats.gamesList[0].duration).toBe(212);
+        expect(stats.gamesList[1].duration).toBe(155);
+        expect(stats.gamesList[2].duration).toBe(185);
+    });
+
     it('should calculate team victory correctly', function() {
         expect(stats.statsTeams.length).toBe(5); //5 different teams
         expect(stats.statsTeams[0].victory).toBe(0);
