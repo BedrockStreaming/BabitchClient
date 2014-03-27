@@ -45,8 +45,8 @@ function($window, $timeout, d3Service, gravatarService) {
                         var width = parseInt(svg.style('width'), 10);
                         var barHeight = 20;
                         var margin = 5;
-                        var ended_at = new Date(data.ended_at);
-                        var started_at = new Date(data.started_at);
+                        var ended_at = new Date(data.ended_at.replace(" ","T")).getTime();
+                        var started_at = new Date(data.started_at.replace(" ","T")).getTime();
                         var game_length = (ended_at - started_at) / 1000;
 
                         //var height = data.goals.length*15;
@@ -71,7 +71,7 @@ function($window, $timeout, d3Service, gravatarService) {
                             .append("circle")
                             .attr("cx", Math.round(width/2))
                             .attr("cy", function(d,i) {
-                                var goal_at = new Date(d.scored_at);
+                                var goal_at = new Date(d.scored_at.replace(" ","T")).getTime();
                                 var goal_time = (goal_at - started_at) / 1000;
                                 return 20 + (game_length - goal_time) * 2  + 15*i;
                             })
@@ -91,7 +91,7 @@ function($window, $timeout, d3Service, gravatarService) {
                             .append('text')
                             .attr('fill', '#000')
                             .attr('y', function(d,i) {
-                                var goal_at = new Date(d.scored_at);
+                                var goal_at = new Date(d.scored_at.replace(" ","T")).getTime();
                                 var goal_time = (goal_at - started_at) / 1000;
                                 return 20 + (game_length - goal_time) * 2 + 5 + 15*i;
                             })
@@ -117,7 +117,7 @@ function($window, $timeout, d3Service, gravatarService) {
                             .append('text')
                             .attr('fill', '#ccc')
                             .attr('y', function(d,i) {
-                                var goal_at = new Date(d.scored_at);
+                                var goal_at = new Date(d.scored_at.replace(" ","T")).getTime();
                                 var goal_time = (goal_at - started_at) / 1000;
                                 return 20 + (game_length - goal_time) * 2 + 5 + 15*i;
                             })
@@ -129,7 +129,7 @@ function($window, $timeout, d3Service, gravatarService) {
                                 return (d.team == "red" ? "start" : "end");
                             })
                             .text(function(d) {
-                                var time = (new Date(d.scored_at) - started_at) / 1000;
+                                var time = (new Date(d.scored_at.replace(" ","T")).getTime() - started_at) / 1000;
                                 text = ~~( time / 60) + 'mn' + time % 60 + 's';
                                 return text;
                             });
