@@ -441,3 +441,7 @@ a {
     box-shadow: -1px 1px 0 rgba(0,0,0,0.2), 1px -1px 0 rgba(0,0,0,0.2);
     border: 5px solid white;
 }
+
+text.active {
+    fill:red;
+}
