@@ -13,6 +13,11 @@ angular.module('babitchFrontendApp')
             statsPlayersFiltered: [],
             statsTeams: [],
             statsTeamsFiltered: [],
+            matrix: {
+                "nodes": [],
+                "whoPlayedWithWho": [],
+                "whoPlayedAgainstWho": []
+            },
             statsType: [{
                     name: 'eloRanking'
                 }, //Elo Ranking
@@ -55,14 +60,18 @@ angular.module('babitchFrontendApp')
                 if (compo.team == "red") {
                     if (compo.position == "attack") {
                         game.redAttack = compo.player_id;
+                        game.redAttackFakeId = stats.statsPlayers[compo.player_id].fakeId;
                     } else {
                         game.redDefense = compo.player_id;
+                        game.redDefenseFakeId = stats.statsPlayers[compo.player_id].fakeId;
                     }
                 } else {
                     if (compo.position == "attack") {
                         game.blueAttack = compo.player_id;
+                        game.blueAttackFakeId = stats.statsPlayers[compo.player_id].fakeId;
                     } else {
                         game.blueDefense = compo.player_id;
+                        game.blueDefenseFakeId = stats.statsPlayers[compo.player_id].fakeId;
                     }
                 }
             });
@@ -143,6 +152,11 @@ angular.module('babitchFrontendApp')
             stats.statsPlayers[game.blueAttack].eloRanking += blueRanking;
             stats.statsPlayers[game.blueDefense].eloRanking += blueRanking;
 
+            game.redEloTeam = stats.statsTeams[_redTeamId].eloRanking;
+            game.blueEloTeam = stats.statsTeams[_blueTeamId].eloRanking;
+            game.redEloWins = redRanking;
+            game.blueEloWins = blueRanking;
+
         };
 
         var _setStatsPercentGoal = function(type, id) {
@@ -217,6 +231,14 @@ angular.module('babitchFrontendApp')
             }
         };
 
+        //Set Duration of each games
+        var _setDuration = function(games) {
+            var ended_at = new Date(games.ended_at);
+            var started_at = new Date(games.started_at);
+            var game_length = (ended_at.getTime() - started_at.getTime()) / 1000;
+            games.duration = game_length;
+        };
+
         //Add goal and owngoal for team and players
         var _setStatsGoalOwnGoal = function(goal) {
             if (goal.autogoal) {
@@ -279,6 +301,9 @@ angular.module('babitchFrontendApp')
                                 percentVictory: 0,
                                 percentLoose: 0
                             };
+
+                            //generate fake id
+                            stats.statsPlayers[player.id].fakeId = _getMatrixPlayerId(player.id);;
                         }
                     });
 
@@ -287,8 +312,12 @@ angular.module('babitchFrontendApp')
         };
 
         var _addToGamesList = function(games) {
-            //angular.copy(games, stats.gamesList);
+            games.goals.reverse();
             stats.gamesList.push(games);
+        };
+
+        this.getGame = function(gameId) {
+            return _.findWhere(stats.gamesList, {id: parseInt(gameId) });
         };
 
         //Get/set Team Id based on composition
@@ -415,7 +444,66 @@ angular.module('babitchFrontendApp')
             }
         };
 
+        var _getMatrixPlayerId = function (playerId) {
+            var id = 0;
+            var findPlayer = _.findWhere(stats.matrix.nodes, {id:playerId});
+            if (findPlayer === undefined) {
+                var tmpId = stats.matrix.nodes.push({
+                    name: stats.playersList[playerId].name,
+                    id: playerId,
+                    group: 1,
+                    fakeId: stats.matrix.nodes.length
+                });
+                id = tmpId - 1;
+
+            }
+            else {
+                id = findPlayer.fakeId;
+            }
+            return id;
+        };
+
+        var _setWhoPlayedWho = function(game) {
+
+            stats.matrix.whoPlayedWithWho.push({
+            "source" : game.redAttackFakeId,
+            "target" : game.redDefenseFakeId,
+            "value" : 1});
+            stats.matrix.whoPlayedWithWho.push({
+            "source" : game.blueAttackFakeId,
+            "target" : game.blueDefenseFakeId,
+            "value" : 1});
+
+            stats.matrix.whoPlayedAgainstWho.push({
+            "source" : game.redAttackFakeId,
+            "target" : game.blueAttackFakeId,
+            "value" : 1});
+
+            stats.matrix.whoPlayedAgainstWho.push({
+            "source" : game.redAttackFakeId,
+            "target" : game.blueDefenseFakeId,
+            "value" : 1});
+
+            stats.matrix.whoPlayedAgainstWho.push({
+            "source" : game.redDefenseFakeId,
+            "target" : game.blueAttackFakeId,
+            "value" : 1});
+
+            stats.matrix.whoPlayedAgainstWho.push({
+            "source" : game.redDefenseFakeId,
+            "target" : game.blueDefenseFakeId,
+            "value" : 1});
+        };
+
         this.computeStats = function() {
+            var deferred = $q.defer();
+
+            //do not recompute stat when already did
+            if (stats.computedStat) {
+                deferred.resolve(stats);
+                return deferred.promise;
+            }
+
             _initPlayers();
 
             var gamePagination = {
@@ -469,6 +557,8 @@ angular.module('babitchFrontendApp')
                         _setStatsGamePlayed(games);
                         _setStatsTeamGoalaverage(games);
                         _setStatsEloRanking(games);
+                        _setWhoPlayedWho(games);
+                        _setDuration(games);
 
                         //For each Goals
                         games.goals.forEach(function(goal) {
@@ -509,11 +599,12 @@ angular.module('babitchFrontendApp')
 
                     //Reverse order of gameslist
                     stats.gamesList.reverse();
+                    stats.computedStat = true;
+                    deferred.resolve(stats);
 
                 });
 
-            return stats;
+            return deferred.promise;
         };
 
-        this.computeStats();
     });

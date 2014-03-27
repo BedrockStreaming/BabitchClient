@@ -39,6 +39,10 @@
             <div ng-include src="'/views/partial/statsLastGames.html'" class="container"></div>
         </div>
 
+        <div ng-switch-when="game">
+            <div ng-include src="'/views/partial/statsGame.html'" class="container"></div>
+        </div>
+
         <div ng-switch-when="player">
             <div ng-include src="'/views/partial/statsPlayer.html'" class="player"></div>
         </div>

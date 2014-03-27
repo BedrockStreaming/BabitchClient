@@ -17,6 +17,9 @@ var babitchFrontendApp = angular.module('babitchFrontendApp', [
 
         $routeProvider
             .when('/', {
+                templateUrl: 'views/index.html'
+            })
+            .when('/game', {
                 templateUrl: 'views/main.html',
                 controller: 'babitchCtrl'
             })
@@ -46,6 +49,10 @@ var babitchFrontendApp = angular.module('babitchFrontendApp', [
             .when('/stats/games', {
                 templateUrl: 'views/stats.html',
                 controller: 'babitchStatsGamesCtrl'
+            })
+            .when('/stats/games/:selectedGame', {
+                templateUrl: 'views/stats.html',
+                controller: 'babitchStatsGameCtrl'
             })
             .when('/stats/players', {
                 templateUrl: 'views/stats.html',

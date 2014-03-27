@@ -368,16 +368,17 @@ a {
 #stats table .score {
     width: 60px;
     text-align: center;
-    white-space: nowrap;   
+    white-space: nowrap;
 }
 
-#stats table .score b {
+#stats table .score a {
     display: inline-block;
+    color: #000;
     font-weight: normal;
     width: 25px;
 }
 
-#stats table .score b.score-10 {
+#stats table .score a.score-10 {
     font-weight: bold;
 }
 
@@ -439,4 +440,8 @@ a {
 #stats .player .player-header .player-title img {
     box-shadow: -1px 1px 0 rgba(0,0,0,0.2), 1px -1px 0 rgba(0,0,0,0.2);
     border: 5px solid white;
+}
+
+text.active {
+    fill:red;
 }

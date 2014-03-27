@@ -18,7 +18,10 @@ describe('Service: babitchStats', function() {
         httpMock.whenGET(config.BABITCH_WS_URL + "/games?page=1&per_page=100").respond(Fixtures.games);
 
         //Compute stats
-        stats = babitchStatsService.getStats();
+        babitchStats.computeStats()
+            .then(function(data) {
+                stats = babitchStats.getStats();
+            });
 
         //Flush the .query
         httpMock.flush();
@@ -32,7 +35,7 @@ describe('Service: babitchStats', function() {
     });
 
     it('should load all players', function() {
-        expect(stats.playersList.length).toBe(22);
+        expect(stats.playersList.length).toBe(22); //because index starting at 1
     });
 
     it('should load all games', function() {
@@ -40,7 +43,11 @@ describe('Service: babitchStats', function() {
     });
 
     it('should generate stats for all players', function() {
-        expect(stats.statsPlayers.length).toBe(22);
+        expect(stats.statsPlayers.length).toBe(22); //because index starting at 1
+    });
+
+    it('should generate matrix nodes for all players', function() {
+        expect(stats.matrix.nodes.length).toBe(21); //because index starting at 0
     });
 
     it('should generate stats for all teams', function() {
@@ -274,6 +281,42 @@ describe('Service: babitchStats', function() {
         expect(stats.statsPlayers[9].gameSeries).toEqual(['W','W','L']);
         expect(stats.statsPlayers[12].gameSeries).toEqual(['L','W']);
         expect(stats.statsPlayers[16].gameSeries).toEqual(['L','L']);
+    });
+
+    it('should generate fakeId for each player', function() {
+        expect(stats.statsPlayers[7].fakeId).toBe(6);
+        expect(stats.statsPlayers[8].fakeId).toBe(7);
+        expect(stats.statsPlayers[9].fakeId).toBe(8);
+        expect(stats.statsPlayers[12].fakeId).toBe(11);
+        expect(stats.statsPlayers[16].fakeId).toBe(15);
+    });
+
+    it('should calculate matrix for who played with who correctly', function() {
+        expect(stats.matrix.whoPlayedWithWho).toEqual([
+            { source : 15, target : 6, value : 1 },
+            { source : 8, target : 7, value : 1 },
+            { source : 6, target : 11, value : 1 },
+            { source : 7, target : 8, value : 1 },
+            { source : 8, target : 15, value : 1 },
+            { source : 7, target : 11, value : 1 }
+        ]);
+    });
+
+    it('should calculate matrix for who played against who correctly', function() {
+        expect(stats.matrix.whoPlayedAgainstWho).toEqual([
+            { source : 15, target : 8, value : 1 },
+            { source : 15, target : 7, value : 1 },
+            { source : 6, target : 8, value : 1 },
+            { source : 6, target : 7, value : 1 },
+            { source : 6, target : 7, value : 1 },
+            { source : 6, target : 8, value : 1 },
+            { source : 11, target : 7, value : 1 },
+            { source : 11, target : 8, value : 1 },
+            { source : 8, target : 7, value : 1 },
+            { source : 8, target : 11, value : 1 },
+            { source : 15, target : 7, value : 1 },
+            { source : 15, target : 11, value : 1 }
+        ]);
     });
 
     it('should do not forget one goal', function() {
