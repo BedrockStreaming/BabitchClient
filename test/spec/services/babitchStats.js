@@ -333,4 +333,9 @@ describe('Service: babitchStats', function() {
         expect(nbGoal).toBe(48);
     });
 
+    it('should calculate minGamePlayed correctly', function() {
+        expect(stats.minGamePlayedPlayers).toBe(1);
+        expect(stats.minGamePlayedTeams).toBe(1);
+    });
+
 });

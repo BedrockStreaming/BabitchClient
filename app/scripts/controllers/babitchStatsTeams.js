@@ -20,11 +20,9 @@ babitchFrontendApp.controller("babitchStatsTeamsCtrl", function($scope, $rootSco
             $scope.stats = babitchStats.getStats();
         });
 
-    $scope.minGamePlayed = 5;
-
     $scope.getFilteredStat = function(statType) {
         $rootScope.setStatsVisibleTo('statsBars');
-         babitchStats.getStatsTeamsFilterBy(statType, $scope.minGamePlayed, false);
+        babitchStats.getStatsTeamsFilterBy(statType, false);
     };
 
 });
