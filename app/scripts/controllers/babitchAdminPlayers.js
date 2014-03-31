@@ -1,6 +1,7 @@
+/* global _ */
 'use strict';
 
-babitchFrontendApp.controller('babitchAdminPlayersCtrl', function($scope, $window, Restangular) {
+angular.module('babitchFrontendApp').controller('babitchAdminPlayersCtrl', function($scope, $window, Restangular) {
 
     Restangular.all('players').getList().then(function(players) {
         $scope.players = players;

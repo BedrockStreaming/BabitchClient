@@ -1,4 +1,7 @@
-describe('Controller: BabitchAdminPlayersCtrl', function($window) {
+/* global Fixtures */
+'use strict';
+
+describe('Controller: BabitchAdminPlayersCtrl', function() {
 
     // load the controller's module
     beforeEach(module('babitchFrontendApp'));
@@ -6,6 +9,7 @@ describe('Controller: BabitchAdminPlayersCtrl', function($window) {
     var theBabitchAdminPlayersCtrl,
         scope,
         httpMock,
+        config,
         windowMock;
 
     // Initialize the controller and a mock scope
@@ -14,9 +18,9 @@ describe('Controller: BabitchAdminPlayersCtrl', function($window) {
         httpMock = $httpBackend;
         config = CONFIG;
 
-        httpMock.whenGET(config.BABITCH_WS_URL + "/players").respond(Fixtures.players);
+        httpMock.whenGET(config.BABITCH_WS_URL + '/players').respond(Fixtures.players);
 
-        windowMock = { confirm: function(msg) { return true } }
+        windowMock = { confirm: function() { return true; } };
 
         theBabitchAdminPlayersCtrl = $controller('babitchAdminPlayersCtrl', {
             $scope: scope,

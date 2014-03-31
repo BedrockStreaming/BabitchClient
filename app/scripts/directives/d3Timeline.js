@@ -1,6 +1,9 @@
+/* jshint camelcase: false */
+'use strict';
+
 angular.module('babitchFrontendApp')
-.directive('d3Timeline', ['$window', '$timeout', 'd3Service', 'gravatarService',
-function($window, $timeout, d3Service, gravatarService) {
+.directive('d3Timeline', ['$window', '$timeout', 'd3Service',
+function($window, $timeout, d3Service) {
     return {
         restrict: 'A',
         scope: {
@@ -8,7 +11,7 @@ function($window, $timeout, d3Service, gravatarService) {
             label: '@',
             onClick: '&'
         },
-        link: function(scope, ele, attrs) {
+        link: function(scope, ele) {
             d3Service.d3().then(function(d3) {
 
                 var renderTimeout;
@@ -43,10 +46,8 @@ function($window, $timeout, d3Service, gravatarService) {
 
                     renderTimeout = $timeout(function() {
                         var width = parseInt(svg.style('width'), 10);
-                        var barHeight = 20;
-                        var margin = 5;
-                        var ended_at = new Date(data.ended_at.replace(" ","T")).getTime();
-                        var started_at = new Date(data.started_at.replace(" ","T")).getTime();
+                        var ended_at = new Date(data.ended_at.replace(' ','T')).getTime();
+                        var started_at = new Date(data.started_at.replace(' ','T')).getTime();
                         var game_length = (ended_at - started_at) / 1000;
 
                         //var height = data.goals.length*15;
@@ -55,32 +56,32 @@ function($window, $timeout, d3Service, gravatarService) {
                         height += data.goals.length*15;
                         svg.attr('height', height);
 
-                        svg.selectAll("rect")
+                        svg.selectAll('rect')
                             .data([1])
                             .enter()
-                            .append("rect")
-                            .attr("x", Math.round(width/2) - 2)
+                            .append('rect')
+                            .attr('x', Math.round(width/2) - 2)
                             .attr('y', 20)
-                            .attr("width", 4)
-                            .attr("height", height)
-                            .style("fill","black");
+                            .attr('width', 4)
+                            .attr('height', height)
+                            .style('fill','black');
 
-                        svg.selectAll("circle")
+                        svg.selectAll('circle')
                             .data(data.goals)
                             .enter()
-                            .append("circle")
-                            .attr("cx", Math.round(width/2))
-                            .attr("cy", function(d,i) {
-                                var goal_at = new Date(d.scored_at.replace(" ","T")).getTime();
+                            .append('circle')
+                            .attr('cx', Math.round(width/2))
+                            .attr('cy', function(d,i) {
+                                var goal_at = new Date(d.scored_at.replace(' ','T')).getTime();
                                 var goal_time = (goal_at - started_at) / 1000;
                                 return 20 + (game_length - goal_time) * 2  + 15*i;
                             })
-                            .attr("r", 8)
-                            .style("fill", function(d) {
+                            .attr('r', 8)
+                            .style('fill', function(d) {
                                 if(d.autogoal) {
-                                    return "red";
+                                    return 'red';
                                 }
-                                return "black";
+                                return 'black';
                             });
 
                         var texts = svg.selectAll('text')
@@ -91,24 +92,25 @@ function($window, $timeout, d3Service, gravatarService) {
                             .append('text')
                             .attr('fill', '#000')
                             .attr('y', function(d,i) {
-                                var goal_at = new Date(d.scored_at.replace(" ","T")).getTime();
+                                var goal_at = new Date(d.scored_at.replace(' ','T')).getTime();
                                 var goal_time = (goal_at - started_at) / 1000;
                                 return 20 + (game_length - goal_time) * 2 + 5 + 15*i;
                             })
                             .attr('x', function(d) {
                                 var x = Math.round(width/2);
-                                x += (d.team == "red" ? -20 : 20);
+                                x += (d.team === 'red' ? -20 : 20);
                                 return x;
                             })
                             .style('text-anchor',function(d) {
-                                return (d.team == "red" ? "end" : "start");
+                                return (d.team === 'red' ? 'end' : 'start');
                             })
                             .text(function(d) {
                                 var text = d.player_name + ' (' + d.position + ') ';
-                                if(d.autogoal) {
+                                if (d.autogoal) {
                                     text += 'autogoal';
+                                } else {
+                                    text += 'goal ' + d.conceder_name;
                                 }
-                                else text += 'goal ' + d.conceder_name;
                                 return text;
                             });
 
@@ -117,25 +119,25 @@ function($window, $timeout, d3Service, gravatarService) {
                             .append('text')
                             .attr('fill', '#ccc')
                             .attr('y', function(d,i) {
-                                var goal_at = new Date(d.scored_at.replace(" ","T")).getTime();
+                                var goal_at = new Date(d.scored_at.replace(' ','T')).getTime();
                                 var goal_time = (goal_at - started_at) / 1000;
                                 return 20 + (game_length - goal_time) * 2 + 5 + 15*i;
                             })
                             .attr('x', function(d) {
-                                var x = (d.team == "red" ? 0 : width);
+                                var x = (d.team === 'red' ? 0 : width);
                                 return x;
                             })
                             .style('text-anchor',function(d) {
-                                return (d.team == "red" ? "start" : "end");
+                                return (d.team === 'red' ? 'start' : 'end');
                             })
                             .text(function(d) {
-                                var time = (new Date(d.scored_at.replace(" ","T")).getTime() - started_at) / 1000;
-                                text = ~~( time / 60) + 'mn' + time % 60 + 's';
-                                return text;
+                                var time = (new Date(d.scored_at.replace(' ','T')).getTime() - started_at) / 1000;
+                                return Math.floor(time / 60) + 'mn' + time % 60 + 's';
                             });
 
                     }, 200);
                 };
             });
-        }}
-    }])
+        }
+    };
+}]);

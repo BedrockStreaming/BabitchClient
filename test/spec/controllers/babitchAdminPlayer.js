@@ -1,4 +1,6 @@
-describe('Controller: BabitchAdminPlayerCtrl', function($window) {
+'use strict';
+
+describe('Controller: BabitchAdminPlayerCtrl', function() {
 
     // load the controller's module
     beforeEach(module('babitchFrontendApp'));
@@ -6,7 +8,7 @@ describe('Controller: BabitchAdminPlayerCtrl', function($window) {
     var theBabitchAdminPlayerCtrl,
         scope,
         httpMock,
-        routeParams;
+        config;
 
     // Initialize the controller and a mock scope
     beforeEach(inject(function($controller, $rootScope, $httpBackend, CONFIG) {

@@ -1,6 +1,6 @@
 'use strict';
 
-babitchFrontendApp.controller('babitchAdminPlayerEditCtrl', function($scope, Restangular, $routeParams, $location) {
+angular.module('babitchFrontendApp').controller('babitchAdminPlayerEditCtrl', function($scope, Restangular, $routeParams, $location) {
 
     $scope.player = {
         id: 0

@@ -1,11 +1,12 @@
+/* jshint camelcase: false */
 'use strict';
 
-babitchFrontendApp.controller("babitchStatsGameCtrl", function($scope, $rootScope, $routeParams, babitchStats) {
+angular.module('babitchFrontendApp').controller('babitchStatsGameCtrl', function($scope, $rootScope, $routeParams, babitchStats) {
     $scope.selectedGame = $routeParams.selectedGame;
     $scope.menuSelect = 'game';
 
     babitchStats.computeStats()
-        .then(function(data) {
+        .then(function() {
             $scope.stats = babitchStats.getStats();
             $scope.games = babitchStats.getGame($scope.selectedGame);
             $scope.games.duration_mn =  parseInt($scope.games.duration / 60,10) + 'mn' + $scope.games.duration % 60 + 's';

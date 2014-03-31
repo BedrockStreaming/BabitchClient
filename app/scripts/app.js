@@ -1,6 +1,6 @@
 'use strict';
 
-var babitchFrontendApp = angular.module('babitchFrontendApp', [
+angular.module('babitchFrontendApp', [
     'ngCookies',
     'ngSanitize',
     'ngRoute',
@@ -12,7 +12,7 @@ var babitchFrontendApp = angular.module('babitchFrontendApp', [
     .config(function($routeProvider, $httpProvider, gravatarServiceProvider, RestangularProvider, CONFIG) {
         gravatarServiceProvider.defaults = {
             size: 400,
-            "default": 'mm' // Mystery man as default for missing avatars
+            default: 'mm' // Mystery man as default for missing avatars
         };
 
         $routeProvider
@@ -72,7 +72,7 @@ var babitchFrontendApp = angular.module('babitchFrontendApp', [
 
         RestangularProvider.setBaseUrl(CONFIG.BABITCH_WS_URL);
 
-        RestangularProvider.setRequestInterceptor(function(element, operation, route, url) {
+        RestangularProvider.setRequestInterceptor(function(element, operation) {
             if (operation === 'put' || operation === 'post') {
                 delete element._links;
                 delete element.id;

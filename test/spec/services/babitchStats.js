@@ -1,3 +1,5 @@
+/* global Fixtures */
+/* jshint camelcase: false */
 'use strict';
 
 describe('Service: babitchStats', function() {
@@ -8,18 +10,20 @@ describe('Service: babitchStats', function() {
     // instantiate service
     var babitchStatsService,
         stats,
-        httpMock;
+        httpMock,
+        config;
 
-    beforeEach(inject(function(babitchStats, $httpBackend) {
+    beforeEach(inject(function(babitchStats, $httpBackend, CONFIG) {
         babitchStatsService = babitchStats;
         httpMock = $httpBackend;
+        config = CONFIG;
 
-        httpMock.whenGET(config.BABITCH_WS_URL + "/players").respond(Fixtures.players);
-        httpMock.whenGET(config.BABITCH_WS_URL + "/games?page=1&per_page=100").respond(Fixtures.games);
+        httpMock.whenGET(config.BABITCH_WS_URL + '/players').respond(Fixtures.players);
+        httpMock.whenGET(config.BABITCH_WS_URL + '/games?page=1&per_page=100').respond(Fixtures.games);
 
         //Compute stats
         babitchStats.computeStats()
-            .then(function(data) {
+            .then(function() {
                 stats = babitchStats.getStats();
             });
 
@@ -170,16 +174,16 @@ describe('Service: babitchStats', function() {
     });
 
     it('should do not forget one goal', function() {
-        var nbGoal = stats.statsTeams[0].goal
-            +stats.statsTeams[1].goal
-            +stats.statsTeams[2].goal
-            +stats.statsTeams[3].goal
-            +stats.statsTeams[4].goal
-            +stats.statsTeams[0].owngoal
-            +stats.statsTeams[1].owngoal
-            +stats.statsTeams[2].owngoal
-            +stats.statsTeams[3].owngoal
-            +stats.statsTeams[4].owngoal;
+        var nbGoal = stats.statsTeams[0].goal +
+            stats.statsTeams[1].goal +
+            stats.statsTeams[2].goal +
+            stats.statsTeams[3].goal +
+            stats.statsTeams[4].goal +
+            stats.statsTeams[0].owngoal +
+            stats.statsTeams[1].owngoal +
+            stats.statsTeams[2].owngoal +
+            stats.statsTeams[3].owngoal +
+            stats.statsTeams[4].owngoal;
         expect(nbGoal).toBe(48);
     });
 
@@ -326,16 +330,16 @@ describe('Service: babitchStats', function() {
     });
 
     it('should do not forget one goal', function() {
-        var nbGoal = stats.statsPlayers[7].goal
-            +stats.statsPlayers[8].goal
-            +stats.statsPlayers[9].goal
-            +stats.statsPlayers[12].goal
-            +stats.statsPlayers[16].goal
-            +stats.statsPlayers[7].owngoal
-            +stats.statsPlayers[8].owngoal
-            +stats.statsPlayers[9].owngoal
-            +stats.statsPlayers[12].owngoal
-            +stats.statsPlayers[16].owngoal;
+        var nbGoal = stats.statsPlayers[7].goal +
+            stats.statsPlayers[8].goal +
+            stats.statsPlayers[9].goal +
+            stats.statsPlayers[12].goal +
+            stats.statsPlayers[16].goal +
+            stats.statsPlayers[7].owngoal +
+            stats.statsPlayers[8].owngoal +
+            stats.statsPlayers[9].owngoal +
+            stats.statsPlayers[12].owngoal +
+            stats.statsPlayers[16].owngoal;
         expect(nbGoal).toBe(48);
     });
 

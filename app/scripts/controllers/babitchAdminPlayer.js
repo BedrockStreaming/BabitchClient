@@ -1,6 +1,6 @@
 'use strict';
 
-babitchFrontendApp.controller('babitchAdminPlayerCtrl', function($scope, Restangular, $location) {
+angular.module('babitchFrontendApp').controller('babitchAdminPlayerCtrl', function($scope, Restangular, $location) {
 
     // function to submit the form after all validation has occurred
     $scope.submitForm = function() {

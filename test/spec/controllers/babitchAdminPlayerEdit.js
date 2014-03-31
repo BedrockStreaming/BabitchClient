@@ -1,4 +1,7 @@
-describe('Controller: BabitchAdminPlayerEditCtrl', function($window) {
+/* global Fixtures */
+'use strict';
+
+describe('Controller: BabitchAdminPlayerEditCtrl', function() {
 
     // load the controller's module
     beforeEach(module('babitchFrontendApp'));
@@ -6,6 +9,7 @@ describe('Controller: BabitchAdminPlayerEditCtrl', function($window) {
     var theBabitchAdminPlayerEditCtrl,
         scope,
         httpMock,
+        config,
         routeParams;
 
     // Initialize the controller and a mock scope
@@ -14,7 +18,7 @@ describe('Controller: BabitchAdminPlayerEditCtrl', function($window) {
         httpMock = $httpBackend;
         config = CONFIG;
 
-        httpMock.whenGET(config.BABITCH_WS_URL + "/players/1").respond(Fixtures.players[0]);
+        httpMock.whenGET(config.BABITCH_WS_URL + '/players/1').respond(Fixtures.players[0]);
 
         routeParams = {
             id: 1
@@ -62,6 +66,6 @@ describe('Controller: BabitchAdminPlayerEditCtrl', function($window) {
         // non-valid form
         scope.playerForm.$dirty = true;
         scope.playerForm.$valid = false;
-        expect(scope.submitForm()).toBe(false);        
+        expect(scope.submitForm()).toBe(false);
     });
 });

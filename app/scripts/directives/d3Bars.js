@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('babitchFrontendApp')
 .directive('d3Bars', ['$window', '$timeout', 'd3Service', 'gravatarService',
 function($window, $timeout, d3Service, gravatarService) {
@@ -40,11 +42,15 @@ function($window, $timeout, d3Service, gravatarService) {
                 scope.render = function(data) {
                     svg.selectAll('*').remove();
 
-                    if (!data) return;
-                    if (renderTimeout) clearTimeout(renderTimeout);
+                    if (!data) {
+                        return;
+                    }
+                    if (renderTimeout) {
+                        clearTimeout(renderTimeout);
+                    }
 
                     renderTimeout = $timeout(function() {
-                        var RectBegin = (scope.type == "teams" ? 250 : 150);
+                        var RectBegin = (scope.type === 'teams' ? 250 : 150);
                         var RectEnd = 50;
 
                         //Deal with bar width
@@ -82,7 +88,7 @@ function($window, $timeout, d3Service, gravatarService) {
                             .data(d3.values(data))
                             .enter()
                             .append('rect')
-                            .on('click', function(d,i) {
+                            .on('click', function(d) {
                                 return scope.onClick({item: d});
                             })
                             .attr('height', barHeight)
@@ -101,22 +107,22 @@ function($window, $timeout, d3Service, gravatarService) {
                             });
 
                         //Then draw all Gravatar
-                        var gimgs = svg.selectAll("g")
+                        var gimgs = svg.selectAll('g')
                             .data(data)
                             .enter().append('g');
 
-                        var imgs = gimgs.selectAll("image")
+                        gimgs.selectAll('image')
                             .data(function(d) {
                                 return d.players;
                             })
                             .enter()
-                            .append("svg:image")
-                            .attr("xlink:href", function(d) {
+                            .append('svg:image')
+                            .attr('xlink:href', function(d) {
                                 return gravatarService.url(d.email);
                             })
-                            .attr("x", function(d,iPlayers,iStat) {
+                            .attr('x', function(d,iPlayers) {
                                 var x = RectBegin - barHeight - barPadding + Math.round(margin/2);
-                                if(iPlayers == 1) {
+                                if(iPlayers === 1) {
                                     x = x - barHeight - barPadding;
                                 }
                                 return x;
@@ -124,26 +130,26 @@ function($window, $timeout, d3Service, gravatarService) {
                             .attr('y', function(d,iPlayers,iStat) {
                                 return iStat * (barHeight + barPadding);
                             })
-                            .attr("width", barHeight)
-                            .attr("height", barHeight);
+                            .attr('width', barHeight)
+                            .attr('height', barHeight);
 
                         //Finally add player(s) name
                         var texts = svg.selectAll('text')
                             .data(d3.values(data));
-                            texts.enter()
+                        texts.enter()
                             .append('text')
                             .attr('fill', '#000')
                             .attr('y', function(d,i) {
                                 return i * (barHeight + barPadding) + 15;
                             })
-                            .attr("x", function(d,iPlayers,iStat) {
+                            .attr('x', function() {
                                 var x = RectBegin - barHeight;
-                                if(scope.type == "teams") {
+                                if(scope.type === 'teams') {
                                     x = x - barHeight - barPadding;
                                 }
                                 return x;
                             })
-                            .attr("text-anchor", "end")
+                            .attr('text-anchor', 'end')
                             .text(function(d) {
                                 var text = '';
                                 d.players.forEach(function(player) {
@@ -163,7 +169,7 @@ function($window, $timeout, d3Service, gravatarService) {
                                 return i * (barHeight + barPadding) + 15;
                             })
                             .attr('x', 140 + RectBegin + barPadding + barPadding)
-                            .attr("text-anchor", "start")
+                            .attr('text-anchor', 'start')
                             .text(function(d) {
                                 return d.stat;
                             })
@@ -176,5 +182,6 @@ function($window, $timeout, d3Service, gravatarService) {
                     }, 200);
                 };
             });
-        }}
-    }])
+        }
+    };
+}]);

@@ -13,8 +13,8 @@ describe('Filter: withPlayerInTeam', function() {
 
     it('should filter team without the good player"', function() {
         var team = [
-            {player_id1: 1},
-            {player_id1: 10}
+            {playerId1: 1},
+            {playerId1: 10}
         ];
 
         expect(withPlayerInTeam(team,0).length).toBe(2);

@@ -1,3 +1,7 @@
+/* global Fixtures */
+/* jshint camelcase: false */
+'use strict';
+
 describe('Controller: BabitchCtrl', function() {
 
     // load the controller's module
@@ -5,7 +9,8 @@ describe('Controller: BabitchCtrl', function() {
 
     var theBabitchCtrl,
         scope,
-        httpMock;
+        httpMock,
+        config;
 
     // Initialize the controller and a mock scope
     beforeEach(inject(function($controller, $rootScope, $httpBackend, CONFIG) {
@@ -13,7 +18,7 @@ describe('Controller: BabitchCtrl', function() {
         httpMock = $httpBackend;
         config = CONFIG;
 
-        httpMock.whenGET(config.BABITCH_WS_URL + "/players").respond(Fixtures.players);
+        httpMock.whenGET(config.BABITCH_WS_URL + '/players').respond(Fixtures.players);
 
         theBabitchCtrl = $controller('babitchCtrl', {
             $scope: scope
@@ -33,8 +38,8 @@ describe('Controller: BabitchCtrl', function() {
     var helper = {
         choosePlayer: function (playerId, team, place) {
             var playerIndex = playerId-1;
-            var sideIndex = (team == 'red' ? 0 : 1);
-            var seatIndex = (place == 'attack' ? 0 : 1);
+            var sideIndex = (team === 'red' ? 0 : 1);
+            var seatIndex = (place === 'attack' ? 0 : 1);
 
             var side = scope.table.sides[sideIndex];
             var seat = side.seats[seatIndex];
@@ -52,8 +57,8 @@ describe('Controller: BabitchCtrl', function() {
         },
 
         focusPlayer: function(team, place) {
-            var sideIndex = (team == 'red' ? 0 : 1);
-            var seatIndex = (place == 'attack' ? 0 : 1);
+            var sideIndex = (team === 'red' ? 0 : 1);
+            var seatIndex = (place === 'attack' ? 0 : 1);
 
             var side = scope.table.sides[sideIndex];
             var seat = side.seats[seatIndex];
@@ -86,7 +91,7 @@ describe('Controller: BabitchCtrl', function() {
         getBlueScore: function () {
             return scope.table.sides[1].score;
         }
-    }
+    };
 
     it('should begin with a game not started yet', function() {
         expect(scope.gameStarted).toBe(false);
