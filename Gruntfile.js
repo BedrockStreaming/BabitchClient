@@ -362,6 +362,16 @@ module.exports = function (grunt) {
     'karma:unit'
   ]);
 
+  grunt.registerTask('test-e2e', [
+    'clean:server',
+    'concurrent:test',
+    'autoprefixer',
+    'connect:test',
+    'faye',
+    'chromedriver',
+    'protractor:e2e'
+  ]);
+
   grunt.registerTask('test-travis', [
     'clean:server',
     'concurrent:test',
