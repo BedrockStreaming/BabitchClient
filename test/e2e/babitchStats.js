@@ -11,6 +11,7 @@ var page = null;
 describe('Babitch : Overall', function() {
 
     beforeEach(function() {
+        browser.clearMockModules();
         page = new BabitchStatsPage(browser);
     });
 
