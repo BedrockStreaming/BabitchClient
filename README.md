@@ -14,7 +14,7 @@ BabitchClient provides a simple responsive user interface.
 * Cancel last goal
 * Switch table side
 * Gravatar support
-* Stats
+* Lot of Stats by players and team
 
 ## Installation
 
@@ -54,9 +54,16 @@ You have two options for the server side :
 
 #### Test (Unit & E2E)
 
+Only unit test :
+* `grunt test-unit`
+
+Only E2E test :
+* `grunt test-e2e`
+
+All test :
 * `grunt test`
 
-## Live (experimental)
+## Live
 
 You need to configure `BABITCH_LIVE_FAYE_URL` and `BABITCH_LIVE_FAYE_CHANNEL` in `app/scripts/config.js`
 
@@ -69,6 +76,7 @@ You need to configure `BABITCH_LIVE_FAYE_URL` and `BABITCH_LIVE_FAYE_CHANNEL` in
 * Grunt, for development server and automation
 * Karma, Protractor and PhantomJs, for testing
 * Faye for realtime messaging
+* D3.js for data visualization
 
 ## Credits
 
