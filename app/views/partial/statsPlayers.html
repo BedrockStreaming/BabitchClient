@@ -35,7 +35,7 @@
                         <tr ng-repeat="player in stats.statsPlayers | orderBy:predicate:reverse | minGamePlayed:stats.minGamePlayedPlayers">
                             <td>
                                 <img gravatar-src="stats.playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="30" />
-                                <a ng-href="/#/stats/players/{{ player.id }}">{{ player.name }}</a>
+                                <a ui-sref="stats.player({selectedPlayer : player.id })">{{ player.name }}</a>
                             </td>
                             <td ng-repeat="stat in stats.statsType" class="text-right">
                                 {{ player[stat.name] }}{{ stat.addSuffix }}

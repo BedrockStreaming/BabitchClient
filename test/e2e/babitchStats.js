@@ -113,7 +113,7 @@ describe('Babitch : Player view', function() {
         page = new BabitchStatsPlayerPage(browser);
     });
 
-    it('should be on Player Stats tabs', function() {
+    xit('should be on Player Stats tabs', function() {
         expect(page.navbarActive.getText()).toBe('Player Stats');
     });
 
