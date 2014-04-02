@@ -2,7 +2,7 @@
 'use strict';
 
 angular.module('babitchFrontendApp').controller('babitchStatsGameCtrl', function($scope, $rootScope, $routeParams, babitchStats) {
-    $scope.selectedGame = $routeParams.selectedGame;
+    $scope.selectedGame = parseInt($routeParams.selectedGame);
     $scope.menuSelect = 'game';
 
     babitchStats.computeStats()
