@@ -6,11 +6,12 @@ describe('Controller: BabitchAdminPlayerEditCtrl', function() {
     // load the controller's module
     beforeEach(module('babitchFrontendApp'));
 
+
     var theBabitchAdminPlayerEditCtrl,
         scope,
         httpMock,
         config,
-        routeParams;
+        stateParams;
 
     // Initialize the controller and a mock scope
     beforeEach(inject(function($controller, $rootScope, $httpBackend, CONFIG) {
@@ -20,18 +21,17 @@ describe('Controller: BabitchAdminPlayerEditCtrl', function() {
 
         httpMock.whenGET(config.BABITCH_WS_URL + '/players/1').respond(Fixtures.players[0]);
 
-        routeParams = {
+        stateParams = {
             id: 1
         };
 
         theBabitchAdminPlayerEditCtrl = $controller('babitchAdminPlayerEditCtrl', {
             $scope: scope,
-            $routeParams: routeParams
+            $stateParams: stateParams
         });
 
         //Flush the .query
         httpMock.flush();
-
     }));
 
     afterEach(function() {

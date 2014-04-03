@@ -1,8 +1,8 @@
 /* jshint camelcase: false */
 'use strict';
 
-angular.module('babitchFrontendApp').controller('babitchStatsGameCtrl', function($scope, $rootScope, $routeParams, babitchStats) {
-    $scope.selectedGame = parseInt($routeParams.selectedGame);
+angular.module('babitchFrontendApp').controller('babitchStatsGameCtrl', function($scope, $rootScope, $stateParams, babitchStats) {
+    $scope.selectedGame = parseInt($stateParams.selectedGame);
     $scope.menuSelect = 'game';
 
     babitchStats.computeStats()
