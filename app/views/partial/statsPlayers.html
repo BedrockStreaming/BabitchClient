@@ -1,46 +1,48 @@
-            <div class="page-header">
-                <h1>Players Stats</h1>
-            </div>
+<div class="container">
+    <div class="page-header">
+        <h1>Players Stats</h1>
+    </div>
 
-            <div class="btn-group">
-                <button type="button" class="btn btn-default" ng-click='setStatsVisibleTo("")'>All stats</button>
-                <button type="button" class="btn btn-default" ng-repeat="stat in stats.statsType" ng-click='getFilteredStat(stat.name)'>{{ (stat.text ? stat.text : stat.name) }}</button>
-                <button type="button" class="btn btn-default" ng-click='setStatsVisibleTo("whoPlayedWithWho")'>Played With</button>
-                <button type="button" class="btn btn-default" ng-click='setStatsVisibleTo("whoPlayedAgainstWho")'>Played Against</button>
+    <div class="btn-group">
+        <button type="button" class="btn btn-default" ng-click='setStatsVisibleTo("")'>All stats</button>
+        <button type="button" class="btn btn-default" ng-repeat="stat in stats.statsType" ng-click='getFilteredStat(stat.name)'>{{ (stat.text ? stat.text : stat.name) }}</button>
+        <button type="button" class="btn btn-default" ng-click='setStatsVisibleTo("whoPlayedWithWho")'>Played With</button>
+        <button type="button" class="btn btn-default" ng-click='setStatsVisibleTo("whoPlayedAgainstWho")'>Played Against</button>
 
-            </div>
-            <br /><br />
+    </div>
+    <br /><br />
 
-            <div ng-switch on="statsVisible">
-                <div d3-bars data="stats.statsPlayersFiltered" type='players' bar-height="20" bar-padding="5" ng-switch-when="statsBars"></div>
+    <div ng-switch on="statsVisible">
+        <div d3-bars data="stats.statsPlayersFiltered" type='players' bar-height="20" bar-padding="5" ng-switch-when="statsBars"></div>
 
-                <div d3-matrix data="stats.matrix.whoPlayedWithWho" players="stats.matrix.nodes" ng-switch-when="whoPlayedWithWho"></div>
+        <div d3-matrix data="stats.matrix.whoPlayedWithWho" players="stats.matrix.nodes" ng-switch-when="whoPlayedWithWho"></div>
 
-                <div d3-matrix data="stats.matrix.whoPlayedAgainstWho" players="stats.matrix.nodes" ng-switch-when="whoPlayedAgainstWho"></div>
+        <div d3-matrix data="stats.matrix.whoPlayedAgainstWho" players="stats.matrix.nodes" ng-switch-when="whoPlayedAgainstWho"></div>
 
-                <table class="table table-hover table-condensed allStatsPlayers" ng-switch-default>
-                    <thead>
-                        <tr>
-                            <th>
-                                <a href="" ng-click="setPredicate('name'); doReverse()">Name</a>
-                            </th>
-                            <th ng-repeat="stat in stats.statsType" class="text-right">
-                                <a href="" ng-click="setPredicate(stat.name); doReverse()">
-                                    {{ (stat.text ? stat.text : stat.name) }}
-                                </a>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="player in stats.statsPlayers | orderBy:predicate:reverse | minGamePlayed:stats.minGamePlayedPlayers">
-                            <td>
-                                <img gravatar-src="stats.playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="30" />
-                                <a ui-sref="stats.player({selectedPlayer : player.id })">{{ player.name }}</a>
-                            </td>
-                            <td ng-repeat="stat in stats.statsType" class="text-right">
-                                {{ player[stat.name] }}{{ stat.addSuffix }}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <table class="table table-hover table-condensed allStatsPlayers" ng-switch-default>
+            <thead>
+                <tr>
+                    <th>
+                        <a href="" ng-click="setPredicate('name'); doReverse()">Name</a>
+                    </th>
+                    <th ng-repeat="stat in stats.statsType" class="text-right">
+                        <a href="" ng-click="setPredicate(stat.name); doReverse()">
+                            {{ (stat.text ? stat.text : stat.name) }}
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="player in stats.statsPlayers | orderBy:predicate:reverse | minGamePlayed:stats.minGamePlayedPlayers">
+                    <td>
+                        <img gravatar-src="stats.playersList[player.id].email || ''" gravatar-default="wavatar" gravatar-size="30" />
+                        <a ui-sref="stats.player({selectedPlayer : player.id })">{{ player.name }}</a>
+                    </td>
+                    <td ng-repeat="stat in stats.statsType" class="text-right">
+                        {{ player[stat.name] }}{{ stat.addSuffix }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

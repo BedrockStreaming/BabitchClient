@@ -1,57 +1,59 @@
-            <div class="page-header">
-                <h1>Game details</h1>
-                Duration : {{ games.duration_mn }}<br />
-                Played at : {{ games.started_at }}<br />
-                Finished at : {{ games.ended_at }}
-            </div>
+<div class="container">
+    <div class="page-header">
+        <h1>Game details</h1>
+        Duration : {{ games.duration_mn }}<br />
+        Played at : {{ games.started_at }}<br />
+        Finished at : {{ games.ended_at }}
+    </div>
 
-            <table class="table table-hover table-condensed">
-                <thead>
-                    <tr>
-                        <th>Red Team</th>
-                        <th class="text-center">Score</th>
-                        <th class="text-right">Blue Team</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="team red">
-                            <a ng-href="/#/stats/players/{{ stats.playersList[games.redDefense].id }}">
-                                <img gravatar-src="stats.playersList[games.redDefense].email || ''" gravatar-default="wavatar" gravatar-size="30" />
-                                {{ stats.playersList[games.redDefense].name }}
-                            </a>
-                            <a ng-href="/#/stats/players/{{ stats.playersList[games.redAttack].id }}">
-                                <img gravatar-src="stats.playersList[games.redAttack].email || ''" gravatar-default="wavatar" gravatar-size="30" />
-                                {{ stats.playersList[games.redAttack].name }}
-                            </a>
-                        </td>
-                        <td class="score">
-                            <a ng-href="/#/stats/games/{{ games.id }}" class="score-{{ games.red_score }}">{{ games.red_score }}</a>
-                            <span>:</span>
-                            <a ng-href="/#/stats/games/{{ games.id }}" class="score-{{ games.blue_score }}">{{ games.blue_score }}</a>
-                        </td>
-                        <td class="team blue">
-                            <a ng-href="/#/stats/players/{{ stats.playersList[games.blueDefense].id }}">
-                                {{ stats.playersList[games.blueDefense].name }}
-                                <img gravatar-src="stats.playersList[games.blueDefense].email || ''" gravatar-default="wavatar" gravatar-size="30" />
-                            </a>
-                            <a ng-href="/#/stats/players/{{ stats.playersList[games.blueAttack].id }}">
-                                {{ stats.playersList[games.blueAttack].name }}
-                                <img gravatar-src="stats.playersList[games.blueAttack].email || ''" gravatar-default="wavatar" gravatar-size="30" />
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="team red">
-                            Elo Ranking : {{ games.redEloTeam }}
-                            ({{ games.redEloWins }})
-                        </td>
-                        <td>&nbsp;</td>
-                        <td class="team blue">
-                            Elo Ranking : {{ games.blueEloTeam }}
-                            ({{ games.blueEloWins }})
-                        </td>
-                </tbody>
-            </table>
+    <table class="table table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>Red Team</th>
+                <th class="text-center">Score</th>
+                <th class="text-right">Blue Team</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="team red">
+                    <a ng-href="/#/stats/players/{{ stats.playersList[games.redDefense].id }}">
+                        <img gravatar-src="stats.playersList[games.redDefense].email || ''" gravatar-default="wavatar" gravatar-size="30" />
+                        {{ stats.playersList[games.redDefense].name }}
+                    </a>
+                    <a ng-href="/#/stats/players/{{ stats.playersList[games.redAttack].id }}">
+                        <img gravatar-src="stats.playersList[games.redAttack].email || ''" gravatar-default="wavatar" gravatar-size="30" />
+                        {{ stats.playersList[games.redAttack].name }}
+                    </a>
+                </td>
+                <td class="score">
+                    <a ng-href="/#/stats/games/{{ games.id }}" class="score-{{ games.red_score }}">{{ games.red_score }}</a>
+                    <span>:</span>
+                    <a ng-href="/#/stats/games/{{ games.id }}" class="score-{{ games.blue_score }}">{{ games.blue_score }}</a>
+                </td>
+                <td class="team blue">
+                    <a ng-href="/#/stats/players/{{ stats.playersList[games.blueDefense].id }}">
+                        {{ stats.playersList[games.blueDefense].name }}
+                        <img gravatar-src="stats.playersList[games.blueDefense].email || ''" gravatar-default="wavatar" gravatar-size="30" />
+                    </a>
+                    <a ng-href="/#/stats/players/{{ stats.playersList[games.blueAttack].id }}">
+                        {{ stats.playersList[games.blueAttack].name }}
+                        <img gravatar-src="stats.playersList[games.blueAttack].email || ''" gravatar-default="wavatar" gravatar-size="30" />
+                    </a>
+                </td>
+            </tr>
+            <tr>
+                <td class="team red">
+                    Elo Ranking : {{ games.redEloTeam }}
+                    ({{ games.redEloWins }})
+                </td>
+                <td>&nbsp;</td>
+                <td class="team blue">
+                    Elo Ranking : {{ games.blueEloTeam }}
+                    ({{ games.blueEloWins }})
+                </td>
+        </tbody>
+    </table>
 
-            <div d3-timeline data="games"></div>
+    <div d3-timeline data="games"></div>
+</div>
