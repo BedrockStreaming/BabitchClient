@@ -1,71 +1,93 @@
 'use strict';
 
-var babitchFrontendApp = angular.module('babitchFrontendApp', [
+angular.module('babitchFrontendApp', [
     'ngCookies',
     'ngSanitize',
-    'ngRoute',
+    'ui.router',
     'babitchServer',
     'faye',
     'ui.gravatar',
     'restangular'
 ])
-    .config(function($routeProvider, $httpProvider, gravatarServiceProvider, RestangularProvider, CONFIG) {
+    .config(function($stateProvider,  $urlRouterProvider, $httpProvider, gravatarServiceProvider, RestangularProvider, CONFIG) {
         gravatarServiceProvider.defaults = {
             size: 400,
-            "default": 'mm' // Mystery man as default for missing avatars
+            default: 'mm' // Mystery man as default for missing avatars
         };
 
-        $routeProvider
-            .when('/', {
+        $urlRouterProvider.otherwise('/');
+
+        $urlRouterProvider.when('/admin', '/admin/players');
+
+        $stateProvider
+            .state('index', {
+                url: '/',
+                templateUrl: 'views/index.html'
+            })
+            .state('game', {
+                url: '/game',
                 templateUrl: 'views/main.html',
                 controller: 'babitchCtrl'
             })
-            .when('/live', {
+            .state('live', {
+                url: '/live',
                 templateUrl: 'views/live.html',
                 controller: 'babitchLiveCtrl'
             })
-            .when('/admin', {
-                redirectTo: '/admin/players'
-            })
-            .when('/admin/players', {
+            .state('admin-players', {
+                url: '/admin/players',
                 templateUrl: 'views/adminPlayers.html',
                 controller: 'babitchAdminPlayersCtrl'
             })
-            .when('/admin/players/new', {
+            .state('admin-player-new', {
+                url: '/admin/players/new',
                 templateUrl: 'views/admin-player.html',
-                controller: 'babitchAdminPlayerCtrl'
+                controller: 'babitchAdminPlayersCtrl'
             })
-            .when('/admin/players/:id', {
+            .state('admin-player-edit', {
+                url: '/admin/players/:id',
                 templateUrl: 'views/admin-player.html',
                 controller: 'babitchAdminPlayerEditCtrl'
             })
-            .when('/stats', {
+            .state('stats', {
+                url: '/stats',
                 templateUrl: 'views/stats.html',
+                abstract: true
+            })
+            .state('stats.index', {
+                url: '',
+                templateUrl: 'views/partial/statsOverall.html',
                 controller: 'babitchStatsCtrl'
             })
-            .when('/stats/games', {
-                templateUrl: 'views/stats.html',
+            .state('stats.games', {
+                url: '/games',
+                templateUrl: 'views/partial/statsLastGames.html',
                 controller: 'babitchStatsGamesCtrl'
             })
-            .when('/stats/players', {
-                templateUrl: 'views/stats.html',
+            .state('stats.game', {
+                url: '/games/:selectedGame',
+                templateUrl: 'views/partial/statsGame.html',
+                controller: 'babitchStatsGameCtrl'
+            })
+            .state('stats.players', {
+                url: '/players',
+                templateUrl: 'views/partial/statsPlayers.html',
                 controller: 'babitchStatsPlayersCtrl'
             })
-            .when('/stats/players/:selectedPlayer', {
-                templateUrl: 'views/stats.html',
+            .state('stats.player', {
+                url: '/players/:selectedPlayer',
+                templateUrl: 'views/partial/statsPlayer.html',
                 controller: 'babitchStatsPlayerCtrl'
             })
-            .when('/stats/teams', {
-                templateUrl: 'views/stats.html',
+            .state('stats.teams', {
+                url: '/teams',
+                templateUrl: 'views/partial/statsTeams.html',
                 controller: 'babitchStatsTeamsCtrl'
-            })
-            .otherwise({
-                redirectTo: '/'
             });
 
         RestangularProvider.setBaseUrl(CONFIG.BABITCH_WS_URL);
 
-        RestangularProvider.setRequestInterceptor(function(element, operation, route, url) {
+        RestangularProvider.setRequestInterceptor(function(element, operation) {
             if (operation === 'put' || operation === 'post') {
                 delete element._links;
                 delete element.id;

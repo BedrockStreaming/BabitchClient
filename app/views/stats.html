@@ -12,44 +12,28 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                <li ng-class="{active: menuSelect==''}">
-                    <a ng-href="/#/stats">Overview</a>
+                <li ui-sref-active="active" >
+                    <a ui-sref="stats.index">Overview</a>
                 </li>
-                <li ng-class="{active: menuSelect=='lastgames'}">
-                    <a ng-href="/#/stats/games">Last Games</a>
+                <li ui-sref-active="active">
+                    <a ui-sref="stats.games">Last Games</a>
                 </li>
-                <li ng-class="{active: menuSelect=='playerstats'}">
-                    <a ng-href="/#/stats/players">Player Stats</a>
+                <li ui-sref-active="active">
+                    <a ui-sref="stats.players">Player Stats</a>
                 </li>
-                <li ng-class="{active: menuSelect=='teamstats'}">
-                    <a ng-href="/#/stats/teams">Team Stats</a>
+                <li ui-sref-active="active">
+                    <a ui-sref="stats.teams">Team Stats</a>
                 </li>
 				</ul>
             </div>
         </div>
     </div>
 
-    <div class="main" ng-switch on="menuSelect">
-
-        <div ng-switch-default>
-            <div ng-include src="'/views/partial/statsOverall.html'" class="container placeholders"></div>
+    <div class="main" >
+        <div>
+            <div ui-view />
         </div>
-
-        <div ng-switch-when="lastgames">
-            <div ng-include src="'/views/partial/statsLastGames.html'" class="container"></div>
-        </div>
-
-        <div ng-switch-when="player">
-            <div ng-include src="'/views/partial/statsPlayer.html'" class="player"></div>
-        </div>
-
-        <div ng-switch-when="playerstats">
-            <div ng-include src="'/views/partial/statsPlayers.html'" class="table-responsive container"></div>
-        </div>
-
-        <div ng-switch-when="teamstats">
-            <div ng-include src="'/views/partial/statsTeams.html'" class="table-responsive container"></div>
-        </div>
-
     </div>
+
+
 </div>

@@ -1,8 +1,11 @@
 'use strict';
 
-babitchFrontendApp.controller("babitchStatsGamesCtrl", function($scope, $rootScope, babitchStats) {
+angular.module('babitchFrontendApp').controller('babitchStatsGamesCtrl', function($scope, $rootScope, babitchStats) {
 
     $scope.menuSelect = 'lastgames';
 
-    $scope.stats = babitchStats.getStats();
+    babitchStats.computeStats()
+        .then(function() {
+            $scope.stats = babitchStats.getStats();
+        });
 });

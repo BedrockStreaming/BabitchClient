@@ -1,3 +1,4 @@
+/* global Fixtures */
 'use strict';
 
 describe('Controller: BabitchStatsGamesCtrl', function() {
@@ -15,8 +16,8 @@ describe('Controller: BabitchStatsGamesCtrl', function() {
         httpMock = $httpBackend;
         config = CONFIG;
 
-        httpMock.whenGET(config.BABITCH_WS_URL + "/players").respond(Fixtures.players);
-        httpMock.whenGET(config.BABITCH_WS_URL + "/games?page=1&per_page=100").respond(Fixtures.games);
+        httpMock.whenGET(config.BABITCH_WS_URL + '/players').respond(Fixtures.players);
+        httpMock.whenGET(config.BABITCH_WS_URL + '/games?page=1&per_page=100').respond(Fixtures.games);
 
         theBabitchStatsGamesCtrl = $controller('babitchStatsGamesCtrl', {
             $scope: scope

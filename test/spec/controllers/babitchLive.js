@@ -1,3 +1,7 @@
+/* global Fixtures */
+/* jshint camelcase: false */
+'use strict';
+
 describe('Controller: BabitchLiveCtrl', function() {
 
     // load the controller's module
@@ -48,7 +52,7 @@ describe('Controller: BabitchLiveCtrl', function() {
             }
         };
 
-        httpMock.whenGET(CONFIG.BABITCH_WS_URL + "/players").respond(Fixtures.players);
+        httpMock.whenGET(CONFIG.BABITCH_WS_URL + '/players').respond(Fixtures.players);
         $httpBackend.whenGET(/v1\/players\/[0-9]/).respond(function(method, url) {
             var regEx = /v1\/players\/([0-9])/;
             var id = regEx.exec(url)[1];
@@ -57,11 +61,11 @@ describe('Controller: BabitchLiveCtrl', function() {
         });
 
         mockFayeClient = {
-            publish: function(channel, message) {},
+            publish: function() {},
             sendData: function(data) {
                 var _this = this;
                 scope.$apply(function() {
-                     _this.callback(data);
+                    _this.callback(data);
                 });
             },
             subscribe: function(channel, callback) {

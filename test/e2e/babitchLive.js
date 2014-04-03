@@ -41,6 +41,24 @@ describe('Babitch Live', function() {
 		pageManager = new MultipageManager(browser);
 	});
 
+	afterEach(function() {
+		pageManager.switchToGamePage().then(function() {
+			return browser.executeScript(function() {
+				window.close();
+			});
+		}).then(function() {
+			return pageManager.switchToLivePage()
+		}).then(function() {
+			return browser.executeScript(function() {
+				window.close();
+			});
+		}).then(function() {
+			return browser.getAllWindowHandles();
+		}).then(function(handle) {
+			return browser.switchTo().window(handle[0]);
+		});
+	})
+
 	it('should display match if a match is selected', function() {
 		pageManager.switchToGamePage().then(function() {
 			return pageManager.gamePage.startAGame();

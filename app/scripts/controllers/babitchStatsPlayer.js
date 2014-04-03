@@ -1,8 +1,8 @@
 'use strict';
 
-babitchFrontendApp.controller("babitchStatsPlayerCtrl", function($scope, $rootScope, $routeParams, babitchStats) {
+angular.module('babitchFrontendApp').controller('babitchStatsPlayerCtrl', function($scope, $rootScope, $stateParams, babitchStats) {
 
-    $scope.selectedPlayer = $routeParams.selectedPlayer;
+    $scope.selectedPlayer = parseInt($stateParams.selectedPlayer);
     $scope.menuSelect = 'player';
 
     //To deal with ng-repeat scope in stats-player.html views
@@ -12,22 +12,22 @@ babitchFrontendApp.controller("babitchStatsPlayerCtrl", function($scope, $rootSc
     $rootScope.doReverse = function() {
         $rootScope.reverse = !$rootScope.reverse;
     };
-    $rootScope.setTableHide = function(variable) {
-        $rootScope.tableHide = variable;
+    $rootScope.setStatsVisibleTo = function(variable) {
+        $rootScope.statsVisible = variable;
         if (!variable) {
             $rootScope.selectedStat = "";
         }
     };
 
-    $scope.stats = babitchStats.getStats();
-
-    $scope.minGamePlayed = 1;
-    $rootScope.setTableHide(false);
+    babitchStats.computeStats()
+        .then(function() {
+            $scope.stats = babitchStats.getStats();
+        });
 
     $scope.getFilteredStat = function(statType) {
         $rootScope.selectedStat = statType;
-        $rootScope.setTableHide(true);
-        babitchStats.getStatsTeamsFilterBy(statType, $scope.minGamePlayed, $scope.selectedPlayer);
+        $rootScope.setStatsVisibleTo('statsBars');
+        babitchStats.getStatsTeamsFilterBy(statType, $scope.selectedPlayer);
     };
 
 });

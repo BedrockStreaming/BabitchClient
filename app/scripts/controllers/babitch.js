@@ -1,6 +1,7 @@
+/* jshint camelcase: false */
 'use strict';
 
-babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClient, $interval, Restangular) {
+angular.module('babitchFrontendApp').controller('babitchCtrl', function ($scope, CONFIG, fayeClient, $interval, Restangular) {
     $scope.gameId = null;
     $scope.gameStarted = false;
     $scope.gameEnded = false;
@@ -53,7 +54,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
 
 
     fayeClient.subscribe(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, function(data) {
-        if (data.type == 'requestCurrentGame') {
+        if (data.type === 'requestCurrentGame') {
             notify('currentGame');
         }
     });
@@ -90,7 +91,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
     var resetScore = function () {
         $scope.table.sides[0].score = 0;
         $scope.table.sides[1].score = 0;
-    }
+    };
 
     // Timer
     var startTime = null;
@@ -151,7 +152,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
     };
 
     $scope.choosePlayer = function (player) {
-        if($scope.focusedSeat.player == null) {
+        if($scope.focusedSeat.player === null) {
             $scope.nbPlayers++;
         }
 
@@ -166,16 +167,16 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
 
     $scope.switchSidesOnView = function () {
         $scope.table.sides.forEach(function (side) {
-            side.position = (side.position == 'left' ? 'right' : 'left');
+            side.position = (side.position === 'left' ? 'right' : 'left');
 
-            side.seats[0].position = (side.seats[0].position == 'top' ? 'bottom' : 'top');
-            side.seats[1].position = (side.seats[1].position == 'top' ? 'bottom' : 'top');
+            side.seats[0].position = (side.seats[0].position === 'top' ? 'bottom' : 'top');
+            side.seats[1].position = (side.seats[1].position === 'top' ? 'bottom' : 'top');
         });
-    }
+    };
 
     $scope.startGame = function () {
-        if($scope.nbPlayers != 4) {
-            console.log("Error, not enough player selected : need 4");
+        if($scope.nbPlayers !== 4) {
+            console.log('Error, not enough player selected : need 4');
             return;
         }
 
@@ -240,10 +241,10 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
     };
 
     var checkScore = function () {
-        if ($scope.table.sides[0].score == 10 || $scope.table.sides[1].score == 10) {
+        if ($scope.table.sides[0].score === 10 || $scope.table.sides[1].score === 10) {
             endGame();
         }
-    }
+    };
 
     /**
      * Coach two players for a side
@@ -276,7 +277,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
             // For each seat's side
             side.seats.forEach(function (seat) {
 
-                if(seat.player.id != lastGoal.player_id) {
+                if(seat.player.id !== lastGoal.player_id) {
                     return;
                 }
 
@@ -316,7 +317,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
         $scope.gameStarted = false;
         $scope.startGame();
         notify('restart');
-    }
+    };
 
     $scope.startNewGame = function() {
         resetGame();
@@ -344,7 +345,7 @@ babitchFrontendApp.controller("babitchCtrl", function ($scope, CONFIG, fayeClien
     };
 
     var saveGame = function () {
-        Restangular.all("games").post($scope.getGameData()).then(function() {
+        Restangular.all('games').post($scope.getGameData()).then(function() {
             //Game Saved
         }, function() {
             setTimeout(function () {

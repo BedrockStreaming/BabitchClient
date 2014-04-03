@@ -1,41 +1,47 @@
-            <div class="page-header">
-                <h1 ng-show="!selectedPlayer">Team Stats</h1>
-                <h2 ng-show="selectedPlayer">Team Stats</h2>
-            </div>
+<div class="container">
+    <div class="page-header">
+        <h1 ng-show="!selectedPlayer">Team Stats</h1>
+        <h2 ng-show="selectedPlayer">Team Stats</h2>
+    </div>
 
-            <ul class="nav nav-tabs nav-justified small">
-                <li ng-class="{ active: !tableHide}"><a ng-click='setTableHide(false)'>All</a></li>
-                <li ng-repeat="stat in stats.statsType" ng-class="{ active: selectedStat == stat.name}"><a ng-click='getFilteredStat(stat.name)'>{{ (stat.text ? stat.text : stat.name) }}</a></li>
-            </ul>
-            <br /><br />
-            <div d3-bars data="stats.statsTeamsFiltered" type='teams' bar-height="20" bar-padding="5" ng-show='tableHide'></div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-default" ng-class="{ active: !selectedStat}" ng-click='setStatsVisibleTo("")'>All stats</button>
+        <button type="button"  ng-repeat="stat in stats.statsType" class="btn btn-default" ng-class="{ active: selectedStat == stat.name}" ng-click='getFilteredStat(stat.name)'>{{ (stat.text ? stat.text : stat.name) }}</button>
+    </div>
+    <br /><br />
 
-            <table class="table table-hover table-condensed" ng-hide='tableHide'>
-                <thead>
-                    <tr>
-                        <th colspan="2">
-                            Team
-                        </th>
-                        <th ng-repeat="stat in stats.statsType" class="text-right">
-                            <a href="" ng-click="setPredicate(stat.name); doReverse()">
-                                {{ (stat.text ? stat.text : stat.name) }}
-                            </a>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="team in stats.statsTeams | orderBy:predicate:reverse | minGamePlayed:(selectedPlayer ? 1:3) | withPlayerInTeam: selectedPlayer">
-                        <td>
-                            <img gravatar-src="stats.playersList[team.player_id1].email || ''" gravatar-sizevatar-default="wavatar" gravatar-size="30" />
-                            <a ng-href="/#/stats/players/{{ stats.playersList[team.player_id1].id }}">{{ stats.playersList[team.player_id1].name }}</a>
-                        </td>
-                        <td>
-                            <img gravatar-src="stats.playersList[team.player_id2].email || ''" gravatar-default="wavatar" gravatar-size="30" />
-                            <a ng-href="/#/stats/players/{{ stats.playersList[team.player_id2].id }}">{{ stats.playersList[team.player_id2].name }}</a>
-                        </td>
-                        <td ng-repeat="stat in stats.statsType" class="text-right">
-                            {{ team[stat.name] }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <div ng-switch on="statsVisible">
+
+        <div d3-bars data="stats.statsTeamsFiltered" type='teams' bar-height="20" bar-padding="5" ng-switch-when="statsBars"></div>
+
+        <table class="table table-hover table-condensed allStatsTeams" ng-switch-default>
+            <thead>
+                <tr>
+                    <th colspan="2">
+                        Team
+                    </th>
+                    <th ng-repeat="stat in stats.statsType" class="text-right">
+                        <a href="" ng-click="setPredicate(stat.name); doReverse()">
+                            {{ (stat.text ? stat.text : stat.name) }}
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="team in stats.statsTeams | orderBy:predicate:reverse | minGamePlayed:(selectedPlayer ? 1:stats.minGamePlayedTeams) | withPlayerInTeam: selectedPlayer">
+                    <td>
+                        <img gravatar-src="stats.playersList[team.playerId1].email || ''" gravatar-sizevatar-default="wavatar" gravatar-size="30" />
+                        <a ng-href="/#/stats/players/{{ stats.playersList[team.playerId1].id }}">{{ stats.playersList[team.playerId1].name }}</a>
+                    </td>
+                    <td>
+                        <img gravatar-src="stats.playersList[team.playerId2].email || ''" gravatar-default="wavatar" gravatar-size="30" />
+                        <a ng-href="/#/stats/players/{{ stats.playersList[team.playerId2].id }}">{{ stats.playersList[team.playerId2].name }}</a>
+                    </td>
+                    <td ng-repeat="stat in stats.statsType" class="text-right">
+                        {{ team[stat.name] }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

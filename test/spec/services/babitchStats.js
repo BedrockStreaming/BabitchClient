@@ -1,3 +1,5 @@
+/* global Fixtures */
+/* jshint camelcase: false */
 'use strict';
 
 describe('Service: babitchStats', function() {
@@ -8,17 +10,22 @@ describe('Service: babitchStats', function() {
     // instantiate service
     var babitchStatsService,
         stats,
-        httpMock;
+        httpMock,
+        config;
 
-    beforeEach(inject(function(babitchStats, $httpBackend) {
+    beforeEach(inject(function(babitchStats, $httpBackend, CONFIG) {
         babitchStatsService = babitchStats;
         httpMock = $httpBackend;
+        config = CONFIG;
 
-        httpMock.whenGET(config.BABITCH_WS_URL + "/players").respond(Fixtures.players);
-        httpMock.whenGET(config.BABITCH_WS_URL + "/games?page=1&per_page=100").respond(Fixtures.games);
+        httpMock.whenGET(config.BABITCH_WS_URL + '/players').respond(Fixtures.players);
+        httpMock.whenGET(config.BABITCH_WS_URL + '/games?page=1&per_page=100').respond(Fixtures.games);
 
         //Compute stats
-        stats = babitchStatsService.getStats();
+        babitchStats.computeStats()
+            .then(function() {
+                stats = babitchStats.getStats();
+            });
 
         //Flush the .query
         httpMock.flush();
@@ -32,7 +39,7 @@ describe('Service: babitchStats', function() {
     });
 
     it('should load all players', function() {
-        expect(stats.playersList.length).toBe(22);
+        expect(stats.playersList.length).toBe(22); //because index starting at 1
     });
 
     it('should load all games', function() {
@@ -40,7 +47,11 @@ describe('Service: babitchStats', function() {
     });
 
     it('should generate stats for all players', function() {
-        expect(stats.statsPlayers.length).toBe(22);
+        expect(stats.statsPlayers.length).toBe(22); //because index starting at 1
+    });
+
+    it('should generate matrix nodes for all players', function() {
+        expect(stats.matrix.nodes.length).toBe(21); //because index starting at 0
     });
 
     it('should generate stats for all teams', function() {
@@ -57,6 +68,12 @@ describe('Service: babitchStats', function() {
         expect(stats.gamesList[2].blue_score).toBe(10);
         expect(stats.gamesList[2].red_score).toBe(6);
         //48 goals
+    });
+
+    it('should list calculate all game duration', function() {
+        expect(stats.gamesList[0].duration).toBe(212);
+        expect(stats.gamesList[1].duration).toBe(155);
+        expect(stats.gamesList[2].duration).toBe(185);
     });
 
     it('should calculate team victory correctly', function() {
@@ -157,16 +174,16 @@ describe('Service: babitchStats', function() {
     });
 
     it('should do not forget one goal', function() {
-        var nbGoal = stats.statsTeams[0].goal
-            +stats.statsTeams[1].goal
-            +stats.statsTeams[2].goal
-            +stats.statsTeams[3].goal
-            +stats.statsTeams[4].goal
-            +stats.statsTeams[0].owngoal
-            +stats.statsTeams[1].owngoal
-            +stats.statsTeams[2].owngoal
-            +stats.statsTeams[3].owngoal
-            +stats.statsTeams[4].owngoal;
+        var nbGoal = stats.statsTeams[0].goal +
+            stats.statsTeams[1].goal +
+            stats.statsTeams[2].goal +
+            stats.statsTeams[3].goal +
+            stats.statsTeams[4].goal +
+            stats.statsTeams[0].owngoal +
+            stats.statsTeams[1].owngoal +
+            stats.statsTeams[2].owngoal +
+            stats.statsTeams[3].owngoal +
+            stats.statsTeams[4].owngoal;
         expect(nbGoal).toBe(48);
     });
 
@@ -276,18 +293,59 @@ describe('Service: babitchStats', function() {
         expect(stats.statsPlayers[16].gameSeries).toEqual(['L','L']);
     });
 
+    it('should generate fakeId for each player', function() {
+        expect(stats.statsPlayers[7].fakeId).toBe(6);
+        expect(stats.statsPlayers[8].fakeId).toBe(7);
+        expect(stats.statsPlayers[9].fakeId).toBe(8);
+        expect(stats.statsPlayers[12].fakeId).toBe(11);
+        expect(stats.statsPlayers[16].fakeId).toBe(15);
+    });
+
+    it('should calculate matrix for who played with who correctly', function() {
+        expect(stats.matrix.whoPlayedWithWho).toEqual([
+            { source : 15, target : 6, value : 1 },
+            { source : 8, target : 7, value : 1 },
+            { source : 6, target : 11, value : 1 },
+            { source : 7, target : 8, value : 1 },
+            { source : 8, target : 15, value : 1 },
+            { source : 7, target : 11, value : 1 }
+        ]);
+    });
+
+    it('should calculate matrix for who played against who correctly', function() {
+        expect(stats.matrix.whoPlayedAgainstWho).toEqual([
+            { source : 15, target : 8, value : 1 },
+            { source : 15, target : 7, value : 1 },
+            { source : 6, target : 8, value : 1 },
+            { source : 6, target : 7, value : 1 },
+            { source : 6, target : 7, value : 1 },
+            { source : 6, target : 8, value : 1 },
+            { source : 11, target : 7, value : 1 },
+            { source : 11, target : 8, value : 1 },
+            { source : 8, target : 7, value : 1 },
+            { source : 8, target : 11, value : 1 },
+            { source : 15, target : 7, value : 1 },
+            { source : 15, target : 11, value : 1 }
+        ]);
+    });
+
     it('should do not forget one goal', function() {
-        var nbGoal = stats.statsPlayers[7].goal
-            +stats.statsPlayers[8].goal
-            +stats.statsPlayers[9].goal
-            +stats.statsPlayers[12].goal
-            +stats.statsPlayers[16].goal
-            +stats.statsPlayers[7].owngoal
-            +stats.statsPlayers[8].owngoal
-            +stats.statsPlayers[9].owngoal
-            +stats.statsPlayers[12].owngoal
-            +stats.statsPlayers[16].owngoal;
+        var nbGoal = stats.statsPlayers[7].goal +
+            stats.statsPlayers[8].goal +
+            stats.statsPlayers[9].goal +
+            stats.statsPlayers[12].goal +
+            stats.statsPlayers[16].goal +
+            stats.statsPlayers[7].owngoal +
+            stats.statsPlayers[8].owngoal +
+            stats.statsPlayers[9].owngoal +
+            stats.statsPlayers[12].owngoal +
+            stats.statsPlayers[16].owngoal;
         expect(nbGoal).toBe(48);
+    });
+
+    it('should calculate minGamePlayed correctly', function() {
+        expect(stats.minGamePlayedPlayers).toBe(1);
+        expect(stats.minGamePlayedTeams).toBe(1);
     });
 
 });

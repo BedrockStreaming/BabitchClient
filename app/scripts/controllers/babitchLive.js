@@ -1,6 +1,8 @@
+/* global _ */
+/* jshint camelcase: false */
 'use strict';
 
-babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, Restangular, CONFIG) {
+angular.module('babitchFrontendApp').controller('babitchLiveCtrl', function ($scope, fayeClient, Restangular, CONFIG) {
 
     $scope.refreshAvailableGames = function() {
         $scope.currentGamesIds = [];
@@ -18,7 +20,7 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, R
     };
 
     $scope.$watch('currentGameId', function(newValue, oldValue) {
-        if (oldValue && !_.isUndefined(oldValue) && oldValue != newValue) {
+        if (oldValue && !_.isUndefined(oldValue) && oldValue !== newValue) {
             $scope.clearGame();
             $scope.refreshAvailableGames();
         }
@@ -30,7 +32,7 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, R
     $scope.clearGame();
 
     fayeClient.subscribe(CONFIG.BABITCH_LIVE_FAYE_CHANNEL, function(data) {
-        if (data.type == 'requestCurrentGame') {
+        if (data.type === 'requestCurrentGame') {
             return;
         }
 
@@ -38,7 +40,7 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, R
             $scope.currentGamesIds.push(data.gameId);
         }
 
-        if (data.type == 'end') {
+        if (data.type === 'end') {
             $scope.currentGamesIds = _.without($scope.currentGamesIds, data.gameId);
             $scope.refreshAvailableGames();
         }
@@ -47,14 +49,14 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, R
             $scope.currentGameId = data.gameId;
         }
 
-        if(data.gameId != $scope.currentGameId) {
+        if(data.gameId !== $scope.currentGameId) {
             return;
         }
 
         var lastGoal = _.last(data.game.goals);
 
         if (lastGoal) {
-            Restangular.one("players", lastGoal.player_id).get().then(function(player) {
+            Restangular.one('players', lastGoal.player_id).get().then(function(player) {
                 $scope.lastGoal = _.extend({player: player}, lastGoal);
             });
         }
@@ -62,17 +64,17 @@ babitchFrontendApp.controller("babitchLiveCtrl", function ($scope, fayeClient, R
         $scope.game = data.game;
 
         data.game.player.forEach(function(position) {
-            Restangular.one("players", position.player_id).get().then(function(player) {
-                if (position.position == 'attack' && position.team == 'red') {
+            Restangular.one('players', position.player_id).get().then(function(player) {
+                if (position.position === 'attack' && position.team === 'red') {
                     $scope.redAttacker = player;
                 }
-                if (position.position == 'defense' && position.team == 'red') {
+                if (position.position === 'defense' && position.team === 'red') {
                     $scope.redDefender = player;
                 }
-                if (position.position == 'attack' && position.team == 'blue') {
+                if (position.position === 'attack' && position.team === 'blue') {
                     $scope.blueAttacker = player;
                 }
-                if (position.position == 'defense' && position.team == 'blue') {
+                if (position.position === 'defense' && position.team === 'blue') {
                     $scope.blueDefender = player;
                 }
             });

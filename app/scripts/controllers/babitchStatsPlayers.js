@@ -1,6 +1,6 @@
 'use strict';
 
-babitchFrontendApp.controller("babitchStatsPlayersCtrl", function($scope, $rootScope, babitchStats) {
+angular.module('babitchFrontendApp').controller('babitchStatsPlayersCtrl', function($scope, $rootScope, babitchStats) {
 
     $scope.menuSelect = 'playerstats';
 
@@ -11,22 +11,22 @@ babitchFrontendApp.controller("babitchStatsPlayersCtrl", function($scope, $rootS
     $rootScope.doReverse = function() {
         $rootScope.reverse = !$rootScope.reverse;
     };
-    $rootScope.setTableHide = function(variable) {
-        $rootScope.tableHide = variable;
+    $rootScope.setStatsVisibleTo = function(variable) {
+        $rootScope.statsVisible = variable;
         if (!variable) {
             $rootScope.selectedStat = "";
         }
     };
 
-    $scope.stats = babitchStats.getStats();
-
-    $scope.minGamePlayed = 10;
-    $rootScope.setTableHide(false);
+    babitchStats.computeStats()
+        .then(function() {
+            $scope.stats = babitchStats.getStats();
+        });
 
     $scope.getFilteredStat = function(statType) {
         $rootScope.selectedStat = statType;
-        $rootScope.setTableHide(true);
-        babitchStats.getStatsPlayersFilterBy(statType, $scope.minGamePlayed);
+        $rootScope.setStatsVisibleTo('statsBars');
+        babitchStats.getStatsPlayersFilterBy(statType);
     };
 
 });

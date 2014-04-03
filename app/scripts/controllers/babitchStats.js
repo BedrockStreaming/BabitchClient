@@ -1,6 +1,6 @@
 'use strict';
 
-babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, babitchStats) {
+angular.module('babitchFrontendApp').controller('babitchStatsCtrl', function($scope, $rootScope, babitchStats) {
 
     $scope.menuSelect = '';
 
@@ -12,5 +12,8 @@ babitchFrontendApp.controller("babitchStatsCtrl", function($scope, $rootScope, b
         $rootScope.reverse = !$rootScope.reverse;
     };
 
-    $scope.stats = babitchStats.getStats();
+    babitchStats.computeStats()
+        .then(function() {
+            $scope.stats = babitchStats.getStats();
+        });
 });
