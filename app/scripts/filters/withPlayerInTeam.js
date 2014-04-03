@@ -4,7 +4,10 @@
 angular.module('babitchFrontendApp')
     .filter('withPlayerInTeam', function() {
         return function(input, withPlayer) {
-            if( !withPlayer ) {
+            if (!input) {
+                return false;
+            }
+            if (!withPlayer) {
                 return input;
             }
             var out = [];
