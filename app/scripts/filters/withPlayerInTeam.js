@@ -10,7 +10,7 @@ angular.module('babitchFrontendApp')
             var out = [];
             for (var i = 0; i < input.length; i++) {
                 if (input[i]) {
-                    if (input[i].player_id1 == withPlayer || input[i].player_id2 == withPlayer || input[i].redDefense == withPlayer || input[i].redAttack == withPlayer || input[i].blueDefense == withPlayer || input[i].blueAttack == withPlayer) {
+                    if (input[i].playerId1 === withPlayer || input[i].playerId2 === withPlayer || input[i].redDefense === withPlayer || input[i].redAttack === withPlayer || input[i].blueDefense === withPlayer || input[i].blueAttack === withPlayer) {
                         out.push(input[i]);
                     }
                 }

@@ -13,8 +13,8 @@ describe('Filter: minGamePlayed', function() {
 
     it('should filter player without enough game played"', function() {
         var player = [
-            {gamePlayed: 1,name: "John Doe"},
-            {gamePlayed: 10,name: "Jane Doe"}
+            {gamePlayed: 1,name: 'John Doe'},
+            {gamePlayed: 10,name: 'Jane Doe'}
         ];
 
         expect(minGamePlayed(player,0).length).toBe(2);

@@ -1,8 +1,10 @@
+/* global _ */
+/* jshint camelcase: false */
 'use strict';
 
 angular.module('babitchFrontendApp')
     .service('babitchStats', function babitchStats(Restangular, $q, CONFIG) {
-        // AngularJS will instantiate a singleton by calling "new" on this function
+        // AngularJS will instantiate a singleton by calling 'new' on this function
         var stats = {
             minGamePlayedPlayers: 1,
             minGamePlayedTeams: 1,
@@ -14,11 +16,12 @@ angular.module('babitchFrontendApp')
             statsTeams: [],
             statsTeamsFiltered: [],
             matrix: {
-                "nodes": [],
-                "whoPlayedWithWho": [],
-                "whoPlayedAgainstWho": []
+                'nodes': [],
+                'whoPlayedWithWho': [],
+                'whoPlayedAgainstWho': []
             },
-            statsType: [{
+            statsType: [
+                {
                     name: 'eloRanking'
                 }, //Elo Ranking
                 {
@@ -57,8 +60,8 @@ angular.module('babitchFrontendApp')
 
         var _setGameComposition = function(game) {
             game.composition.forEach(function(compo) {
-                if (compo.team == "red") {
-                    if (compo.position == "attack") {
+                if (compo.team === 'red') {
+                    if (compo.position === 'attack') {
                         game.redAttack = compo.player_id;
                         game.redAttackFakeId = stats.statsPlayers[compo.player_id].fakeId;
                     } else {
@@ -66,7 +69,7 @@ angular.module('babitchFrontendApp')
                         game.redDefenseFakeId = stats.statsPlayers[compo.player_id].fakeId;
                     }
                 } else {
-                    if (compo.position == "attack") {
+                    if (compo.position === 'attack') {
                         game.blueAttack = compo.player_id;
                         game.blueAttackFakeId = stats.statsPlayers[compo.player_id].fakeId;
                     } else {
@@ -79,7 +82,7 @@ angular.module('babitchFrontendApp')
         };
 
         var _setStatsVictoryLoose = function(game) {
-            if (game.red_score == 10) {
+            if (game.red_score === 10) {
                 stats.statsPlayers[game.redAttack].victory++;
                 stats.statsPlayers[game.redDefense].victory++;
                 stats.statsPlayers[game.blueAttack].loose++;
@@ -109,9 +112,9 @@ angular.module('babitchFrontendApp')
         };
 
         var _setStatsPercentVictoryLoose = function(type, id) {
-            if(stats["stats" + type][id].gamePlayed) {
-                stats["stats" + type][id].percentVictory = +(stats["stats" + type][id].victory / stats["stats" + type][id].gamePlayed * 100).toFixed(1);
-                stats["stats" + type][id].percentLoose = +(stats["stats" + type][id].loose / stats["stats" + type][id].gamePlayed * 100).toFixed(1);
+            if(stats['stats' + type][id].gamePlayed) {
+                stats['stats' + type][id].percentVictory = +(stats['stats' + type][id].victory / stats['stats' + type][id].gamePlayed * 100).toFixed(1);
+                stats['stats' + type][id].percentLoose = +(stats['stats' + type][id].loose / stats['stats' + type][id].gamePlayed * 100).toFixed(1);
             }
         };
 
@@ -160,11 +163,11 @@ angular.module('babitchFrontendApp')
         };
 
         var _setStatsPercentGoal = function(type, id) {
-            if(stats["stats" + type][id].ballsPlayed) {
-                stats["stats" + type][id].percentGoalPerBall = +(stats["stats" + type][id].goal / stats["stats" + type][id].ballsPlayed * 100).toFixed(1);
+            if(stats['stats' + type][id].ballsPlayed) {
+                stats['stats' + type][id].percentGoalPerBall = +(stats['stats' + type][id].goal / stats['stats' + type][id].ballsPlayed * 100).toFixed(1);
             }
-            if(stats["stats" + type][id].gamePlayed) {
-                stats["stats" + type][id].avgGoalPerGame = +(stats["stats" + type][id].goal / (stats["stats" + type][id].gamePlayed * 10) * 10).toFixed(1);
+            if(stats['stats' + type][id].gamePlayed) {
+                stats['stats' + type][id].avgGoalPerGame = +(stats['stats' + type][id].goal / (stats['stats' + type][id].gamePlayed * 10) * 10).toFixed(1);
             }
         };
 
@@ -216,7 +219,7 @@ angular.module('babitchFrontendApp')
                 case game.blueAttack:
                     goal.team = 'blue';
                     break;
-            };
+            }
         };
 
         //Set min game play depending on numbers of game played
@@ -237,8 +240,8 @@ angular.module('babitchFrontendApp')
                 games.duration = 0;
             }
             else {
-                var ended_at = new Date(games.ended_at.replace(" ","T"));
-                var started_at = new Date(games.started_at.replace(" ","T"));
+                var ended_at = new Date(games.ended_at.replace(' ','T'));
+                var started_at = new Date(games.started_at.replace(' ','T'));
                 var game_length = (ended_at.getTime() - started_at.getTime()) / 1000;
                 games.duration = game_length;
             }
@@ -247,27 +250,27 @@ angular.module('babitchFrontendApp')
         //Add goal and owngoal for team and players
         var _setStatsGoalOwnGoal = function(goal) {
             if (goal.autogoal) {
-                if (goal.team == 'red') {
+                if (goal.team === 'red') {
                     stats.statsTeams[_redTeamId].owngoal++;
                 } else {
                     stats.statsTeams[_blueTeamId].owngoal++;
                 }
                 stats.statsPlayers[goal.player_id].owngoal++;
-                if (goal.position == "attack") {
+                if (goal.position === 'attack') {
                     stats.statsPlayers[goal.player_id].owngoalAttack++;
-                } else if (goal.position == "defense") {
+                } else if (goal.position === 'defense') {
                     stats.statsPlayers[goal.player_id].owngoalDefense++;
                 }
             } else {
-                if (goal.team == 'red') {
+                if (goal.team === 'red') {
                     stats.statsTeams[_redTeamId].goal++;
                 } else {
                     stats.statsTeams[_blueTeamId].goal++;
                 }
                 stats.statsPlayers[goal.player_id].goal++;
-                if (goal.position == "attack") {
+                if (goal.position === 'attack') {
                     stats.statsPlayers[goal.player_id].goalAttack++;
-                } else if (goal.position == "defense") {
+                } else if (goal.position === 'defense') {
                     stats.statsPlayers[goal.player_id].goalDefense++;
                 }
             }
@@ -278,7 +281,6 @@ angular.module('babitchFrontendApp')
             //Fetch players
             Restangular.all('players').getList()
                 .then(function(data) {
-                    var i = 0;
                     data.forEach(function(player) {
                         stats.playersList[player.id] = player;
 
@@ -308,7 +310,7 @@ angular.module('babitchFrontendApp')
                             };
 
                             //generate fake id
-                            stats.statsPlayers[player.id].fakeId = _getMatrixPlayerId(player.id);;
+                            stats.statsPlayers[player.id].fakeId = _getMatrixPlayerId(player.id);
                         }
                     });
 
@@ -332,7 +334,7 @@ angular.module('babitchFrontendApp')
 
             //generate unique id for each team of the current game
             games.composition.forEach(function(compo) {
-                if (compo.team == 'red') {
+                if (compo.team === 'red') {
                     redTeam.push(compo.player_id);
                 } else {
                     blueTeam.push(compo.player_id);
@@ -341,7 +343,7 @@ angular.module('babitchFrontendApp')
 
             redTeam.sort();
             var redTeamString = redTeam.join('-');
-            blueTeam.sort()
+            blueTeam.sort();
             var blueTeamString = blueTeam.join('-');
 
             if (_.indexOf(stats.teamList, redTeamString) < 0) {
@@ -358,8 +360,8 @@ angular.module('babitchFrontendApp')
             if (!stats.statsTeams[_redTeamId]) {
                 stats.statsTeams[_redTeamId] = {
                     id: _redTeamId,
-                    player_id1: redTeam[0],
-                    player_id2: redTeam[1],
+                    playerId1: redTeam[0],
+                    playerId2: redTeam[1],
                     email1: stats.playersList[redTeam[0]].email,
                     email2: stats.playersList[redTeam[1]].email,
                     victory: 0,
@@ -375,8 +377,8 @@ angular.module('babitchFrontendApp')
             if (!stats.statsTeams[_blueTeamId]) {
                 stats.statsTeams[_blueTeamId] = {
                     id: _blueTeamId,
-                    player_id1: blueTeam[0],
-                    player_id2: blueTeam[1],
+                    playerId1: blueTeam[0],
+                    playerId2: blueTeam[1],
                     email1: stats.playersList[blueTeam[0]].email,
                     email2: stats.playersList[blueTeam[1]].email,
                     victory: 0,
@@ -408,7 +410,7 @@ angular.module('babitchFrontendApp')
                     });
                 }
             });
-            stats.statsPlayersFiltered = oneOrderedStat.sort(this.dynamicSort("-stat"));
+            stats.statsPlayersFiltered = oneOrderedStat.sort(this.dynamicSort('-stat'));
             return stats.statsPlayersFiltered;
         };
 
@@ -416,37 +418,37 @@ angular.module('babitchFrontendApp')
             var oneOrderedStat = [];
             stats.statsTeams.forEach(function(data) {
                 if(data.gamePlayed >= stats.minGamePlayedTeams) {
-                    if(!withPlayer || withPlayer == data.player_id1 || withPlayer == data.player_id2) {
+                    if(!withPlayer || withPlayer === data.playerId1 || withPlayer === data.playerId2) {
                         oneOrderedStat.push({
                             stat: data[statType],
                             players: [{
-                                id: data.player_id1,
-                                email: stats.playersList[data.player_id1].email,
-                                name: stats.playersList[data.player_id1].name
+                                id: data.playerId1,
+                                email: stats.playersList[data.playerId1].email,
+                                name: stats.playersList[data.playerId1].name
                             },{
-                                id: data.player_id2,
-                                email: stats.playersList[data.player_id2].email,
-                                name: stats.playersList[data.player_id2].name
+                                id: data.playerId2,
+                                email: stats.playersList[data.playerId2].email,
+                                name: stats.playersList[data.playerId2].name
                             }]
 
                         });
                     }
                 }
             });
-            stats.statsTeamsFiltered = oneOrderedStat.sort(this.dynamicSort("-stat"));
+            stats.statsTeamsFiltered = oneOrderedStat.sort(this.dynamicSort('-stat'));
             return stats.statsTeamsFiltered;
         };
 
         this.dynamicSort = function (property) {
             var sortOrder = 1;
-            if(property[0] === "-") {
+            if(property[0] === '-') {
                 sortOrder = -1;
                 property = property.substr(1);
             }
             return function (a,b) {
                 var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
                 return result * sortOrder;
-            }
+            };
         };
 
         var _getMatrixPlayerId = function (playerId) {
@@ -471,33 +473,39 @@ angular.module('babitchFrontendApp')
         var _setWhoPlayedWho = function(game) {
 
             stats.matrix.whoPlayedWithWho.push({
-            "source" : game.redAttackFakeId,
-            "target" : game.redDefenseFakeId,
-            "value" : 1});
+                'source' : game.redAttackFakeId,
+                'target' : game.redDefenseFakeId,
+                'value' : 1
+            });
             stats.matrix.whoPlayedWithWho.push({
-            "source" : game.blueAttackFakeId,
-            "target" : game.blueDefenseFakeId,
-            "value" : 1});
+                'source' : game.blueAttackFakeId,
+                'target' : game.blueDefenseFakeId,
+                'value' : 1
+            });
 
             stats.matrix.whoPlayedAgainstWho.push({
-            "source" : game.redAttackFakeId,
-            "target" : game.blueAttackFakeId,
-            "value" : 1});
+                'source' : game.redAttackFakeId,
+                'target' : game.blueAttackFakeId,
+                'value' : 1
+            });
 
             stats.matrix.whoPlayedAgainstWho.push({
-            "source" : game.redAttackFakeId,
-            "target" : game.blueDefenseFakeId,
-            "value" : 1});
+                'source' : game.redAttackFakeId,
+                'target' : game.blueDefenseFakeId,
+                'value' : 1
+            });
 
             stats.matrix.whoPlayedAgainstWho.push({
-            "source" : game.redDefenseFakeId,
-            "target" : game.blueAttackFakeId,
-            "value" : 1});
+                'source' : game.redDefenseFakeId,
+                'target' : game.blueAttackFakeId,
+                'value' : 1
+            });
 
             stats.matrix.whoPlayedAgainstWho.push({
-            "source" : game.redDefenseFakeId,
-            "target" : game.blueDefenseFakeId,
-            "value" : 1});
+                'source' : game.redDefenseFakeId,
+                'target' : game.blueDefenseFakeId,
+                'value' : 1
+            });
         };
 
         this.computeStats = function() {
@@ -533,7 +541,7 @@ angular.module('babitchFrontendApp')
                     }).then(function(newData) {
                         data = data.concat(newData);
 
-                        if (newData.length < 100 || page == maxPage) {
+                        if (newData.length < 100 || page === maxPage) {
 
                             return deferred.resolve(data);
                         }
@@ -543,7 +551,6 @@ angular.module('babitchFrontendApp')
                 }
             };
 
-            var _this = this;
             //Fetch Games
             gamePagination.getAllPage(3)
                 .then(function(data) {

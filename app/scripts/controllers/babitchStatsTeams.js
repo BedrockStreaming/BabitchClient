@@ -1,6 +1,6 @@
 'use strict';
 
-babitchFrontendApp.controller("babitchStatsTeamsCtrl", function($scope, $rootScope, babitchStats) {
+angular.module('babitchFrontendApp').controller('babitchStatsTeamsCtrl', function($scope, $rootScope, babitchStats) {
 
     $scope.menuSelect = 'teamstats';
 
@@ -16,7 +16,7 @@ babitchFrontendApp.controller("babitchStatsTeamsCtrl", function($scope, $rootSco
     };
 
     babitchStats.computeStats()
-        .then(function(data) {
+        .then(function() {
             $scope.stats = babitchStats.getStats();
         });
 

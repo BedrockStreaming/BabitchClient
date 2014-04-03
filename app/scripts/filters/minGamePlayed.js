@@ -1,3 +1,4 @@
+/* global _ */
 'use strict';
 
 //Filter for showing only players with <X> minimum game played
