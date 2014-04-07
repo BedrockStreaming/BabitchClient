@@ -3,13 +3,12 @@
         <h1>Players Stats</h1>
     </div>
 
-    <div class="btn-group">
-        <button type="button" class="btn btn-default" ng-class="{ active: !selectedStat}" ng-click='setStatsVisibleTo("")'>All stats</button>
-        <button type="button" class="btn btn-default" ng-class="{ active: selectedStat == stat.name}" ng-repeat="stat in stats.statsType" ng-click='getFilteredStat(stat.name)'>{{ (stat.text ? stat.text : stat.name) }}</button>
-        <button type="button" class="btn btn-default" ng-class="{ active: selectedStat == 'whoPlayedWithWho'}" ng-click='setStatsVisibleTo("whoPlayedWithWho")'>Played With</button>
-        <button type="button" class="btn btn-default" ng-class="{ active: selectedStat == 'whoPlayedAgainstWho'}" ng-click='setStatsVisibleTo("whoPlayedAgainstWho")'>Played Against</button>
-
-    </div>
+    <select class="form-control" ng-model="statsSelector" ng-change="showStats()">
+        <option ng-value="''" ng-selected="'selected'">All stats</option>
+        <option ng-repeat="stat in stats.statsType" ng-value="stat.name">{{ (stat.text ? stat.text : stat.name) }}</option>
+        <option ng-value="'whoPlayedWithWho'">Played With</option>
+        <option ng-value="'whoPlayedAgainstWho'">Played Against</option>
+    </select>
     <br /><br />
 
     <div ng-switch on="statsVisible">

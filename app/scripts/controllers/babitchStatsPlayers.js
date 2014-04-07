@@ -3,6 +3,7 @@
 angular.module('babitchFrontendApp').controller('babitchStatsPlayersCtrl', function($scope, $rootScope, babitchStats) {
 
     $scope.menuSelect = 'playerstats';
+    $rootScope.statsVisible = '';
 
     //To deal with ng-repeat scope in stats-player.html views
     $rootScope.setPredicate = function(variable) {
@@ -11,10 +12,16 @@ angular.module('babitchFrontendApp').controller('babitchStatsPlayersCtrl', funct
     $rootScope.doReverse = function() {
         $rootScope.reverse = !$rootScope.reverse;
     };
-    $rootScope.setStatsVisibleTo = function(variable) {
-        $rootScope.statsVisible = variable;
-        if (!variable) {
-            $rootScope.selectedStat = "";
+    $scope.showStats = function() {
+        if(!$scope.statsSelector) {
+            $rootScope.statsVisible = '';
+        }
+        else if ($scope.statsSelector.match(/whoPlayed/g)) {
+            $rootScope.statsVisible = $scope.statsSelector;
+        }
+        else {
+            $rootScope.statsVisible = 'statsBars';
+            babitchStats.getStatsPlayersFilterBy($scope.statsSelector, $scope.selectedPlayer);
         }
     };
 
@@ -22,11 +29,4 @@ angular.module('babitchFrontendApp').controller('babitchStatsPlayersCtrl', funct
         .then(function() {
             $scope.stats = babitchStats.getStats();
         });
-
-    $scope.getFilteredStat = function(statType) {
-        $rootScope.selectedStat = statType;
-        $rootScope.setStatsVisibleTo('statsBars');
-        babitchStats.getStatsPlayersFilterBy(statType);
-    };
-
 });
