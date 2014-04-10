@@ -6,7 +6,7 @@
         Finished at : {{ games.ended_at }}
     </div>
 
-    <table class="table table-hover table-condensed">
+    <table class="table table-hover table-condensed tableGame">
         <thead>
             <tr>
                 <th>Red Team</th>
@@ -42,6 +42,8 @@
                     </a>
                 </td>
             </tr>
+        </tbody>
+        <tfoot>
             <tr>
                 <td class="team red">
                     Elo Ranking : {{ games.redEloTeam }}
@@ -52,7 +54,7 @@
                     Elo Ranking : {{ games.blueEloTeam }}
                     ({{ games.blueEloWins }})
                 </td>
-        </tbody>
+        </tfoot>
     </table>
 
     <div d3-timeline data="games"></div>
