@@ -23,6 +23,7 @@ BabitchClient provides a simple responsive user interface.
 ```
 $ git clone https://github.com/M6Web/BabitchClient.git
 $ cd BabitchClient
+$ cp app/scripts/config.js.dist app/scripts/config.js
 ```
 
 ### For production purposes

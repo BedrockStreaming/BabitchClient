@@ -13,6 +13,7 @@ before_script:
   - 'npm install -g bower'
   - 'npm install -g grunt-cli'
   - 'bower install --config.interactive=false'
+  - cp app/scripts/config.js.dist app/scripts/config.js
 
 script:
  - grunt test-travis
