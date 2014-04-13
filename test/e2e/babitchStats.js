@@ -55,13 +55,26 @@ describe('Babitch : Game view', function() {
         expect(page.lastGames.get(0).getText()).toBe('Gregory Kenny 9 : 10 Aurelian Nicolas C');
     });
 
-    it('should load d3Timeline', function() {
+    it('should have a timeline with 19 goals', function() {
         expect( page.timeline.count()).toBe(1);
+
+
+        runs(function() {
+            setTimeout(function() {
+            }, 500);
+        });
+
+        waitsFor(function() {
+            return page.timeline.count();
+        }, "The timeline should be loaded", 750);
+
+        runs(function() {
+            expect( page.timelineGoals.count()).toBe(19);
+        });
+
     });
 
-    it('should have a timeline with 19 goals', function() {
-        expect( page.timelineGoals.count()).toBe(19);
-    });
+
 });
 
 describe('Babitch : Last Games', function() {
