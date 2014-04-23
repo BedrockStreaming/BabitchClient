@@ -2,6 +2,7 @@
 
 var BabitchStatsPage = require('./page/stats.js');
 var BabitchStatsGamesPage = require('./page/statsGames.js');
+var BabitchStatsGamePage = require('./page/statsGame.js');
 var BabitchStatsPlayersPage = require('./page/statsPlayers.js');
 var BabitchStatsTeamsPage = require('./page/statsTeams.js');
 var BabitchStatsPlayerPage = require('./page/statsPlayer.js');
@@ -38,6 +39,33 @@ describe('Babitch : Overall', function() {
     it('should display topLooser', function() {
         expect(page.overallStats.get(3).getText()).toBe('Top Looser');
     });
+});
+
+describe('Babitch : Game view', function() {
+
+    beforeEach(function() {
+        page = new BabitchStatsGamePage(browser);
+    });
+
+    it('should have a Last Games table with 1 game', function() {
+        expect(page.lastGames.count()).toBe(1);
+    });
+
+    it('should have the last game first', function() {
+        expect(page.lastGames.get(0).getText()).toBe('Gregory Kenny 9 : 10 Aurelian Nicolas C');
+    });
+
+    it('should have a timeline with 19 goals', function() {
+        expect(page.timeline.count()).toBe(1);
+
+
+        browser.sleep(750)
+            .then(function() {
+                expect( page.timelineGoals.count()).toBe(19);
+            });
+    });
+
+
 });
 
 describe('Babitch : Last Games', function() {
