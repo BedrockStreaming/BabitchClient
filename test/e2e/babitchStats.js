@@ -56,22 +56,13 @@ describe('Babitch : Game view', function() {
     });
 
     it('should have a timeline with 19 goals', function() {
-        expect( page.timeline.count()).toBe(1);
+        expect(page.timeline.count()).toBe(1);
 
 
-        runs(function() {
-            setTimeout(function() {
-            }, 500);
-        });
-
-        waitsFor(function() {
-            return page.timeline.count();
-        }, "The timeline should be loaded", 750);
-
-        runs(function() {
-            expect( page.timelineGoals.count()).toBe(19);
-        });
-
+        browser.sleep(750)
+            .then(function() {
+                expect( page.timelineGoals.count()).toBe(19);
+            });
     });
 
 
