@@ -516,6 +516,7 @@ angular.module('babitchFrontendApp')
                 deferred.resolve(stats);
                 return deferred.promise;
             }
+            stats.computedStat = true;
 
             _initPlayers();
 
@@ -611,7 +612,6 @@ angular.module('babitchFrontendApp')
 
                     //Reverse order of gameslist
                     stats.gamesList.reverse();
-                    stats.computedStat = true;
                     deferred.resolve(stats);
 
                 });

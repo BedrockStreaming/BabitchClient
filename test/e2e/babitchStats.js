@@ -79,7 +79,7 @@ describe('Babitch : Stats Players', function() {
         expect( $$('svg').count()).toBe(0);
 
         //Click on the 1st button
-        page.btnGroup.get(1).click();
+        page.selectStatd3.get(2).click();
         expect( $$('svg').count()).toBe(1);
     });
 });
@@ -102,7 +102,7 @@ describe('Babitch : Stats Teams', function() {
         expect( $$('svg').count()).toBe(0);
 
         //Click on the 1st button
-        page.btnGroup.get(1).click();
+        page.selectStatd3.get(2).click();
         expect( $$('svg').count()).toBe(1);
     });
 });
@@ -133,7 +133,7 @@ describe('Babitch : Player view', function() {
         expect( $$('svg').count()).toBe(0);
 
         //Click on the 1st button
-        page.btnGroup.get(1).click();
+        page.selectStatd3.get(2).click();
         expect( $$('svg').count()).toBe(1);
     });
 

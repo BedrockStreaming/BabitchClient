@@ -5,7 +5,7 @@ var BabitchStatsPlayerPage = function(browser) {
     this.name = $('h1');
     this.allStatsTeams = $$('.allStatsTeams tbody tr');
     this.lastGames = $$('.lastGames tbody tr');
-    this.btnGroup = $$('.btn-group button');
+    this.selectStatd3 = $$('select.form-control option');
 };
 
 module.exports = BabitchStatsPlayerPage;
