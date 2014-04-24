@@ -20,3 +20,6 @@ RUN bower install --allow-root
 RUN grunt build
 
 ADD docker/nginx-vhost.conf /etc/nginx/sites-available/default
+
+CMD ["-g", "daemon off;"]
+ENTRYPOINT ["nginx"]
