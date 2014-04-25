@@ -78,6 +78,18 @@ You need to configure `BABITCH_LIVE_FAYE_URL` and `BABITCH_LIVE_FAYE_CHANNEL` in
 * Faye for realtime messaging
 * D3.js for data visualization
 
+## Docker
+
+To use the `Dockerfile` in this repository, just clone and run (at the root):
+
+    docker build -t m6web/babitch-client .
+
+Then run the container:
+
+    docker run -p 8000:80 m6web/babitch-client
+
+You now have a BabitchClient listening on port `8000`!
+
 ## Credits
 
 Developped by [M6 Web](http://tech.m6web.fr/).
