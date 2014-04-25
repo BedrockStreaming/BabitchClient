@@ -22,4 +22,4 @@ RUN grunt build
 ADD docker/nginx-vhost.conf /etc/nginx/sites-available/default
 
 CMD ["-g", "daemon off;"]
-ENTRYPOINT ["nginx"]
+ENTRYPOINT ["/usr/sbin/nginx"]
