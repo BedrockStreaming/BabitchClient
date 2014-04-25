@@ -306,20 +306,6 @@ module.exports = function (grunt) {
                     configFile: 'protractor-e2e.conf.js', // Target-specific config file
                     args: {seleniumAddress: 'http://localhost:9515'} // Target-specific arguments
                 }
-            },
-            e2eTravis: {
-                options: {
-                    configFile: 'protractor-e2e.conf.js', // Target-specific config file
-                    args: {
-                        seleniumAddress: 'http://127.0.0.1:4444/wd/hub',
-                        capabilities: {
-                            'browserName': 'firefox'
-                        }
-                    },
-                    jasmineNodeOpts: {
-                        defaultTimeoutInterval: 80000
-                    }
-                }
             }
         }
     });
@@ -381,7 +367,8 @@ module.exports = function (grunt) {
         'connect:test',
         'karma:unit',
         'faye',
-        'protractor:e2eTravis'
+        'chromedriver',
+        'protractor:e2e'
     ]);
 
     grunt.registerTask('build', [
