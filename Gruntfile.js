@@ -206,7 +206,7 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= yeoman.app %>',
-                    src: ['*.html', 'views/*.html'],
+                    src: ['*.html', 'views/*.html', 'views/partial/*.html'],
                     dest: '<%= yeoman.dist %>'
                 }]
             }
@@ -306,19 +306,6 @@ module.exports = function (grunt) {
                     configFile: 'protractor-e2e.conf.js', // Target-specific config file
                     args: {seleniumAddress: 'http://localhost:9515'} // Target-specific arguments
                 }
-            },
-            e2eTravis: {
-                options: {
-                    configFile: 'protractor-e2e.conf.js', // Target-specific config file
-                    args: {
-                        sauceUser: process.env.SAUCE_USERNAME,
-                        sauceKey:  process.env.SAUCE_ACCESS_KEY,
-                        capabilities: {'tunnel-identifier' : process.env.TRAVIS_JOB_NUMBER}
-                    },
-                    jasmineNodeOpts: {
-                        defaultTimeoutInterval: 80000
-                    }
-                }
             }
         }
     });
@@ -380,7 +367,8 @@ module.exports = function (grunt) {
         'connect:test',
         'karma:unit',
         'faye',
-        'protractor:e2eTravis'
+        'chromedriver',
+        'protractor:e2e'
     ]);
 
     grunt.registerTask('build', [

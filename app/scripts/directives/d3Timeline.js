@@ -45,7 +45,7 @@ function($window, $timeout, d3Service) {
                     }
 
                     renderTimeout = $timeout(function() {
-                        var width = parseInt(svg.style('width'), 10);
+                        var width = parseInt(svg.node().parentNode.clientWidth, 10);
                         var ended_at = new Date(data.ended_at.replace(' ','T')).getTime();
                         var started_at = new Date(data.started_at.replace(' ','T')).getTime();
                         var game_length = (ended_at - started_at) / 1000;

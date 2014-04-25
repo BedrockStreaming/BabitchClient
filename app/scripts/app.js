@@ -42,7 +42,7 @@ angular.module('babitchFrontendApp', [
             .state('admin-player-new', {
                 url: '/admin/players/new',
                 templateUrl: 'views/admin-player.html',
-                controller: 'babitchAdminPlayersCtrl'
+                controller: 'babitchAdminPlayerCtrl'
             })
             .state('admin-player-edit', {
                 url: '/admin/players/:id',

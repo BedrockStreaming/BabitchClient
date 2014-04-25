@@ -12,18 +12,9 @@ angular.module('babitchFrontendApp').controller('babitchStatsPlayerCtrl', functi
     $rootScope.doReverse = function() {
         $rootScope.reverse = !$rootScope.reverse;
     };
-    $rootScope.setStatsVisibleTo = function(variable) {
-        $rootScope.statsVisible = variable;
-    };
 
     babitchStats.computeStats()
         .then(function() {
             $scope.stats = babitchStats.getStats();
         });
-
-    $scope.getFilteredStat = function(statType) {
-        $rootScope.setStatsVisibleTo('statsBars');
-        babitchStats.getStatsTeamsFilterBy(statType, $scope.selectedPlayer);
-    };
-
 });

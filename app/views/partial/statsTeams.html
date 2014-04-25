@@ -4,10 +4,10 @@
         <h2 ng-show="selectedPlayer">Team Stats</h2>
     </div>
 
-    <div class="btn-group">
-        <button type="button" class="btn btn-default" ng-click='setStatsVisibleTo("")'>All stats</button>
-        <button type="button" class="btn btn-default" ng-repeat="stat in stats.statsType" ng-click='getFilteredStat(stat.name)'>{{ (stat.text ? stat.text : stat.name) }}</button>
-    </div>
+    <select class="form-control" ng-model="statsSelector" ng-change="showStats()">
+        <option ng-value="''" ng-selected="'selected'">All stats</option>
+        <option ng-repeat="stat in stats.statsType" ng-value="stat.name">{{ (stat.text ? stat.text : stat.name) }}</option>
+    </select>
     <br /><br />
 
     <div ng-switch on="statsVisible">
