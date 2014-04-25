@@ -1,4 +1,6 @@
 exports.config = {
-  specs: ['test/e2e/**/*.js'],
-  baseUrl: 'http://localhost:9001'
+    chromeOnly: false,
+    chromeDriver: null,
+    specs: ['test/e2e/**/*.js'],
+    baseUrl: 'http://localhost:9001'
 }
