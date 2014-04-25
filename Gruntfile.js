@@ -311,9 +311,10 @@ module.exports = function (grunt) {
                 options: {
                     configFile: 'protractor-e2e.conf.js', // Target-specific config file
                     args: {
-                        sauceUser: process.env.SAUCE_USERNAME,
-                        sauceKey:  process.env.SAUCE_ACCESS_KEY,
-                        capabilities: {'tunnel-identifier' : process.env.TRAVIS_JOB_NUMBER}
+                        seleniumAddress: 'http://127.0.0.1:4444/wd/hub',
+                        capabilities: {
+                            'browserName': 'firefox'
+                        }
                     },
                     jasmineNodeOpts: {
                         defaultTimeoutInterval: 80000
