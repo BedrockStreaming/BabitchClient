@@ -329,6 +329,23 @@ describe('Service: babitchStats', function() {
         ]);
     });
 
+    it('should calculate matrix for who beat who correctly', function() {
+        expect(stats.matrix.whoBeatWho).toEqual([
+            { source : 8, target : 6, value : 1 },
+            { source : 8, target : 15, value : 1 },
+            { source : 7, target : 6, value : 1 },
+            { source : 7, target : 15, value : 1 },
+            { source : 7, target : 11, value : 1 },
+            { source : 7, target : 6, value : 1 },
+            { source : 8, target : 11, value : 1 },
+            { source : 8, target : 6, value : 1 },
+            { source : 7, target : 15, value : 1 },
+            { source : 7, target : 8, value : 1 },
+            { source : 11, target : 15, value : 1 },
+            { source : 11, target : 8, value : 1 } 
+        ]);
+    });
+
     it('should do not forget one goal', function() {
         var nbGoal = stats.statsPlayers[7].goal +
             stats.statsPlayers[8].goal +
