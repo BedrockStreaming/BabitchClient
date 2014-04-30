@@ -342,7 +342,7 @@ describe('Service: babitchStats', function() {
             { source : 7, target : 15, value : 1 },
             { source : 7, target : 8, value : 1 },
             { source : 11, target : 15, value : 1 },
-            { source : 11, target : 8, value : 1 } 
+            { source : 11, target : 8, value : 1 }
         ]);
     });
 
