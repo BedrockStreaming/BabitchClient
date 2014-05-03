@@ -9,6 +9,12 @@ a {
     cursor: pointer;
 }
 
+/* babitch */
+
+#babitch {
+    padding-top: 50px;
+}
+
 #game {
     position: absolute;
     width: 100%;
@@ -36,7 +42,6 @@ a {
     z-index: 20;
 }
 
-/*
 #header {
     position: fixed;
     height: 50px;
@@ -48,7 +53,7 @@ a {
     text-align: center;
     background: black;
 }
-*/
+
 #header .score {
     font-size: 2em;
 }
@@ -445,10 +450,4 @@ a {
 
 text.active {
     fill:red;
-}
-
-/* Admin */
-
-#admin {
-    padding-top: 50px;
 }

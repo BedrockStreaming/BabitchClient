@@ -37,18 +37,7 @@ angular.module('babitchFrontendApp', [
             .state('game', {
                 url: '/game',
                 controller: 'babitchCtrl',
-                templateUrl: 'views/main.html',
-                abstract: true
-            }).state('game.game', {
-                url: '/',
-                views: {
-                    'main': {
-                        templateUrl: 'views/game.html'
-                    },
-                    'extraMenu': {
-                        templateUrl: 'views/menu/gameExtraMenu.html'
-                    }
-                }
+                templateUrl: 'views/game.html'
             })
             .state('root.live', {
                 url: 'live',
@@ -64,11 +53,6 @@ angular.module('babitchFrontendApp', [
             })
             .state('root.admin', {
                 url: 'admin/',
-                views: {
-                    'extraMenu': {
-                        templateUrl: 'views/menu/adminExtraMenu.html'
-                    }
-                },
                 abstract:true
             })
             .state('root.admin.players', {
@@ -100,13 +84,8 @@ angular.module('babitchFrontendApp', [
             })
             .state('root.stats', {
                 url: 'stats/',
-                templateUrl: 'views/stats.html',
-                abstract: true,
-                views: {
-                    'extraMenu': {
-                        templateUrl: 'views/menu/statsExtraMenu.html'
-                    }
-                }
+                templateUrl: 'views/main.html',
+                abstract: true
             })
             .state('root.stats.games', {
                 url: 'games',

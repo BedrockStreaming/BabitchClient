@@ -1,8 +1,8 @@
 <div  ng-class="{ 'focused-plus': !focusedSeat }">
     <!-- On left -->
-    <div class="action pull-left">
+    <div class="action pull-right">
         <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            <button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown">
                 <i class="glyphicon glyphicon-cog"></i>
             </button>
             <ul class="dropdown-menu" role="menu">
@@ -39,7 +39,7 @@
         <strong>{{ table.sides[0].position == 'right' ? table.sides[0].score : table.sides[1].score }}</strong>
     </div>
     <div id="actionStart" ng-show="!gameStarted && nbPlayers == 4">
-        <button class="btn btn-success" ng-click="startGame()">Start</button>
+        <button class="btn navbar-btn btn-success" ng-click="startGame()">Start</button>
     </div>
     <div ng-show="!gameStarted && nbPlayers < 4">
         Team composition
