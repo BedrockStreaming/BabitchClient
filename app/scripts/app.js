@@ -34,12 +34,16 @@ angular.module('babitchFrontendApp', [
                     }
                 }
             })
-            .state('root.game', {
-                url: 'game',
+            .state('game', {
+                url: '/game',
+                controller: 'babitchCtrl',
+                templateUrl: 'views/main.html',
+                abstract: true
+            }).state('game.game', {
+                url: '/',
                 views: {
                     'main': {
-                        templateUrl: 'views/game.html',
-                        controller: 'babitchCtrl'
+                        templateUrl: 'views/game.html'
                     },
                     'extraMenu': {
                         templateUrl: 'views/menu/gameExtraMenu.html'
