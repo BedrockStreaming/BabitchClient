@@ -8,6 +8,7 @@ function($window, $timeout, d3Service) {
         scope: {
             data: '=',
             players: '=',
+            targeted: '=',
             type: '@',
             label: '@',
             onClick: '&'
@@ -83,9 +84,12 @@ function($window, $timeout, d3Service) {
                         // Convert links to matrix; count character occurrences.
                         data.forEach(function(link) {
                             matrix[link.source][link.target].z += link.value;
-                            matrix[link.target][link.source].z += link.value;
                             nodes[link.source].count += link.value;
-                            nodes[link.target].count += link.value;
+                            if(!scope.targeted) {
+                                matrix[link.target][link.source].z += link.value;
+                                nodes[link.target].count += link.value;
+                            }
+
                         });
 
                         // Precompute the orders.
@@ -173,6 +177,16 @@ function($window, $timeout, d3Service) {
                             .attr('dy', '.32em')
                             .attr('text-anchor', 'start')
                             .text(function(d, i) { return nodes[i].name; });
+
+                        if(scope.targeted) {
+                            svg.append('text')
+                            .text('----->')
+                            .attr('x', 10)
+                            .attr('y', -10)
+                            .attr('text-anchor', 'end')
+                            .attr('font-weight','bold')
+                            .attr('transform', 'rotate(-45)');
+                        }
 
                     }, 200);
                 };

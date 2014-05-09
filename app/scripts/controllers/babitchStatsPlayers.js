@@ -16,7 +16,7 @@ angular.module('babitchFrontendApp').controller('babitchStatsPlayersCtrl', funct
         if(!$scope.statsSelector) {
             $rootScope.statsVisible = '';
         }
-        else if ($scope.statsSelector.match(/whoPlayed/g)) {
+        else if ($scope.statsSelector.match(/who/g)) {
             $rootScope.statsVisible = $scope.statsSelector;
         }
         else {
