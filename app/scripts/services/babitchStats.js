@@ -18,7 +18,8 @@ angular.module('babitchFrontendApp')
             matrix: {
                 'nodes': [],
                 'whoPlayedWithWho': [],
-                'whoPlayedAgainstWho': []
+                'whoPlayedAgainstWho': [],
+                'whoBeatWho': []
             },
             statsType: [
                 {
@@ -470,6 +471,55 @@ angular.module('babitchFrontendApp')
             return id;
         };
 
+
+        var _setWhoBeatWho = function(game) {
+            if (game.red_score === 10) {
+                stats.matrix.whoBeatWho.push({
+                    'source' : game.redAttackFakeId,
+                    'target' : game.blueDefenseFakeId,
+                    'value' : 1
+                });
+                stats.matrix.whoBeatWho.push({
+                    'source' : game.redAttackFakeId,
+                    'target' : game.blueAttackFakeId,
+                    'value' : 1
+                });
+                stats.matrix.whoBeatWho.push({
+                    'source' : game.redDefenseFakeId,
+                    'target' : game.blueDefenseFakeId,
+                    'value' : 1
+                });
+                stats.matrix.whoBeatWho.push({
+                    'source' : game.redDefenseFakeId,
+                    'target' : game.blueAttackFakeId,
+                    'value' : 1
+                });
+            }
+            else {
+                stats.matrix.whoBeatWho.push({
+                    'source' : game.blueAttackFakeId,
+                    'target' : game.redDefenseFakeId,
+                    'value' : 1
+                });
+                stats.matrix.whoBeatWho.push({
+                    'source' : game.blueAttackFakeId,
+                    'target' : game.redAttackFakeId,
+                    'value' : 1
+                });
+                stats.matrix.whoBeatWho.push({
+                    'source' : game.blueDefenseFakeId,
+                    'target' : game.redDefenseFakeId,
+                    'value' : 1
+                });
+                stats.matrix.whoBeatWho.push({
+                    'source' : game.blueDefenseFakeId,
+                    'target' : game.redAttackFakeId,
+                    'value' : 1
+                });
+            }
+        };
+
+
         var _setWhoPlayedWho = function(game) {
 
             stats.matrix.whoPlayedWithWho.push({
@@ -571,6 +621,7 @@ angular.module('babitchFrontendApp')
                         _setStatsTeamGoalaverage(games);
                         _setStatsEloRanking(games);
                         _setWhoPlayedWho(games);
+                        _setWhoBeatWho(games);
                         _setDuration(games);
 
                         //For each Goals
