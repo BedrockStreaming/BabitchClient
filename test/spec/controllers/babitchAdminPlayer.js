@@ -4,6 +4,7 @@ describe('Controller: BabitchAdminPlayerCtrl', function() {
 
     // load the controller's module
     beforeEach(module('babitchFrontendApp'));
+    beforeEach(module('stateMock'));
 
     var theBabitchAdminPlayerCtrl,
         scope,

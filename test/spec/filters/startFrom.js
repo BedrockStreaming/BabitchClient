@@ -4,6 +4,7 @@ describe('Filter: startFrom', function() {
 
     // load the filter's module
     beforeEach(module('babitchFrontendApp'));
+    beforeEach(module('stateMock'));
 
     // initialize a new instance of the filter before each test
     var startFrom;

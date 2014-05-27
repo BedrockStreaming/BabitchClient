@@ -4,7 +4,10 @@
 describe('Controller: BabitchStatsTeamsCtrl', function() {
 
     // load the controller's module
+    
     beforeEach(module('babitchFrontendApp'));
+    beforeEach(module('stateMock'));
+    
     var theBabitchStatsTeamsCtrl,
         scope,
         httpMock,
