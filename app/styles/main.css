@@ -367,54 +367,49 @@ a {
 
 /* Stats */
 
-#stats {
-    padding-top: 50px;
-}
-
-#stats table .score {
+#babitchtable .score {
     width: 60px;
     text-align: center;
     white-space: nowrap;
 }
 
-#stats table .score a {
+#babitch table .score a {
     display: inline-block;
     color: #000;
     font-weight: normal;
-    width: 25px;
 }
 
-#stats table .score a.score-10 {
+#babitch table .score a.score-10 {
     font-weight: bold;
 }
 
-#stats table .team {
+#babitch table .team {
     width: 50%;
 }
 
-#stats table .team.blue {
+#babitch table .team.blue {
     text-align: right;
 }
 
-#stats table .team a {
+#babitch table .team a {
     display: inline-block;
     width: 49%;
     max-width: 180px;
     text-decoration: none;
 }
 
-#stats table .team.blue a {
+#babitch table .team.blue a {
     text-align: right;
 }
 
-#stats .player .player-header {
+#babitch .player .player-header {
     position: relative;
     height: 300px;
     overflow: hidden;
     margin-bottom: 20px;
 }
 
-#stats .player .player-header .player-bg {
+#babitch .player .player-header .player-bg {
     position: absolute;
     top: 0;
     left: 0;
@@ -428,12 +423,12 @@ a {
     filter: blur(5px);*/
 }
 
-#stats .player .player-header .player-title {
+#babitch .player .player-header .player-title {
     position: relative;
     padding: 100px 0 0;
 }
 
-#stats .player .player-header .player-title h1 {
+#babitch .player .player-header .player-title h1 {
     display: inline-block;
     font-size: 50px;
     letter-spacing: -2px;
@@ -443,7 +438,7 @@ a {
     text-shadow: -1px 1px 0 rgba(0,0,0,0.2);
 }
 
-#stats .player .player-header .player-title img {
+#babitch .player .player-header .player-title img {
     box-shadow: -1px 1px 0 rgba(0,0,0,0.2), 1px -1px 0 rgba(0,0,0,0.2);
     border: 5px solid white;
 }
