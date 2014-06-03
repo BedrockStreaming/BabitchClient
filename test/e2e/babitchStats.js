@@ -1,6 +1,6 @@
 'use strict';
 
-var BabitchStatsPage = require('./page/stats.js');
+var BabitchIndexPage = require('./page/index.js');
 var BabitchStatsGamesPage = require('./page/statsGames.js');
 var BabitchStatsGamePage = require('./page/statsGame.js');
 var BabitchStatsPlayersPage = require('./page/statsPlayers.js');
@@ -9,19 +9,15 @@ var BabitchStatsPlayerPage = require('./page/statsPlayer.js');
 
 var page = null;
 
-describe('Babitch : Overall', function() {
+describe('Babitch : Index', function() {
 
     beforeEach(function() {
         browser.clearMockModules();
-        page = new BabitchStatsPage(browser);
-    });
-
-    it('should be on overview tabs', function() {
-        expect(page.navbarActive.getText()).toBe('Overview');
+        page = new BabitchIndexPage(browser);
     });
 
     it('should display title', function() {
-        expect(page.title.getText()).toBe('Babitch Stats');
+        expect(page.title.getText()).toBe('Babitch');
     });
 
     it('should display topGoaler', function() {
@@ -74,8 +70,8 @@ describe('Babitch : Last Games', function() {
         page = new BabitchStatsGamesPage(browser);
     });
 
-    it('should be on Last Games tabs', function() {
-        expect(page.navbarActive.getText()).toBe('Last Games');
+    it('should be on Stats tabs', function() {
+        expect(page.navbarActive.getText()).toBe('Stats');
     });
 
     it('should have a Last Games table with 3 games', function() {
@@ -96,7 +92,7 @@ describe('Babitch : Stats Players', function() {
     });
 
     it('should be on Player Stats tabs', function() {
-        expect(page.navbarActive.getText()).toBe('Player Stats');
+        expect(page.navbarActive.getText()).toBe('Stats');
     });
 
     it('should have a "All stats" table with 5 players', function() {
@@ -118,8 +114,8 @@ describe('Babitch : Stats Teams', function() {
         page = new BabitchStatsTeamsPage(browser);
     });
 
-    it('should be on Team Stats tabs', function() {
-        expect(page.navbarActive.getText()).toBe('Team Stats');
+    it('should be on Stats tabs', function() {
+        expect(page.navbarActive.getText()).toBe('Stats');
     });
 
     it('should have a "All stats" table with 5 teams', function() {
@@ -141,8 +137,8 @@ describe('Babitch : Player view', function() {
         page = new BabitchStatsPlayerPage(browser);
     });
 
-    xit('should be on Player Stats tabs', function() {
-        expect(page.navbarActive.getText()).toBe('Player Stats');
+    xit('should be on Stats tabs', function() {
+        expect(page.navbarActive.getText()).toBe('Stats');
     });
 
     it('should select the good player', function() {
