@@ -1,4 +1,4 @@
-var BabitchIndexPage = function(browser) {
+var BabitchHomePage = function(browser) {
     browser.get(browser.baseUrl + '#/?nobackend');
     this.title = $('.navbar-brand');
     this.overallStats = $$('h4');
@@ -6,4 +6,4 @@ var BabitchIndexPage = function(browser) {
     this.navbarActive = $('ul.nav li.active');
 };
 
-module.exports = BabitchIndexPage;
+module.exports = BabitchHomePage;

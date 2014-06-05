@@ -1,6 +1,5 @@
 'use strict';
 
-var BabitchIndexPage = require('./page/index.js');
 var BabitchStatsGamesPage = require('./page/statsGames.js');
 var BabitchStatsGamePage = require('./page/statsGame.js');
 var BabitchStatsPlayersPage = require('./page/statsPlayers.js');
@@ -9,37 +8,10 @@ var BabitchStatsPlayerPage = require('./page/statsPlayer.js');
 
 var page = null;
 
-describe('Babitch : Index', function() {
-
-    beforeEach(function() {
-        browser.clearMockModules();
-        page = new BabitchIndexPage(browser);
-    });
-
-    it('should display title', function() {
-        expect(page.title.getText()).toBe('Babitch');
-    });
-
-    it('should display topGoaler', function() {
-        expect(page.overallStats.get(0).getText()).toBe('Top Goaler');
-    });
-
-    it('should display topVictory', function() {
-        expect(page.overallStats.get(1).getText()).toBe('Top Victory');
-    });
-
-    it('should display topOwnGoal', function() {
-        expect(page.overallStats.get(2).getText()).toBe('Top Own Goal');
-    });
-
-    it('should display topLooser', function() {
-        expect(page.overallStats.get(3).getText()).toBe('Top Looser');
-    });
-});
-
 describe('Babitch : Game view', function() {
 
     beforeEach(function() {
+        browser.clearMockModules();
         page = new BabitchStatsGamePage(browser);
     });
 
@@ -60,8 +32,6 @@ describe('Babitch : Game view', function() {
                 expect( page.timelineGoals.count()).toBe(19);
             });
     });
-
-
 });
 
 describe('Babitch : Last Games', function() {
@@ -160,5 +130,4 @@ describe('Babitch : Player view', function() {
         page.selectStatd3.get(2).click();
         expect( $$('svg').count()).toBe(1);
     });
-
 });
