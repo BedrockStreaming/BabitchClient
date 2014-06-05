@@ -20,69 +20,117 @@ angular.module('babitchFrontendApp', [
         $urlRouterProvider.when('/admin', '/admin/players');
 
         $stateProvider
-            .state('index', {
+            .state('root', {
                 url: '/',
-                templateUrl: 'views/index.html'
+                templateUrl: 'views/main.html',
+                abstract: true
+            })
+            .state('root.home', {
+                url: '',
+                views: {
+                    'main': {
+                        templateUrl: 'views/partial/statsOverall.html',
+                        controller: 'babitchStatsCtrl'
+                    }
+                }
             })
             .state('game', {
                 url: '/game',
+                controller: 'babitchCtrl',
+                templateUrl: 'views/game.html'
+            })
+            .state('root.live', {
+                url: 'live',
+                views: {
+                    'main': {
+                        templateUrl: 'views/live.html',
+                        controller: 'babitchLiveCtrl'
+                    },
+                    'extraMenu': {
+                        templateUrl: 'views/menu/liveExtraMenu.html'
+                    }
+                }
+            })
+            .state('root.admin', {
+                url: 'admin/',
+                abstract:true
+            })
+            .state('root.admin.players', {
+                url: 'players',
+                views: {
+                    'main@root': {
+                        templateUrl: 'views/partial/adminPlayers.html',
+                        controller: 'babitchAdminPlayersCtrl'
+                    }
+                }
+            })
+            .state('root.admin.player-new', {
+                url: 'players/new',
+                views: {
+                    'main@root': {
+                        templateUrl: 'views/partial/adminPlayer.html',
+                        controller: 'babitchAdminPlayerCtrl'
+                    }
+                }
+            })
+            .state('root.admin.player-edit', {
+                url: 'players/:id',
+                views: {
+                    'main@root': {
+                        templateUrl: 'views/partial/adminPlayer.html',
+                        controller: 'babitchAdminPlayerEditCtrl'
+                    }
+                }
+            })
+            .state('root.stats', {
+                url: 'stats/',
                 templateUrl: 'views/main.html',
-                controller: 'babitchCtrl'
-            })
-            .state('live', {
-                url: '/live',
-                templateUrl: 'views/live.html',
-                controller: 'babitchLiveCtrl'
-            })
-            .state('admin-players', {
-                url: '/admin/players',
-                templateUrl: 'views/adminPlayers.html',
-                controller: 'babitchAdminPlayersCtrl'
-            })
-            .state('admin-player-new', {
-                url: '/admin/players/new',
-                templateUrl: 'views/admin-player.html',
-                controller: 'babitchAdminPlayerCtrl'
-            })
-            .state('admin-player-edit', {
-                url: '/admin/players/:id',
-                templateUrl: 'views/admin-player.html',
-                controller: 'babitchAdminPlayerEditCtrl'
-            })
-            .state('stats', {
-                url: '/stats',
-                templateUrl: 'views/stats.html',
                 abstract: true
             })
-            .state('stats.index', {
-                url: '',
-                templateUrl: 'views/partial/statsOverall.html',
-                controller: 'babitchStatsCtrl'
+            .state('root.stats.games', {
+                url: 'games',
+                views: {
+                    'main@root': {
+                        templateUrl: 'views/partial/statsLastGames.html',
+                        controller: 'babitchStatsGamesCtrl'
+                    }
+                }
             })
-            .state('stats.games', {
-                url: '/games',
-                templateUrl: 'views/partial/statsLastGames.html',
-                controller: 'babitchStatsGamesCtrl'
+            .state('root.stats.game', {
+                url: 'games/:selectedGame',
+                views: {
+                    'main@root': {
+                        templateUrl: 'views/partial/statsGame.html',
+                        controller: 'babitchStatsGameCtrl'
+                    }
+                }
             })
-            .state('stats.game', {
-                url: '/games/:selectedGame',
-                templateUrl: 'views/partial/statsGame.html',
-                controller: 'babitchStatsGameCtrl'
+            .state('root.stats.players', {
+                url: 'players',
+                views: {
+                    'main@root': {
+                        templateUrl: 'views/partial/statsPlayers.html',
+                        controller: 'babitchStatsPlayersCtrl'
+                    }
+                }
             })
-            .state('stats.players', {
-                url: '/players',
-                templateUrl: 'views/partial/statsPlayers.html',
-                controller: 'babitchStatsPlayersCtrl'
+            .state('root.stats.player', {
+                url: 'players/:selectedPlayer',
+                views: {
+                    'main@root': {
+                        templateUrl: 'views/partial/statsPlayer.html',
+                        controller: 'babitchStatsPlayerCtrl'
+                    }
+                }
             })
-            .state('stats.player', {
-                url: '/players/:selectedPlayer',
-                templateUrl: 'views/partial/statsPlayer.html',
-                controller: 'babitchStatsPlayerCtrl'
-            })
-            .state('stats.teams', {
-                url: '/teams',
-                templateUrl: 'views/partial/statsTeams.html',
-                controller: 'babitchStatsTeamsCtrl'
+            .state('root.stats.teams', {
+                url: 'teams',
+                views: {
+                    'main@root': {
+                        templateUrl: 'views/partial/statsTeams.html',
+                        controller: 'babitchStatsTeamsCtrl'
+                    }
+                }
             });
 
         RestangularProvider.setBaseUrl(CONFIG.BABITCH_WS_URL);
@@ -103,4 +151,8 @@ angular.module('babitchFrontendApp', [
 
         //Remove the header used to identify ajax call  that would prevent CORS from working
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    })
+    .run(function ($rootScope, $state, $stateParams) {
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
     });

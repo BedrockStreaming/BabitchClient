@@ -6,6 +6,7 @@ describe('Controller: BabitchLiveCtrl', function() {
 
     // load the controller's module
     beforeEach(module('babitchFrontendApp'));
+    beforeEach(module('stateMock'));
 
     var theBabitchLiveCtrl,
         scope,

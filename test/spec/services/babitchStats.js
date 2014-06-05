@@ -6,6 +6,7 @@ describe('Service: babitchStats', function() {
 
     // load the service's module
     beforeEach(module('babitchFrontendApp'));
+    beforeEach(module('stateMock'));
 
     // instantiate service
     var babitchStatsService,
