@@ -23,36 +23,83 @@ angular.module('babitchFrontendApp')
             },
             statsType: [
                 {
-                    name: 'eloRanking'
-                }, //Elo Ranking
+                    name: 'eloRanking',
+                    desc: 'Elo Ranking',
+                    team: true
+                },
                 {
                     name: 'percentGoalPerBall',
                     text: '%Goal',
-                    addSuffix: '%'
-                }, // percent of goal per ball played
+                    addSuffix: '%',
+                    desc : 'Percentage of goal per ball played',
+                    team: true
+                },
                 {
                     name: 'avgGoalPerGame',
-                    text: 'Goal/Game'
-                }, // avg of goal the player made by game
+                    text: 'Goal/Game',
+                    desc: 'Average goal the player made per game',
+                    team: true
+                },
                 {
                     name: 'percentVictory',
                     text: '%Victory',
-                    addSuffix: '%'
-                }, // percentage of victory
+                    addSuffix: '%',
+                    desc: 'Percentage of victory',
+                    team: true
+                },
                 {
                     name: 'percentLoose',
                     text: '%Loose',
-                    addSuffix: '%'
-                }, // percentage of loose
+                    addSuffix: '%',
+                    desc: 'Percentage of loose',
+                    team: true
+                },
                 {
-                    name: 'gamePlayed'
-                }, // number of game played
+                    name: 'gamePlayed',
+                    text: 'game Played',
+                    desc: 'Number of game played',
+                    team: true
+                },
                 {
-                    name: 'teamGoalaverage'
-                }, // goal of his team - goal concede
+                    name: 'teamGoalaverage',
+                    text: 'team Goalaverage',
+                    desc: 'Team Goalaverage : goal of his team - goal concede',
+                    team: true
+                },
                 {
-                    name: 'ballsPlayed'
-                } // total number of balls played
+                    name: 'ballsPlayed',
+                    text: 'balls Played',
+                    desc: 'Total number of balls played',
+                    team: true
+                },
+                {
+                    name: 'percentDefense',
+                    text: '%Defense',
+                    addSuffix: '%',
+                    desc: 'Percentage of balls played in defense',
+                    team: false
+                },
+                {
+                    name: 'percentAttack',
+                    text: '%Attack',
+                    addSuffix: '%',
+                    desc: 'Percentage of balls played in attack',
+                    team: false
+                },
+                {
+                    name: 'percentGoalPerBallinAttack',
+                    text: '%Goal Attack',
+                    addSuffix: '%',
+                    desc: 'Percentage of goal per ball played in attack',
+                    team: true
+                },
+                {
+                    name: 'percentGoalPerBallinDefense',
+                    text: '%Goal Defense',
+                    addSuffix: '%',
+                    desc: 'Percentage of goal per ball played in defense',
+                    team: true
+                }
             ]
         };
 
@@ -119,6 +166,13 @@ angular.module('babitchFrontendApp')
             }
         };
 
+        var _setStatsPercentPosition = function(type, id) {
+            if(stats['stats' + type][id].gamePlayed) {
+                stats['stats' + type][id].percentAttack = +(stats['stats' + type][id].ballsPlayedAttack / stats['stats' + type][id].ballsPlayed * 100).toFixed(1);
+                stats['stats' + type][id].percentDefense = +(stats['stats' + type][id].ballsPlayedDefense / stats['stats' + type][id].ballsPlayed * 100).toFixed(1);
+            }
+        };
+
         var _setStatsEloRanking = function(game) {
             var redWins, blueWins;
             if(game.red_score === 10) {
@@ -166,6 +220,8 @@ angular.module('babitchFrontendApp')
         var _setStatsPercentGoal = function(type, id) {
             if(stats['stats' + type][id].ballsPlayed) {
                 stats['stats' + type][id].percentGoalPerBall = +(stats['stats' + type][id].goal / stats['stats' + type][id].ballsPlayed * 100).toFixed(1);
+                stats['stats' + type][id].percentGoalPerBallinAttack = +(stats['stats' + type][id].goalAttack / stats['stats' + type][id].ballsPlayedAttack * 100).toFixed(1);
+                stats['stats' + type][id].percentGoalPerBallinDefense = +(stats['stats' + type][id].goalDefense / stats['stats' + type][id].ballsPlayedDefense * 100).toFixed(1);
             }
             if(stats['stats' + type][id].gamePlayed) {
                 stats['stats' + type][id].avgGoalPerGame = +(stats['stats' + type][id].goal / (stats['stats' + type][id].gamePlayed * 10) * 10).toFixed(1);
@@ -207,6 +263,18 @@ angular.module('babitchFrontendApp')
 
             stats.statsTeams[_redTeamId].ballsPlayed++;
             stats.statsTeams[_blueTeamId].ballsPlayed++;
+
+            //For team it doesn't matter
+            stats.statsTeams[_redTeamId].ballsPlayedAttack++;
+            stats.statsTeams[_blueTeamId].ballsPlayedAttack++;
+            stats.statsTeams[_redTeamId].ballsPlayedDefense++;
+            stats.statsTeams[_blueTeamId].ballsPlayedDefense++;
+
+            stats.statsPlayers[game.compositionLive.red.attack].ballsPlayedAttack++;
+            stats.statsPlayers[game.compositionLive.blue.attack].ballsPlayedAttack++;
+            stats.statsPlayers[game.compositionLive.red.defense].ballsPlayedDefense++;
+            stats.statsPlayers[game.compositionLive.blue.defense].ballsPlayedDefense++;
+
         };
 
         //Define which team color have goaled
@@ -222,6 +290,45 @@ angular.module('babitchFrontendApp')
                     break;
             }
         };
+
+        var _setBallComposition = function(game, goal) {
+            //if composition not setted yet
+            if(!game.compositionLive) {
+                game.compositionLive = {
+                    red: {
+                        defense: game.redDefense,
+                        attack: game.redAttack
+                    },
+                    blue: {
+                        defense: game.blueDefense,
+                        attack: game.blueAttack
+                    }
+                };
+            }
+
+            //if a coaching has been made
+            // If the goaler is not the one previously at this position, invert them
+            if(game.compositionLive[goal.team][goal.position] !== goal.player_id && !goal.autogoal) {
+                var tmpPlayer = game.compositionLive[goal.team][(goal.position === 'defense' ? 'attack' : 'defense')];
+                game.compositionLive[goal.team][(goal.position === 'defense' ? 'attack' : 'defense')] = game.compositionLive[goal.team][goal.position];
+                game.compositionLive[goal.team][goal.position] = tmpPlayer;
+            }
+
+            //if the defender is not the one taking the goal (on an autogoal), invert them
+            if(game.compositionLive[goal.team].defense !== goal.conceder_id && goal.autogoal ) {
+                //Invert players
+                game.compositionLive[goal.team].attack = game.compositionLive[goal.team].defense;
+                game.compositionLive[goal.team].defense = goal.conceder_id;
+            }
+
+            //if the defender is not the one taking the goal (not an autogoal), invert them
+            if(game.compositionLive[(goal.team === 'red' ? 'blue' : 'red')].defense !== goal.conceder_id && !goal.autogoal ) {
+                //Invert players
+                game.compositionLive[(goal.team === 'red' ? 'blue' : 'red')].attack = game.compositionLive[(goal.team === 'red' ? 'blue' : 'red')].defense;
+                game.compositionLive[(goal.team === 'red' ? 'blue' : 'red')].defense = goal.conceder_id;
+            }
+        };
+
 
         //Set min game play depending on numbers of game played
         var _setMinGamePlayed = function() {
@@ -251,28 +358,54 @@ angular.module('babitchFrontendApp')
         //Add goal and owngoal for team and players
         var _setStatsGoalOwnGoal = function(goal) {
             if (goal.autogoal) {
+                //Log autogoal for team
                 if (goal.team === 'red') {
                     stats.statsTeams[_redTeamId].owngoal++;
                 } else {
                     stats.statsTeams[_blueTeamId].owngoal++;
                 }
+                //Log autogoal for player
                 stats.statsPlayers[goal.player_id].owngoal++;
+
+                //Log autogoal by position
                 if (goal.position === 'attack') {
                     stats.statsPlayers[goal.player_id].owngoalAttack++;
+                    if (goal.team === 'red') {
+                        stats.statsTeams[_redTeamId].owngoalAttack++;
+                    } else {
+                        stats.statsTeams[_blueTeamId].owngoalAttack++;
+                    }
                 } else if (goal.position === 'defense') {
                     stats.statsPlayers[goal.player_id].owngoalDefense++;
+                    if (goal.team === 'red') {
+                        stats.statsTeams[_redTeamId].owngoalDefense++;
+                    } else {
+                        stats.statsTeams[_blueTeamId].owngoalDefense++;
+                    }
                 }
             } else {
+                //Log goal for team
                 if (goal.team === 'red') {
                     stats.statsTeams[_redTeamId].goal++;
                 } else {
                     stats.statsTeams[_blueTeamId].goal++;
                 }
+                //Log goal for player
                 stats.statsPlayers[goal.player_id].goal++;
                 if (goal.position === 'attack') {
                     stats.statsPlayers[goal.player_id].goalAttack++;
+                    if (goal.team === 'red') {
+                        stats.statsTeams[_redTeamId].goalAttack++;
+                    } else {
+                        stats.statsTeams[_blueTeamId].goalAttack++;
+                    }
                 } else if (goal.position === 'defense') {
                     stats.statsPlayers[goal.player_id].goalDefense++;
+                    if (goal.team === 'red') {
+                        stats.statsTeams[_redTeamId].goalDefense++;
+                    } else {
+                        stats.statsTeams[_blueTeamId].goalDefense++;
+                    }
                 }
             }
             stats.statsPlayers[goal.conceder_id].goalConcede++;
@@ -307,7 +440,9 @@ angular.module('babitchFrontendApp')
                                 percentGoalPerBall: 0,
                                 avgGoalPerGame: 0,
                                 percentVictory: 0,
-                                percentLoose: 0
+                                percentLoose: 0,
+                                ballsPlayedAttack: 0,
+                                ballsPlayedDefense: 0
                             };
 
                             //generate fake id
@@ -371,7 +506,11 @@ angular.module('babitchFrontendApp')
                     ballsPlayed: 0,
                     goal: 0,
                     owngoal: 0,
-                    gamePlayed: 0
+                    gamePlayed: 0,
+                    goalAttack: 0,
+                    goalDefense: 0,
+                    ballsPlayedAttack: 0,
+                    ballsPlayedDefense: 0
                 };
             }
 
@@ -388,7 +527,11 @@ angular.module('babitchFrontendApp')
                     ballsPlayed: 0,
                     goal: 0,
                     owngoal: 0,
-                    gamePlayed: 0
+                    gamePlayed: 0,
+                    goalAttack: 0,
+                    goalDefense: 0,
+                    ballsPlayedAttack: 0,
+                    ballsPlayedDefense: 0
                 };
             }
         };
@@ -627,6 +770,7 @@ angular.module('babitchFrontendApp')
                         //For each Goals
                         games.goals.forEach(function(goal) {
                             _setTeamGoal(games, goal);
+                            _setBallComposition(games, goal);
                             _setStatsBallsPlayed(games);
                             _setStatsGoalOwnGoal(goal);
                         });
@@ -636,6 +780,7 @@ angular.module('babitchFrontendApp')
                     stats.playersList.forEach(function(player) {
                         _setStatsPercentVictoryLoose('Players', player.id);
                         _setStatsPercentGoal('Players', player.id);
+                        _setStatsPercentPosition('Players', player.id);
 
                         //Generate GameSeries
                         stats.statsPlayers[player.id].gameSeries = stats.statsPlayers[player.id].gameSeries.slice(-5);

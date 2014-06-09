@@ -6,12 +6,11 @@
 
     <select class="form-control" ng-model="statsSelector" ng-change="showStats()">
         <option ng-value="''" ng-selected="'selected'">All stats</option>
-        <option ng-repeat="stat in stats.statsType" ng-value="stat.name">{{ (stat.text ? stat.text : stat.name) }}</option>
+        <option ng-repeat="stat in stats.statsType | filter:{team:true}" ng-value="stat.name">{{ (stat.text ? stat.text : stat.name) }}</option>
     </select>
     <br /><br />
 
     <div ng-switch on="statsVisible">
-
         <div d3-bars data="stats.statsTeamsFiltered" type='teams' bar-height="20" bar-padding="5" ng-switch-when="statsBars"></div>
 
         <table class="table table-hover table-condensed allStatsTeams" ng-switch-default>
@@ -20,7 +19,7 @@
                     <th colspan="2">
                         Team
                     </th>
-                    <th ng-repeat="stat in stats.statsType" class="text-right">
+                    <th ng-repeat="stat in stats.statsType | filter:{team:true}" class="text-right">
                         <a href="" ng-click="setPredicate(stat.name); doReverse()">
                             {{ (stat.text ? stat.text : stat.name) }}
                         </a>
@@ -37,8 +36,8 @@
                         <img gravatar-src="stats.playersList[team.playerId2].email || ''" gravatar-default="wavatar" gravatar-size="30" />
                         <a ng-href="/#/stats/players/{{ stats.playersList[team.playerId2].id }}">{{ stats.playersList[team.playerId2].name }}</a>
                     </td>
-                    <td ng-repeat="stat in stats.statsType" class="text-right">
-                        {{ team[stat.name] }}
+                    <td ng-repeat="stat in stats.statsType | filter:{team:true}" class="text-right">
+                        {{ team[stat.name] }}{{ stat.addSuffix }}
                     </td>
                 </tr>
             </tbody>
