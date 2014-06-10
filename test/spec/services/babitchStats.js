@@ -366,4 +366,74 @@ describe('Service: babitchStats', function() {
         expect(stats.minGamePlayedTeams).toBe(1);
     });
 
+    it('should calculate percent attack/defense correctly', function() {
+        expect(stats.statsPlayers[7].percentAttack).toBe(44.8);
+        expect(stats.statsPlayers[8].percentAttack).toBe(66.7);
+        expect(stats.statsPlayers[9].percentAttack).toBe(72.9);
+        expect(stats.statsPlayers[12].percentAttack).toBe(25);
+        expect(stats.statsPlayers[16].percentAttack).toBe(22.9);
+
+        expect(stats.statsPlayers[7].percentDefense).toBe(55.2);
+        expect(stats.statsPlayers[8].percentDefense).toBe(33.3);
+        expect(stats.statsPlayers[9].percentDefense).toBe(27.1);
+        expect(stats.statsPlayers[12].percentDefense).toBe(75);
+        expect(stats.statsPlayers[16].percentDefense).toBe(77.1);
+    });
+
+    it('should calculate percent goal in attack/defense correctly', function() {
+        expect(stats.statsPlayers[7].percentGoalPerBallinAttack).toBe(7.7);
+        expect(stats.statsPlayers[8].percentGoalPerBallinAttack).toBe(40.6);
+        expect(stats.statsPlayers[9].percentGoalPerBallinAttack).toBe(37.1);
+        expect(stats.statsPlayers[12].percentGoalPerBallinAttack).toBe(25);
+        expect(stats.statsPlayers[16].percentGoalPerBallinAttack).toBe(37.5);
+
+        expect(stats.statsPlayers[7].percentGoalPerBallinDefense).toBe(0);
+        expect(stats.statsPlayers[8].percentGoalPerBallinDefense).toBe(25);
+        expect(stats.statsPlayers[9].percentGoalPerBallinDefense).toBe(23.1);
+        expect(stats.statsPlayers[12].percentGoalPerBallinDefense).toBe(16.7);
+        expect(stats.statsPlayers[16].percentGoalPerBallinDefense).toBe(3.7);
+    });
+
+    it('should calculate player balls played attack/defense', function() {
+        expect(stats.statsPlayers[7].ballsPlayedAttack).toBe(13);
+        expect(stats.statsPlayers[8].ballsPlayedAttack).toBe(32);
+        expect(stats.statsPlayers[9].ballsPlayedAttack).toBe(35);
+        expect(stats.statsPlayers[12].ballsPlayedAttack).toBe(8);
+        expect(stats.statsPlayers[16].ballsPlayedAttack).toBe(8);
+
+        expect(stats.statsPlayers[7].ballsPlayedDefense).toBe(16);
+        expect(stats.statsPlayers[8].ballsPlayedDefense).toBe(16);
+        expect(stats.statsPlayers[9].ballsPlayedDefense).toBe(13);
+        expect(stats.statsPlayers[12].ballsPlayedDefense).toBe(24);
+        expect(stats.statsPlayers[16].ballsPlayedDefense).toBe(27);
+    });
+
+    it('should calculate player goal attack/defense correctly', function() {
+        expect(stats.statsPlayers[7].goalAttack).toBe(1);
+        expect(stats.statsPlayers[8].goalAttack).toBe(13);
+        expect(stats.statsPlayers[9].goalAttack).toBe(13);
+        expect(stats.statsPlayers[12].goalAttack).toBe(2);
+        expect(stats.statsPlayers[16].goalAttack).toBe(3);
+
+        expect(stats.statsPlayers[7].goalDefense).toBe(0);
+        expect(stats.statsPlayers[8].goalDefense).toBe(4);
+        expect(stats.statsPlayers[9].goalDefense).toBe(3);
+        expect(stats.statsPlayers[12].goalDefense).toBe(4);
+        expect(stats.statsPlayers[16].goalDefense).toBe(1);
+    });
+
+    it('should calculate player owngoal attack/defense correctly', function() {
+        expect(stats.statsPlayers[7].owngoalAttack).toBe(0);
+        expect(stats.statsPlayers[8].owngoalAttack).toBe(0);
+        expect(stats.statsPlayers[9].owngoalAttack).toBe(0);
+        expect(stats.statsPlayers[12].owngoalAttack).toBe(0);
+        expect(stats.statsPlayers[16].owngoalAttack).toBe(0);
+
+        expect(stats.statsPlayers[7].owngoalDefense).toBe(0);
+        expect(stats.statsPlayers[8].owngoalDefense).toBe(2);
+        expect(stats.statsPlayers[9].owngoalDefense).toBe(0);
+        expect(stats.statsPlayers[12].owngoalDefense).toBe(1);
+        expect(stats.statsPlayers[16].owngoalDefense).toBe(1);
+    });
+
 });
