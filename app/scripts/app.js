@@ -29,8 +29,8 @@ angular.module('babitchFrontendApp', [
                 url: '',
                 views: {
                     'main': {
-                        templateUrl: 'views/partial/statsOverall.html',
-                        controller: 'babitchStatsCtrl'
+                        templateUrl: 'views/partial/home.html',
+                        controller: 'babitchHomeCtrl'
                     }
                 }
             })

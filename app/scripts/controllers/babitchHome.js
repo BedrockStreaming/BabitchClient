@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('babitchFrontendApp').controller('babitchStatsCtrl', function($scope, $rootScope, babitchStats) {
+angular.module('babitchFrontendApp').controller('babitchHomeCtrl', function($scope, $rootScope, babitchStats) {
 
     $scope.menuSelect = '';
 

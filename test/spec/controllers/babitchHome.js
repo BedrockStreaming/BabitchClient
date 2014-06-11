@@ -1,13 +1,13 @@
 /* global Fixtures */
 'use strict';
 
-describe('Controller: BabitchStatsCtrl', function() {
+describe('Controller: BabitchHomeCtrl', function() {
 
     // load the controller's module
     beforeEach(module('babitchFrontendApp'));
     beforeEach(module('stateMock'));
 
-    var theBabitchStatsCtrl,
+    var theBabitchHomeCtrl,
         scope,
         httpMock,
         config;
@@ -21,7 +21,7 @@ describe('Controller: BabitchStatsCtrl', function() {
         httpMock.whenGET(config.BABITCH_WS_URL + '/players').respond(Fixtures.players);
         httpMock.whenGET(config.BABITCH_WS_URL + '/games?page=1&per_page=100').respond(Fixtures.games);
 
-        theBabitchStatsCtrl = $controller('babitchStatsCtrl', {
+        theBabitchHomeCtrl = $controller('babitchHomeCtrl', {
             $scope: scope
         });
 
@@ -52,4 +52,3 @@ describe('Controller: BabitchStatsCtrl', function() {
     });
 
 });
-
