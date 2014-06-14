@@ -47,7 +47,7 @@ describe('Babitch Live', function() {
 				window.close();
 			});
 		}).then(function() {
-			return pageManager.switchToLivePage()
+			return pageManager.switchToLivePage();
 		}).then(function() {
 			return browser.executeScript(function() {
 				window.close();
@@ -57,13 +57,13 @@ describe('Babitch Live', function() {
 		}).then(function(handle) {
 			return browser.switchTo().window(handle[0]);
 		});
-	})
+	});
 
 	it('should display match if a match is selected', function() {
 		pageManager.switchToGamePage().then(function() {
 			return pageManager.gamePage.startAGame();
 		}).then(function() {
-			return pageManager.switchToLivePage()
+			return pageManager.switchToLivePage();
 		}).then(function() {
 			var page = pageManager.livePage;
 			expect(page.score.getText()).toBe('0 : 0');
@@ -74,7 +74,7 @@ describe('Babitch Live', function() {
 		pageManager.switchToGamePage().then(function() {
 			return pageManager.gamePage.startAGame();
 		}).then(function() {
-  			return pageManager.gamePage.getPlayerLocation(3).goal();
+			return pageManager.gamePage.getPlayerLocation(3).goal();
 		}).then(function() {
 			return pageManager.switchToLivePage();
 		}).then(function() {

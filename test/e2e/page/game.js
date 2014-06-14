@@ -35,7 +35,7 @@ var BabitchGamePage = function(browser) {
 		}).then(function() {
 			return _this.startButton.click();
 		});
-  	};
+	};
 };
 
 var PlayerLocationElement = function(browser, playerLocation) {
