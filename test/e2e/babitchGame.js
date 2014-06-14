@@ -34,7 +34,7 @@ describe('Babitch : Choose player', function() {
 		playerLocation2.selectPlayer(1);
 		expect(playerLocation2.getPlayerName()).toBe('Antony');
 		
-		playerLocation3 = page.getPlayerLocation(2);
+		var playerLocation3 = page.getPlayerLocation(2);
 		playerLocation3.selectPlayer(2);
 		expect(playerLocation3.getPlayerName()).toBe('Aurelian');
 		
