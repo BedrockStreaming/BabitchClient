@@ -1,3 +1,39 @@
+'use strict';
+
+/* global $ */
+/* global $$ */
+/* global by */
+
+var PlayerLocationElement = function(browser, playerLocation) {
+    this.playerLocation = playerLocation;
+    var _this = this;
+    this.click = function() {
+        return this.playerLocation.click();
+    };
+
+    this.selectPlayer = function(playerIndex) {
+        return this.click().then(function() {
+            return $$('.player-list a').get(playerIndex).click();
+        });
+    };
+
+    this.getPlayerName = function() {
+        return this.playerLocation.findElement(by.css('.player-name big')).getText();
+    };
+
+    this.goal = function() {
+        return this.click().then(function() {
+            return $('.btn-goal').click();
+        });
+    };
+
+    this.autogoal = function() {
+        return _this.click().then(function() {
+            return $('.btn-autogoal').click();
+        });
+    };
+};
+
 var BabitchGamePage = function(browser) {
     browser.get(browser.baseUrl + '#/game?nobackend');
 
@@ -34,36 +70,6 @@ var BabitchGamePage = function(browser) {
             return _this.getPlayerLocation(3).selectPlayer(3);
         }).then(function() {
             return _this.startButton.click();
-        });
-    };
-};
-
-var PlayerLocationElement = function(browser, playerLocation) {
-    this.playerLocation = playerLocation;
-    var _this = this;
-    this.click = function() {
-        return this.playerLocation.click();
-    };
-
-    this.selectPlayer = function(playerIndex) {
-        return this.click().then(function() {
-            return $$('.player-list a').get(playerIndex).click();
-        });
-    };
-
-    this.getPlayerName = function() {
-        return this.playerLocation.findElement(by.css('.player-name big')).getText();
-    };
-
-    this.goal = function() {
-        return this.click().then(function() {
-            return $('.btn-goal').click();
-        });
-    };
-
-    this.autogoal = function() {
-        return _this.click().then(function() {
-            return $('.btn-autogoal').click();
         });
     };
 };

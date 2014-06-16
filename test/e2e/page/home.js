@@ -1,3 +1,8 @@
+'use strict';
+
+/* global $ */
+/* global $$ */
+
 var BabitchHomePage = function(browser) {
     browser.get(browser.baseUrl + '#/?nobackend');
     this.title = $('.navbar-brand');
