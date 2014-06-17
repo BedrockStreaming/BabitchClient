@@ -1,8 +1,13 @@
+'use strict';
+
+/* global $ */
+/* global $$ */
+
 var BabitchHomePage = function(browser) {
     browser.get(browser.baseUrl + '#/?nobackend');
     this.title = $('.navbar-brand');
     this.overallStats = $$('h4');
-    this.navbar = $$('ul.nav li')
+    this.navbar = $$('ul.nav li');
     this.navbarActive = $('ul.nav li.active');
 };
 

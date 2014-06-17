@@ -45,7 +45,7 @@
     "jshint": "~2.3.0",
     "grunt-protractor-runner": "0.2.3",
     "phantomjs": "1.9.2-6",
-    "protractor": "~0.20.1",
+    "protractor": "~0.23.0",
     "chromedriver": "~2.8.1"
   },
   "engines": {

@@ -1,3 +1,8 @@
+'use strict';
+
+/* global $ */
+/* global $$ */
+
 var BabitchStatsGamePage = function(browser) {
     browser.get(browser.baseUrl + '#/stats/games/252?nobackend');
     this.navbarActive = $('ul.nav li.active');

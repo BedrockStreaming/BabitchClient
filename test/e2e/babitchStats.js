@@ -1,5 +1,8 @@
 'use strict';
 
+/* global $$ */
+/* global xit */
+
 var BabitchStatsGamesPage = require('./page/statsGames.js');
 var BabitchStatsGamePage = require('./page/statsGame.js');
 var BabitchStatsPlayersPage = require('./page/statsPlayers.js');
