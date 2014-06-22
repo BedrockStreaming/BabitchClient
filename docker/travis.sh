@@ -10,6 +10,7 @@ trap 'kill $(jobs -p)' SIGINT SIGTERM EXIT
 docker -d &
 sleep 1
 
+echo $BUILD_ROOT
 ls -l $BUILD_ROOT
 
 # Use docker
