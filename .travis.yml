@@ -3,32 +3,13 @@ node_js:
   - '0.10'
 
 before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - 'npm install'
-  - 'npm install -g bower'
-  - 'npm install -g grunt-cli'
-  - 'bower install --config.interactive=false'
-  - cp app/scripts/config.js.dist app/scripts/config.js
-  - "sudo apt-get remove chromium-browser"
-  - "echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections"
-  - "sudo apt-get install ttf-mscorefonts-installer"
-  - "sudo apt-get install x-ttcidfont-conf"
-  - "sudo mkfontdir"
-  - "sudo apt-get install defoma libgl1-mesa-dri xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic"
-  - "wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
-  - "sudo mkdir -p /usr/share/desktop-directories"
-  - "sudo dpkg -i google-chrome-stable_current_amd64.deb"
-  - "sudo apt-get install -f"
-  - "sudo dpkg -i google-chrome-stable_current_amd64.deb"
-  - "export CHROME_SANDBOX=/opt/google/chrome/chrome-sandbox"
-  - "sudo rm -f $CHROME_SANDBOX"
-  - "sudo wget https://googledrive.com/host/0B5VlNZ_Rvdw6NTJoZDBSVy1ZdkE -O $CHROME_SANDBOX"
-  - "sudo chown root:root $CHROME_SANDBOX; sudo chmod 4755 $CHROME_SANDBOX"
-  - "sudo md5sum $CHROME_SANDBOX"
-  - "export DISPLAY=:99.0"
-  - "Xvfb :99.0 -extension RANDR > /dev/null &"
-  - "sudo chmod 1777 /dev/shm"
+  - "sudo apt-get update"
+  - "sudo apt-get install linux-image-generic-lts-raring linux-headers-generic-lts-raring apt-transport-https"
+  - "sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys"
+  - "sudo sh -c 'echo deb https://get.docker.io/ubuntu docker main\ > /etc/apt/sources.list.d/docker.list'"
+  - "sudo apt-get update"
+  - "sudo apt-get install lxc-docker"
 
 script:
- - grunt test-travis
+ - "sudo docker build -t babitch_client_travis ."
+ - "sudo docker run --privileged -it --rm m6web/babitch-client:1.0.0 test"
