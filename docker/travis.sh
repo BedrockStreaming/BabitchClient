@@ -10,9 +10,9 @@ trap 'kill $(jobs -p)' SIGINT SIGTERM EXIT
 docker -d &
 sleep 1
 
-echo $BUILD_ROOT
-ls -l $BUILD_ROOT
+echo $1
+ls -l $1
 
 # Use docker
-docker build -t babitch_client_travis $BUILD_ROOT
+docker build -t babitch_client_travis $1
 docker run --privileged -it --rm babitch_client_travis test

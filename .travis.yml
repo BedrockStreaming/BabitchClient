@@ -10,8 +10,6 @@ install:
   - sudo chmod +x /usr/sbin/policy-rc.d
   - sudo apt-get install -qy slirp lxc lxc-docker
   - git clone git://github.com/jpetazzo/sekexe
-  - export BUILD_ROOT="$PWD"
-  - echo $BUILD_ROOT
 
 script:
-  - sekexe/run "`pwd`/docker/travis.sh"
+  - sekexe/run "`pwd`/docker/travis.sh `pwd`"
