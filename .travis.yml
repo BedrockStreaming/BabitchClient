@@ -9,7 +9,7 @@ before_script:
   - "sudo sh -c 'echo deb https://get.docker.io/ubuntu docker main\ > /etc/apt/sources.list.d/docker.list'"
   - "sudo apt-get update"
   - "sudo apt-get install --force-yes lxc-docker"
-  - "/etc/init.d/docker start"
+  - "service docker start"
 
 script:
  - "sudo docker build -t babitch_client_travis ."
