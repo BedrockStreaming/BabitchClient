@@ -7,12 +7,12 @@ MAINTAINER Jérémy JOURDIN "jjourdin.externe@m6.fr"
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
-RUN apt-get install -y wget git nginx software-properties-common python-software-properties python g++ make bzip2
+RUN apt-get install --force-yes wget git nginx software-properties-common python-software-properties python g++ make bzip2
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
 RUN sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
 RUN apt-add-repository ppa:chris-lea/node.js
 RUN apt-get update -y
-RUN apt-get install -y proftpd screen x11vnc openjdk-7-jre-headless google-chrome-stable xvfb nodejs xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic
+RUN apt-get install --force-yes proftpd screen x11vnc openjdk-7-jre-headless google-chrome-stable xvfb nodejs xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic
 
 ADD . /var/www
 
