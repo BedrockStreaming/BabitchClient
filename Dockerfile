@@ -16,6 +16,7 @@ RUN apt-get install --force-yes proftpd screen x11vnc openjdk-7-jre-headless goo
 
 ADD . /var/www
 
+
 WORKDIR /var/www
 
 RUN cp app/scripts/config.js.dist app/scripts/config.js
