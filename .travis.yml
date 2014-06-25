@@ -3,7 +3,8 @@ node_js:
   - '0.10'
 
 before_install:
-  - sudo apt-get clean -y
+  - sudo apt-get autoclean -y
+  - sudo apt-get autoremove -y
 
 install:
   - sudo sh -c "wget -qO- https://get.docker.io/gpg | apt-key add -"
