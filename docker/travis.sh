@@ -17,6 +17,8 @@ cgroups-mount
 docker -d &
 sleep 2
 
+df
+
 # Use docker
 docker build -t babitch_client_travis $1
 docker run --privileged -it --rm babitch_client_travis test
