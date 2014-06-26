@@ -1,0 +1,9 @@
+'use strict';
+
+angular.module('babitchServer', [])
+    .constant('CONFIG', {
+        'BABITCH_WS_URL': '%BABITCH_WS_URL%',
+        'BABITCH_LIVE_FAYE_URL' :'%BABITCH_LIVE_FAYE_URL%',
+        'BABITCH_LIVE_FAYE_CHANNEL' :'%BABITCH_LIVE_FAYE_CHANNEL%',
+        'BABITCH_STATS_MIN_GAME_PLAYED' : '%BABITCH_STATS_MIN_GAME_PLAYED%'
+    });

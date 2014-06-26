@@ -12,31 +12,44 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 RUN sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
 RUN apt-add-repository ppa:chris-lea/node.js
 RUN apt-get update -y
-RUN apt-get install -y --force-yes proftpd screen x11vnc openjdk-7-jre-headless google-chrome-stable xvfb nodejs xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic
+RUN apt-get install -y --force-yes x11vnc openjdk-7-jre-headless google-chrome-stable xvfb nodejs xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic
 
-ADD . /var/www
+ADD . /var/www/tmp
+ADD ./docker/scripts /var/www/scripts
 
-WORKDIR /var/www
+WORKDIR /var/www/tmp
 
-RUN cp app/scripts/config.js.dist app/scripts/config.js
+RUN cp docker/config.js.dist app/scripts/config.js
 
 RUN npm install
 RUN ./node_modules/.bin/bower install --allow-root
 
-RUN ./node_modules/.bin/webdriver-manager update
+# RUN ./node_modules/.bin/webdriver-manager update
 RUN ./node_modules/.bin/grunt build
 
 ADD docker/nginx-vhost.conf /etc/nginx/sites-available/default
-ADD docker/proftpd.conf /etc/proftpd/proftpd.conf
+
+RUN mv dist ../prod
+
+WORKDIR /var/www
+
+RUN rm -rf tmp
 
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 RUN mkdir ~/.vnc
 
-EXPOSE 21 80 5999
+VOLUME ['/var/www/dev']
+
+EXPOSE 21 80
 
 ENV DISPLAY :99
 
+ENV BABITCH_WS_URL http://127.0.0.1:8081/app_dev.php/v1
+ENV BABITCH_LIVE_FAYE_URL http://faye-babitch.herokuapp.com/faye
+ENV BABITCH_LIVE_FAYE_CHANNEL /test-channel-to-replace
+ENV BABITCH_STATS_MIN_GAME_PLAYED 2
+
 CMD ["prod"]
 
-ENTRYPOINT ["/var/www/docker/starter.sh"]
+ENTRYPOINT ["/var/www/scripts/starter.sh"]
