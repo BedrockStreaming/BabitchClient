@@ -2,33 +2,18 @@ language: node_js
 node_js:
   - '0.10'
 
-before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - 'npm install'
-  - 'npm install -g bower'
-  - 'npm install -g grunt-cli'
-  - 'bower install --config.interactive=false'
-  - cp app/scripts/config.js.dist app/scripts/config.js
-  - "sudo apt-get remove chromium-browser"
-  - "echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections"
-  - "sudo apt-get install ttf-mscorefonts-installer"
-  - "sudo apt-get install x-ttcidfont-conf"
-  - "sudo mkfontdir"
-  - "sudo apt-get install defoma libgl1-mesa-dri xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic"
-  - "wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
-  - "sudo mkdir -p /usr/share/desktop-directories"
-  - "sudo dpkg -i google-chrome-stable_current_amd64.deb"
-  - "sudo apt-get install -f"
-  - "sudo dpkg -i google-chrome-stable_current_amd64.deb"
-  - "export CHROME_SANDBOX=/opt/google/chrome/chrome-sandbox"
-  - "sudo rm -f $CHROME_SANDBOX"
-  - "sudo wget https://googledrive.com/host/0B5VlNZ_Rvdw6NTJoZDBSVy1ZdkE -O $CHROME_SANDBOX"
-  - "sudo chown root:root $CHROME_SANDBOX; sudo chmod 4755 $CHROME_SANDBOX"
-  - "sudo md5sum $CHROME_SANDBOX"
-  - "export DISPLAY=:99.0"
-  - "Xvfb :99.0 -extension RANDR > /dev/null &"
-  - "sudo chmod 1777 /dev/shm"
+before_install:
+  - sudo apt-get autoclean -y
+  - sudo apt-get autoremove -y
+
+install:
+  - sudo sh -c "wget -qO- https://get.docker.io/gpg | apt-key add -"
+  - sudo sh -c "echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
+  - sudo apt-get update
+  - echo exit 101 | sudo tee /usr/sbin/policy-rc.d
+  - sudo chmod +x /usr/sbin/policy-rc.d
+  - sudo apt-get install -qy slirp lxc lxc-docker
+  - git clone git://github.com/jpetazzo/sekexe
 
 script:
- - grunt test-travis
+  - sekexe/run "`pwd`/docker/scripts/travis.sh `pwd`"
