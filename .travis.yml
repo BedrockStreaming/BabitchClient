@@ -16,4 +16,4 @@ install:
   - git clone git://github.com/jpetazzo/sekexe
 
 script:
-  - sekexe/run "`pwd`/docker/travis.sh `pwd`"
+  - sekexe/run "`pwd`/docker/scripts/travis.sh `pwd`"

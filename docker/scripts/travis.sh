@@ -19,4 +19,4 @@ sleep 2
 
 # Use docker
 docker build -t babitch_client_travis $1
-docker run --privileged -it --rm babitch_client_travis test
+docker run --privileged -it --rm -v $1:/var/www/dev babitch_client_travis test
