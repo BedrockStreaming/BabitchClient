@@ -46,14 +46,58 @@
         <tfoot>
             <tr>
                 <td class="team red">
-                    Elo Ranking : {{ games.redEloTeam }}
+                    <i class="fa fa-trophy" title="Elo Ranking"></i> {{ games.redEloTeam }}
                     ({{ games.redEloWins }})
                 </td>
                 <td>&nbsp;</td>
                 <td class="team blue">
-                    Elo Ranking : {{ games.blueEloTeam }}
+                    <i class="fa fa-trophy" title="Elo Ranking"></i> {{ games.blueEloTeam }}
                     ({{ games.blueEloWins }})
                 </td>
+            </tr>
+            <tr>
+                <td class="team red">
+                    <i class="fa fa-crosshairs" title="Attacker Goal"></i> {{ games.goalPosition.red.attack }}&nbsp;
+                    <i class="fa fa-shield" title="Defender Goal"></i> {{ games.goalPosition.red.defense }}&nbsp;
+                    <i class="fa fa-ambulance" title="Own Goal"></i> {{ games.goalPosition.red.owngoal }}
+                </td>
+                <td>&nbsp;</td>
+                <td class="team blue">
+                    <i class="fa fa-crosshairs" title="Attacker Goal"></i> {{ games.goalPosition.blue.attack }}&nbsp;
+                    <i class="fa fa-shield" title="Defender Goal"></i> {{ games.goalPosition.blue.defense }}&nbsp;
+                    <i class="fa fa-ambulance" title="Own Goal"></i> {{ games.goalPosition.blue.owngoal }}
+                </td>
+            </tr>
+            <tr>
+                <td class="team red">
+                    {{ stats.playersList[games.redDefense].name }} Goal:
+                    <i class="fa fa-crosshairs" title="Attacker Goal" ng-show="games.goalPlayers[games.redDefense].attack"> {{ games.goalPlayers[games.redDefense].attack }}&nbsp;</i>
+                    <i class="fa fa-shield" title="Defender Goal" ng-show="games.goalPlayers[games.redDefense].defense"> {{ games.goalPlayers[games.redDefense].defense }}&nbsp;</i>
+                    <i class="fa fa-ambulance" title="Own Goal" ng-show="games.goalPlayers[games.redDefense].owngoal"> {{ games.goalPlayers[games.redDefense].owngoal }}</i>
+                </td>
+                <td>&nbsp;</td>
+                <td class="team blue">
+                    {{ stats.playersList[games.blueDefense].name }} Goal:
+                    <i class="fa fa-crosshairs" title="Attacker Goal" ng-show="games.goalPlayers[games.blueDefense].attack"> {{ games.goalPlayers[games.blueDefense].attack }}&nbsp;</i>
+                    <i class="fa fa-shield" title="Defender Goal" ng-show="games.goalPlayers[games.blueDefense].defense"> {{ games.goalPlayers[games.blueDefense].defense }}&nbsp;</i>
+                    <i class="fa fa-ambulance" title="Own Goal" ng-show="games.goalPlayers[games.blueDefense].owngoal"> {{ games.goalPlayers[games.blueDefense].owngoal }}</i>
+                </td>
+            </tr>
+            <tr>
+                <td class="team red">
+                    {{ stats.playersList[games.redAttack].name }} Goal:
+                    <i class="fa fa-crosshairs" title="Attacker Goal" ng-show="games.goalPlayers[games.redAttack].attack"> {{ games.goalPlayers[games.redAttack].attack }}&nbsp;</i>
+                    <i class="fa fa-shield" title="Defender Goal" ng-show="games.goalPlayers[games.redAttack].defense"> {{ games.goalPlayers[games.redAttack].defense }}&nbsp;</i>
+                    <i class="fa fa-ambulance" title="Own Goal" ng-show="games.goalPlayers[games.redAttack].owngoal"> {{ games.goalPlayers[games.redAttack].owngoal }}</i>
+                </td>
+                <td>&nbsp;</td>
+                <td class="team blue">
+                    {{ stats.playersList[games.blueAttack].name }} Goal:
+                    <i class="fa fa-crosshairs" title="Attacker Goal" ng-show="games.goalPlayers[games.blueAttack].attack"> {{ games.goalPlayers[games.blueAttack].attack }}&nbsp;</i>
+                    <i class="fa fa-shield" title="Defender Goal" ng-show="games.goalPlayers[games.blueAttack].defense"> {{ games.goalPlayers[games.blueAttack].defense }}&nbsp;</i>
+                    <i class="fa fa-ambulance" title="Own Goal" ng-show="games.goalPlayers[games.blueAttack].owngoal"> {{ games.goalPlayers[games.blueAttack].owngoal }}</i>
+                </td>
+            </tr>
         </tfoot>
     </table>
 
