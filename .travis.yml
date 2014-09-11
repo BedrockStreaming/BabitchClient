@@ -10,12 +10,13 @@ before_script:
   - 'npm install -g grunt-cli'
   - 'bower install --config.interactive=false'
   - cp app/scripts/config.js.dist app/scripts/config.js
+  - "sudo apt-get update"
   - "sudo apt-get remove chromium-browser"
   - "echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections"
   - "sudo apt-get install ttf-mscorefonts-installer"
   - "sudo apt-get install x-ttcidfont-conf"
   - "sudo mkfontdir"
-  - "sudo apt-get install defoma libgl1-mesa-dri xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic"
+  - "sudo apt-get install libappindicator1 defoma libgl1-mesa-dri xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic"
   - "wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
   - "sudo mkdir -p /usr/share/desktop-directories"
   - "sudo dpkg -i google-chrome-stable_current_amd64.deb"
