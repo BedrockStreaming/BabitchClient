@@ -1,0 +1,8 @@
+*/docker*
+.dockerignore
+Dockerfile
+.editorconfig
+.gitattributes
+.jshintrc
+README.md
+screenshot.png

@@ -80,14 +80,17 @@ You need to configure `BABITCH_LIVE_FAYE_URL` and `BABITCH_LIVE_FAYE_CHANNEL` in
 * D3.js for data visualization
 
 ## Docker
+To use Docker as simple user (logout after this command):
 
-To use the `Dockerfile` in this repository, just clone and run (at the root):
+    sudo usermod -aG docker $USER
+    
+To build the Docker image, just clone and run:
 
-    docker build -t m6web/babitch-client .
+    docker build -t m6web-babitch-client .
 
 Then run the container:
 
-    docker run -p 8000:80 m6web/babitch-client
+    docker run --name m6web-babitch-client -p 8000:80 m6web-babitch-client
 
 You now have a BabitchClient listening on port `8000`!
 
