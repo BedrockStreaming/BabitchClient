@@ -92,7 +92,7 @@ Then run the container:
 
     docker run --name m6web-babitch-client -p 8000:80 m6web-babitch-client
 
-You now have a BabitchClient listening on port `8000`!
+You now have a BabitchClient instance listening on port `8000`!
 
 ## Credits
 
