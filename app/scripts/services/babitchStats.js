@@ -355,6 +355,47 @@ angular.module('babitchFrontendApp')
             }
         };
 
+        //Set stats for goal position on each games
+        var _setGameGoalPosition = function(games) {
+
+            if(!games.hasOwnProperty('goalPosition')) {
+                games.goalPosition = {
+                    'red': {
+                        'attack': 0,
+                        'defense': 0,
+                        'owngoal': 0
+                    },
+                    'blue': {
+                        'attack': 0,
+                        'defense': 0,
+                        'owngoal': 0
+                    }
+                };
+            }
+
+            if(!games.hasOwnProperty('goalPlayers')) {
+                games.goalPlayers = {};
+
+                ['blueAttack','redAttack','blueDefense','redDefense'].forEach(function(player) {
+                    games.goalPlayers[games[player]] = {
+                        'attack': 0,
+                        'defense': 0,
+                        'owngoal': 0
+                    };
+                });
+            }
+
+            games.goals.forEach(function(goal) {
+                if(!goal.autogoal) {
+                    games.goalPosition[goal.team][goal.position] ++;
+                    games.goalPlayers[goal.player_id][goal.position] ++;
+                } else {
+                    games.goalPosition[goal.team].owngoal ++;
+                    games.goalPlayers[goal.player_id].owngoal ++;
+                }
+            });
+        };
+
         //Add goal and owngoal for team and players
         var _setStatsGoalOwnGoal = function(goal) {
             if (goal.autogoal) {
@@ -774,6 +815,9 @@ angular.module('babitchFrontendApp')
                             _setStatsBallsPlayed(games);
                             _setStatsGoalOwnGoal(goal);
                         });
+
+                        _setGameGoalPosition(games);
+
                     });
 
                     //Compute percentage on each player
